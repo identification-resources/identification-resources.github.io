@@ -22,6 +22,10 @@ body > header > nav a {
     text-decoration: none;
 }
 
+body > header > nav ul {
+    padding: 0;
+}
+
 body > header > nav li {
     list-style-type: none;
     display: inline;
@@ -42,14 +46,29 @@ body > main > * {
     margin-right: auto;
 }
 
-body > main > .table {
+body > main .table {
     max-width: 1400px;
     margin: 0 auto;
     overflow-x: auto;
 }
 
+body > main header {
+    border-bottom: 1px solid #989d89;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+body > main header > * {
+    display: inline-block;
+}
+
 a {
     color: #484b3e;
+}
+
+a svg path {
+    fill: currentColor;
 }
 
 hr {
@@ -70,6 +89,53 @@ article .anchor .octicon {
     height: 1rem;
 }
 
+article section {
+    padding-top: 2em;
+}
+
 article > h2 {
     margin-left: -1.5rem;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+table thead tr {
+    border-bottom: 3px solid black;
+}
+
+table tbody tr {
+    border-bottom: 1px solid black;
+    position: relative;
+}
+
+table tbody .row-link::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+table th, table td {
+    padding: 0.5em;
+}
+
+table tbody th {
+    text-align: start;
+    vertical-align: top;
+}
+
+svg {
+    vertical-align: middle;
+}
+
+table td p {
+    margin-bottom: 0;
+}
+
+table td p:first-child {
+    margin-top: 0;
 }

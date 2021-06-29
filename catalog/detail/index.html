@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title>Catalog — Library of Identification Resources</title>
+
+        <link rel="stylesheet" href="../../assets/css/main.css">
+        <link rel="shortcut icon" href="../../assets/img/logo_124.png">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <header class="small">
+            <a href="..">
+                <img id="logo" src="../../assets/img/logo_512.png" alt="Logo: moth with spread, speckled black and red wings">
+            </a>
+
+            <h1>Library of Identification Resources</h1>
+
+            <nav>
+                <ul>
+                    <li><a href="../../catalog">Catalog</a></li>
+                    <li><a href="https://github.com/identification-resources">GitHub</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <article>
+                <header>
+                    <h2 id="title"></h2>
+                    <p id="date"></p>
+                </header>
+
+                <section>
+                    <div class="table">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <th>Resource type</th>
+                                    <td id="resource_type"></td>
+                                </tr>
+                                <tr>
+                                    <th>For identifying</th>
+                                    <td id="taxon_scope"></td>
+                                </tr>
+                                <tr>
+                                    <th>Precision</th>
+                                    <td id="target_taxa"></td>
+                                </tr>
+                                <tr>
+                                    <th>For the region</th>
+                                    <td id="region"></td>
+                                </tr>
+                                <tr>
+                                    <th>Complete</th>
+                                    <td id="complete"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Bibliographical info</h3>
+
+                    <div class="table">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <th>Entry type</th>
+                                    <td id="entry_type"></td>
+                                </tr>
+                                <tr>
+                                    <th>Authors</th>
+                                    <td id="author"></td>
+                                </tr>
+                                <tr>
+                                    <th>Publisher</th>
+                                    <td id="publisher"></td>
+                                </tr>
+                                <tr>
+                                    <th>Series</th>
+                                    <td id="series"></td>
+                                </tr>
+                                <tr>
+                                    <th>Volume</th>
+                                    <td id="volume"></td>
+                                </tr>
+                                <tr>
+                                    <th>Issue</th>
+                                    <td id="issue"></td>
+                                </tr>
+                                <tr>
+                                    <th>Pages</th>
+                                    <td id="pages"></td>
+                                </tr>
+                                <tr>
+                                    <th>Edition</th>
+                                    <td id="edition"></td>
+                                </tr>
+                                <tr>
+                                    <th>ISBN</th>
+                                    <td id="isbn"></td>
+                                </tr>
+                                <tr>
+                                    <th>DOI</th>
+                                    <td id="doi"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Access</h3>
+
+                    <div class="table">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <th>Info</th>
+                                    <td id="info_url"></td>
+                                </tr>
+                                <tr>
+                                    <th>Full text</th>
+                                    <td id="fulltext_url"></td>
+                                </tr>
+                                <tr>
+                                    <th>Language</th>
+                                    <td id="language"></td>
+                                </tr>
+                                <tr>
+                                    <th>License</th>
+                                    <td id="license"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Citation</h3>
+
+                    <div id="citation"></div>
+                </section>
+            </article>
+        </main>
+
+        <script src="https://cdn.jsdelivr.net/npm/citation-js@0.5.1/build/citation.min.js" charset="utf-8"></script>
+        <script src="../../assets/js/shared.js" charset="utf-8"></script>
+        <script src="../../assets/js/detail.js" charset="utf-8"></script>
+    </body>
+</html>
