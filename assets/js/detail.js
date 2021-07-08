@@ -148,6 +148,15 @@
         document.getElementById('wikidata').append(' (', scholia, ')')
     }
 
+    {
+        const purl = `https://purl.org/identification-resources/catalog/${data.id}`
+        const a = document.createElement('a')
+        a.setAttribute('href', `https://purl.org/identification-resources/catalog/${data.id}`)
+        a.innerHTML = octicons.persistent_url
+        a.append(' ' + purl)
+        document.getElementById('permalink').append(a)
+    }
+
     function getEntryType (data) {
         if (data.entry_type === 'online') {
             return 'webpage'
