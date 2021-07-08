@@ -134,6 +134,20 @@
         document.getElementById('license').textContent = data.license
     }
 
+    if (data.QID) {
+        const wikidata = document.createElement('a')
+        wikidata.setAttribute('href', `http://www.wikidata.org/entity/${data.QID}`)
+        wikidata.innerHTML = octicons.external_url
+        wikidata.prepend(data.QID + ' ')
+        document.getElementById('wikidata').append(wikidata)
+
+        const scholia = document.createElement('a')
+        scholia.setAttribute('href', `https://scholia.toolforge.org/${data.QID}`)
+        scholia.innerHTML = octicons.external_url
+        scholia.prepend('Scholia ')
+        document.getElementById('wikidata').append(' (', scholia, ')')
+    }
+
     function getEntryType (data) {
         if (data.entry_type === 'online') {
             return 'webpage'
