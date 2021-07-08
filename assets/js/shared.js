@@ -19,7 +19,7 @@ const octicons = {
 }
 
 async function loadCatalog () {
-    const url = 'https://cdn.jsdelivr.net/gh/identification-resources/catalog@main/catalog.csv'
+    const url = '/assets/data/catalog.csv'
     const request = await fetch(url)
     const file = await request.text()
 
