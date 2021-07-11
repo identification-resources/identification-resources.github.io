@@ -75,6 +75,11 @@ hr {
     color: #989d89;
 }
 
+article header #date {
+    white-space: nowrap;
+    margin-left: 1em;
+}
+
 article h2:not(:hover) .anchor {
     visibility: hidden;
 }
