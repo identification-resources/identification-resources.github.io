@@ -186,7 +186,9 @@
         language: data.language
     })
 
-    window.tmp = citation
+    console.log('Access and format citation data with the "citation" variable')
+    window.citation = citation
+    window.Cite = Cite
 
     document.getElementById('citation').innerHTML = citation.format('bibliography', {
         format: 'html'
