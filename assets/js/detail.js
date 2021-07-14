@@ -1,20 +1,25 @@
 (async function () {
     const [headers, ...rows] = await loadCatalog()
-    const idIndex = headers.indexOf('id')
     const search = new URLSearchParams(window.location.search)
     const id = search.get('id')
 
-    const data = {}
+    const all = {}
+    const parts = []
 
     for (const row of rows) {
-        if (row[idIndex] === id) {
-            for (const [index, value] of Object.entries(row)) {
-                data[headers[index]] = value
-            }
-
-            break
+        const data = {}
+        for (const [index, value] of Object.entries(row)) {
+            data[headers[index]] = value
         }
+
+        if (data.part_of.split('; ').includes(id)) {
+            parts.push(data.id)
+        }
+
+        all[data.id] = data
     }
+
+    const data = all[id]
 
     function formatAuthors (value) {
         if (value.length === 0) return value
@@ -155,6 +160,42 @@
         a.innerHTML = octicons.persistent_url
         a.append(' ' + purl)
         document.getElementById('permalink').append(a)
+    }
+
+    // Parts
+    function renderTable (ids, elementId) {
+        const table = document.getElementById(elementId)
+        for (const id of ids) {
+            const row = document.createElement('tr')
+
+            const idCell = document.createElement('td')
+            const idLink = document.createElement('a')
+            idLink.setAttribute('href', `/catalog/detail/?id=${id}`)
+            idLink.textContent = id
+            idCell.appendChild(idLink)
+            row.appendChild(idCell)
+
+            const titleCell = document.createElement('td')
+            const titleLink = document.createElement('a')
+            titleLink.setAttribute('href', `/catalog/detail/?id=${id}`)
+            titleLink.textContent = all[id].title
+            titleCell.appendChild(titleLink)
+            row.appendChild(titleCell)
+
+            table.appendChild(row)
+        }
+    }
+
+    if (data.part_of) {
+        renderTable(data.part_of.split('; '), 'part_of')
+    } else {
+        document.getElementById('part_of_section').remove()
+    }
+
+    if (parts.length) {
+        renderTable(parts, 'parts')
+    } else {
+        document.getElementById('parts_section').remove()
     }
 
     function getEntryType (data) {
