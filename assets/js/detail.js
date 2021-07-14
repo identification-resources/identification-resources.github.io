@@ -176,7 +176,9 @@
         'container-title': data.series,
         volume: data.volume,
         issue: data.issue,
-        page: data.pages,
+        ...(data.pages && data.pages.includes('-')
+            ? { page: data.pages }
+            : { 'number-of-pages': data.pages }),
         ISBN: data.ISBN,
         DOI: data.DOI,
         ISSN: data.ISSN,
