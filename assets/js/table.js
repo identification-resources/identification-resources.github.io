@@ -98,7 +98,7 @@
                 } else if (headers[index] === 'id') {
                     const a = document.createElement('a')
                     a.setAttribute('class', 'row-link')
-                    a.setAttribute('href', `./detail?id=${row[headers.indexOf('id')]}`)
+                    a.setAttribute('href', `/catalog/detail?id=${row[headers.indexOf('id')]}`)
                     a.textContent = value
                     tableCell.appendChild(a)
                 } else {
