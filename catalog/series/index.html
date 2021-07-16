@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title>Catalog — Library of Identification Resources</title>
+
+        <link rel="stylesheet" href="/assets/css/main.css">
+        <link rel="shortcut icon" href="/assets/img/logo_124.png">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <header class="small">
+            <a href="..">
+                <img id="logo" src="/assets/img/logo_512.png" alt="Logo: moth with spread, speckled black and red wings">
+            </a>
+
+            <h1>Library of Identification Resources</h1>
+
+            <nav>
+                <ul>
+                    <li><a href="/catalog">Catalog</a></li>
+                    <li><a href="https://github.com/identification-resources">GitHub</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <article>
+                <header>
+                    <h2 id="mainTitle"></h2>
+                </header>
+
+                <section>
+                    <div class="table">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <th>Title</th>
+                                    <td id="title"></td>
+                                </tr>
+                                <tr>
+                                    <th>ISSN</th>
+                                    <td id="issn"></td>
+                                </tr>
+                                <tr>
+                                    <th>Publisher</th>
+                                    <td id="publisher"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Articles/books</h3>
+                    <p id="search"></p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Volume</th>
+                                <th>Issue</th>
+                                <th>Pages</th>
+                                <th>Author</th>
+                                <th>Title</th>
+                            </tr>
+                        </thead>
+                        <tbody id="parts">
+                        </tbody>
+                    </table>
+                </section>
+            </article>
+        </main>
+
+        <script src="/assets/js/shared.js" charset="utf-8"></script>
+        <script src="/assets/js/series.js" charset="utf-8"></script>
+    </body>
+</html>
