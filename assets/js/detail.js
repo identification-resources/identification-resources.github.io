@@ -62,14 +62,19 @@
 
     document.getElementById('author').textContent = formatAuthors(data.author)
     document.getElementById('publisher').textContent = data.publisher
-    document.getElementById('series').textContent = data.series
 
     if (data.ISSN) {
-        const a = document.createElement('a')
-        a.setAttribute('href', `https://portal.issn.org/resource/ISSN/${data.ISSN}`)
-        a.innerHTML = octicons.external_url
-        a.prepend(data.ISSN + ' ')
-        document.getElementById('series').append(' (', a, ')')
+        const series = document.createElement('a')
+        series.setAttribute('href', `/catalog/series/?issn=${data.ISSN}`)
+        series.textContent = data.series
+
+        const issn = document.createElement('a')
+        issn.setAttribute('href', `https://portal.issn.org/resource/ISSN/${data.ISSN}`)
+        issn.innerHTML = octicons.external_url
+        issn.prepend(data.ISSN + ' ')
+        document.getElementById('series').append(series, ' (', issn, ')')
+    } else {
+        document.getElementById('series').textContent = data.series
     }
 
     document.getElementById('volume').textContent = data.volume
