@@ -12,7 +12,7 @@
             data[headers[index]] = value
         }
 
-        if (data.part_of.split('; ').includes(id)) {
+        if (data.part_of && data.part_of.split('; ').includes(id)) {
             parts.push(data.id)
         }
 
@@ -20,17 +20,6 @@
     }
 
     const data = all[id]
-
-    function formatAuthors (value) {
-        if (value.length === 0) return value
-
-        const list = value.split('; ')
-
-        if (list.length === 1) return value
-
-        const last = list.pop()
-        return list.join(', ') + ' & ' + last
-    }
 
     document.getElementById('title').textContent = data.title
     document.getElementById('date').textContent = data.date
@@ -49,7 +38,10 @@
 
     document.getElementById('taxon_scope').textContent = data.taxon ? data.scope ? `${data.taxon} (${data.scope})` : data.taxon : data.scope
     document.getElementById('target_taxa').textContent = data.target_taxa
-    document.getElementById('region').textContent = data.region
+    document.getElementById('region').append(...formatLinkedList(
+        data.region,
+        author => `/catalog/place/?name=${author}`
+    ))
     document.getElementById('complete').textContent = data.complete ? data.complete === 'TRUE' ? 'Yes' : 'No' : ''
 
     // Bibliographical info
@@ -60,8 +52,11 @@
         document.getElementById('entry_type').append(' ' + data.entry_type)
     }
 
-    document.getElementById('author').textContent = formatAuthors(data.author)
-    document.getElementById('publisher').textContent = data.publisher
+    document.getElementById('author').append(...formatAuthors(data.author))
+    document.getElementById('publisher').append(...formatLinkedList(
+        data.publisher,
+        publisher => `/catalog/publisher/?name=${publisher}`
+    ))
 
     if (data.ISSN) {
         const series = document.createElement('a')

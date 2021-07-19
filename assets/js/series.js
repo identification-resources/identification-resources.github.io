@@ -37,17 +37,6 @@
         part.pages
     ].map(parseFloat)))
 
-    function formatAuthors (value) {
-        if (value.length === 0) return value
-
-        const list = value.split('; ')
-
-        if (list.length === 1) return value
-
-        const last = list.pop()
-        return list.join(', ') + ' & ' + last
-    }
-
     const titles = parts
         .map(part => part.series)
         .filter((v, i, a) => a.indexOf(v) === i)
@@ -78,7 +67,10 @@
         const element = document.getElementById('publisher')
         for (const publisher of publishers) {
             const p = document.createElement('p')
-            p.textContent = publisher
+            const a = document.createElement('a')
+            a.setAttribute('href', `/catalog/publisher/?name=${publisher}`)
+            a.textContent = publisher
+            p.appendChild(a)
             element.appendChild(p)
         }
     }
@@ -110,7 +102,7 @@
             row.appendChild(pages)
 
             const author = document.createElement('td')
-            author.textContent = formatAuthors(part.author)
+            author.append(...formatAuthors(part.author))
             row.appendChild(author)
 
             const titleCell = document.createElement('td')
