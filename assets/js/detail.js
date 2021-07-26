@@ -199,10 +199,10 @@
     }
 
     function getEntryType (data) {
-        if (data.entry_type === 'online') {
-            return 'webpage'
-        } else if (data.pages && data.pages.includes('-')) {
+        if (data.pages && data.pages.includes('-')) {
             return 'article-journal'
+        } else if (data.entry_type === 'online') {
+            return 'webpage'
         } else {
             return 'book'
         }
