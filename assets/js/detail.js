@@ -21,6 +21,7 @@
 
     const data = all[id]
 
+    document.querySelector('head title').textContent = data.title + ' — Library of Identification Resources'
     document.getElementById('title').textContent = data.title
     document.getElementById('date').textContent = data.date
 

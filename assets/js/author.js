@@ -26,6 +26,7 @@
         .flatMap(part => part.language.split('; '))
         .filter((v, i, a) => a.indexOf(v) === i)
 
+    document.querySelector('head title').textContent = (authors[name].main_full_name || name) + ' — Library of Identification Resources'
     document.getElementById('mainTitle').textContent = authors[name].main_full_name || name
 
     {

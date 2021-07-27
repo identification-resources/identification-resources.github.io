@@ -22,6 +22,7 @@
 
     parts.sort((a, b) => a.date ? b.date ? b.date.split('-')[0] - a.date.split('-')[0] : -1 : 0)
 
+    document.querySelector('head title').textContent = (places[name].display_name || name) + ' — Library of Identification Resources'
     document.getElementById('mainTitle').textContent = places[name].display_name || name
 
     {

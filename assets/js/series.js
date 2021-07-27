@@ -44,6 +44,7 @@
         .flatMap(part => part.publisher.split('; '))
         .filter((v, i, a) => a.indexOf(v) === i)
 
+    document.querySelector('head title').textContent = titles[0] + ' — Library of Identification Resources'
     document.getElementById('mainTitle').textContent = titles[0]
 
     {
