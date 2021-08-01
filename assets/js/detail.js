@@ -224,6 +224,7 @@
         ISBN: data.ISBN,
         DOI: data.DOI,
         ISSN: data.ISSN,
+        URL: data.url || data.fulltext_url || data.archive_url,
         issued: { 'date-parts': [data.date.split('-').map(parseFloat)] },
         language: data.language
     })
