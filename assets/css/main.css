@@ -75,6 +75,14 @@ hr {
     color: #989d89;
 }
 
+dt {
+    font-weight: bold;
+}
+
+dd {
+    margin-bottom: 1em;
+}
+
 article header #date {
     white-space: nowrap;
     margin-left: 1em;
