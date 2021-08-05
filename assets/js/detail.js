@@ -221,6 +221,7 @@
         ...(data.pages && data.pages.includes('-')
             ? { page: data.pages }
             : { 'number-of-pages': data.pages }),
+        edition: data.edition,
         ISBN: data.ISBN,
         DOI: data.DOI,
         ISSN: data.ISSN,
