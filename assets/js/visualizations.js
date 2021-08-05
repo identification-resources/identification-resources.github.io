@@ -135,17 +135,18 @@ async function main () {
         svg.attr('width', HEIGHT + GAP_SIZE + legendBBox.width)
     }
 
-    // ACCESS
+    // LANGUAGES
     {
         const data = Array.from(d3.rollup(
-            Object.values(all),
+            Object.values(all).reduce((v, d) => v.concat(d.language.split('; ')), []),
             v => v.length,
-            d => d.language.split(/-|; /)[0]
+            d => d.split('-')[0]
         ))
 
         const HEIGHT = 420
         const GAP_SIZE = 50
         const LEGEND_SIZE = 20
+        const LEGEND_ITEMS = 10
 
         const levels = d3
             .sort(data, ([_, a], [__, b]) => d3.descending(a, b))
@@ -186,7 +187,11 @@ async function main () {
             .selectAll('g')
             .data(levels)
             .join('g')
-            .attr('transform', (_, i) => `translate(0,${2 * i * LEGEND_SIZE})`)
+            .attr('transform', (_, i) => `translate(${
+                4 * LEGEND_SIZE * Math.floor(i / LEGEND_ITEMS)
+            },${
+                2 * (i % LEGEND_ITEMS) * LEGEND_SIZE
+            })`)
 
         labels
             .append('rect')
