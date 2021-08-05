@@ -186,7 +186,9 @@ async function main () {
         const labels = legend
             .selectAll('g')
             .data(levels)
-            .join('g')
+            .join('a')
+            .attr('href', d => `/catalog/?field=language&query=${d}`)
+            .append('g')
             .attr('transform', (_, i) => `translate(${
                 4 * LEGEND_SIZE * Math.floor(i / LEGEND_ITEMS)
             },${
