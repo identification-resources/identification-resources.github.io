@@ -29,7 +29,7 @@
     document.querySelector('head title').textContent = (authors[name].main_full_name || name) + ' — Library of Identification Resources'
     document.getElementById('mainTitle').textContent = authors[name].main_full_name || name
 
-    {
+    if (authors[name].full_names) {
         const element = document.getElementById('title')
         for (const longName of authors[name].full_names.split('; ')) {
             const p = document.createElement('p')
