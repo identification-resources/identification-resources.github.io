@@ -4,6 +4,7 @@
     const inputField = document.getElementById('catalog_select')
     const inputQuery = document.getElementById('catalog_search')
     const resultCount = document.getElementById('catalog_results')
+    const pagination = document.getElementById('catalog_pagination')
 
     const headersLabels = {
         id: 'ID',
@@ -73,11 +74,64 @@
     inputField.value = searchField
     inputQuery.value = searchQuery
 
+    let searchRows = !searchField ? rows : rows.filter(function (row) {
+        return row[searchFieldIndex].toLowerCase().includes(searchQuery.toLowerCase())
+    })
+
+    const searchPage = parseInt(search.get('page') || 1)
+    const searchLimit = parseInt(search.get('limit') || 50)
+    const searchPages = Math.ceil(searchRows.length / searchLimit)
+    const paginationContext = 2
+
+    function makePaginationLink (page, limit, text, label) {
+        const navigationItem = document.createElement('li')
+        const navigationLink = document.createElement('a')
+        navigationLink.textContent = text || page
+
+        const url = new URL(window.location)
+        url.searchParams.set('page', page)
+        url.searchParams.set('limit', limit)
+        navigationLink.setAttribute('href', url.toString())
+        navigationLink.setAttribute('aria-label', label || `Page ${page}`)
+        if (page === searchPage) {
+            navigationLink.setAttribute('aria-current', 'true')
+        }
+
+        navigationItem.appendChild(navigationLink)
+        pagination.appendChild(navigationItem)
+    }
+
+    searchRows = searchRows.slice((searchPage - 1) * searchLimit, searchPage * searchLimit)
+
+    if (searchPage > 1) {
+        makePaginationLink(searchPage - 1, searchLimit, '<', 'Previous page')
+    }
+    if (searchPage > 1 + paginationContext) {
+        makePaginationLink(1, searchLimit)
+    }
+    if (searchPage > 2 + paginationContext) {
+        const navigationItem = document.createElement('li')
+        navigationItem.textContent = '...'
+        pagination.appendChild(navigationItem)
+    }
+    for (let page = Math.max(1, searchPage - paginationContext); page <= Math.min(searchPages, searchPage + paginationContext); page++) {
+        makePaginationLink(page, searchLimit)
+    }
+    if (searchPage < searchPages - paginationContext - 1) {
+        const navigationItem = document.createElement('li')
+        navigationItem.textContent = '...'
+        pagination.appendChild(navigationItem)
+    }
+    if (searchPage < searchPages - paginationContext) {
+        makePaginationLink(searchPages, searchLimit)
+    }
+    if (searchPage < searchPages) {
+        makePaginationLink(searchPage + 1, searchLimit, '>', 'Next page')
+    }
+
     const data = []
 
-    for (const row of rows) {
-        if (searchField && !row[searchFieldIndex].toLowerCase().includes(searchQuery.toLowerCase())) continue
-
+    for (const row of searchRows) {
         const tableRow = document.createElement('tr')
         const rowData = {}
 
@@ -113,6 +167,6 @@
         data.push(rowData)
     }
 
-    resultCount.textContent = `Displaying ${data.length} result${data.length !== 1 ? 's' : ''}.`
+    resultCount.textContent = `Displaying ${data.length} result${data.length !== 1 ? 's' : ''} of ${rows.length} total.`
 
 })().catch(console.error)

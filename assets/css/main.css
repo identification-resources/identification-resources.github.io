@@ -152,3 +152,21 @@ table td p {
 table td p:first-child {
     margin-top: 0;
 }
+
+main > nav ul {
+    padding: 0;
+    text-align: center;
+}
+
+main > nav li {
+    display: inline;
+    list-style-type: none;
+}
+
+main > nav li > * {
+    padding: 0.25em 0.75em;
+}
+
+main > nav a[href]:hover {
+    outline: 2px solid black;
+}
