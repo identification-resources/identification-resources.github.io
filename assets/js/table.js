@@ -20,6 +20,7 @@
         ISSN: 'ISSN',
         ISBN: 'ISBN',
         DOI: 'DOI',
+        QID: 'Wikidata ID',
         volume: 'Volume',
         issue: 'Issue',
         pages: 'Pages',
@@ -31,7 +32,8 @@
         scope: 'Scope',
         region: 'Region',
         complete: 'Completeness',
-        target_taxa: 'Taxon. level'
+        target_taxa: 'Taxon. level',
+        part_of: 'Part of/Ref. in',
     }
 
     const fieldsToDisplay = new Set([
@@ -74,8 +76,9 @@
     inputField.value = searchField
     inputQuery.value = searchQuery
 
-    let searchRows = !searchField ? rows : rows.filter(function (row) {
-        return row[searchFieldIndex].toLowerCase().includes(searchQuery.toLowerCase())
+    let searchRows = !searchQuery ? rows : rows.filter(function (row) {
+        const field = searchField ? row[searchFieldIndex] : row.join('\u001D')
+        return field.toLowerCase().includes(searchQuery.toLowerCase())
     })
 
     const searchPage = parseInt(search.get('page') || 1)
