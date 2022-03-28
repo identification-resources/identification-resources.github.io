@@ -219,7 +219,7 @@
     const citation = new Cite({
         type: getEntryType(data),
         title: data.title,
-        author: data.author.split('; ').map(Cite.parse.name),
+        author: data.author && data.author.split('; ').map(Cite.parse.name),
         publisher: data.publisher,
         'container-title': data.series,
         volume: data.volume,
