@@ -40,7 +40,6 @@
         'id',
         'title',
         'entry_type',
-        'url',
         'fulltext_url',
         'archive_url',
         'date',
@@ -145,11 +144,8 @@
             if (fieldsToDisplay.has(header)) {
                 const tableCell = document.createElement('td')
 
-                if (headers[index].endsWith('url') && value) {
-                    const a = document.createElement('a')
-                    a.setAttribute('href', value)
-                    a.innerHTML = 'link ' + octicons.external_url
-                    tableCell.appendChild(a)
+                if (headers[index].endsWith('url')) {
+                    tableCell.innerHTML = value ? octicons.available : octicons.not_available
                 } else if (headers[index].endsWith('_type') && value) {
                     tableCell.innerHTML = value.split('; ').map(value => octicons[value] || value).join(' ')
                 } else if (headers[index] === 'id') {
