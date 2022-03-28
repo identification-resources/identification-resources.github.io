@@ -121,6 +121,7 @@ table thead tr {
 table tbody tr {
     border-bottom: 1px solid black;
     position: relative;
+    vertical-align: top;
 }
 
 table tbody .row-link::before {
