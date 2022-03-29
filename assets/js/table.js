@@ -166,6 +166,6 @@
         data.push(rowData)
     }
 
-    resultCount.textContent = `Displaying ${data.length} result${data.length !== 1 ? 's' : ''} of ${rows.length} total.`
+    resultCount.textContent = `Displaying ${data.length} result${data.length !== 1 ? 's' : ''} of ${searchRows.length} total.`
 
 })().catch(console.error)
