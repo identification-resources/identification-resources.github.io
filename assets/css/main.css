@@ -72,6 +72,8 @@ a svg path {
 }
 
 hr {
+    border-bottom: 0;
+    border-style: solid;
     color: #989d89;
 }
 
