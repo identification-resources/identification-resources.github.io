@@ -103,8 +103,6 @@
         pagination.appendChild(navigationItem)
     }
 
-    searchRows = searchRows.slice((searchPage - 1) * searchLimit, searchPage * searchLimit)
-
     if (searchPage > 1) {
         makePaginationLink(searchPage - 1, searchLimit, '<', 'Previous page')
     }
@@ -133,7 +131,7 @@
 
     const data = []
 
-    for (const row of searchRows) {
+    for (const row of searchRows.slice((searchPage - 1) * searchLimit, searchPage * searchLimit)) {
         const tableRow = document.createElement('tr')
         const rowData = {}
 
