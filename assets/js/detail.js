@@ -120,7 +120,7 @@
         }
     }
 
-    if (!data.url && !data.fulltext_url && data.archive_url) {
+    if ((!data.url || !data.archive_url.endsWith(data.url)) && !data.fulltext_url && data.archive_url) {
         const a = document.createElement('a')
         a.setAttribute('href', data.archive_url)
         a.innerHTML = octicons.external_url
