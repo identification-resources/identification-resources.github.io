@@ -6,36 +6,7 @@
     const resultCount = document.getElementById('catalog_results')
     const pagination = document.getElementById('catalog_pagination')
 
-    const headersLabels = {
-        id: 'ID',
-        title: 'Title',
-        author: 'Authors',
-        url: 'URL',
-        fulltext_url: 'Full-text URL',
-        archive_url: 'Archived URL',
-        entry_type: 'Entry type',
-        date: 'Year/date',
-        publisher: 'Publisher',
-        series: 'Series/periodical',
-        ISSN: 'ISSN',
-        ISBN: 'ISBN',
-        DOI: 'DOI',
-        QID: 'Wikidata ID',
-        volume: 'Volume',
-        issue: 'Issue',
-        pages: 'Pages',
-        edition: 'Edition',
-        language: 'Language',
-        license: 'License',
-        key_type: 'Resource type',
-        taxon: 'Taxon',
-        scope: 'Scope',
-        region: 'Region',
-        complete: 'Completeness',
-        target_taxa: 'Taxon. level',
-        part_of: 'Part of/Ref. in',
-    }
-
+    const headersLabels = fieldLabels
     const fieldsToDisplay = new Set([
         'id',
         'title',

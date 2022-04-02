@@ -135,18 +135,96 @@ async function main () {
         svg.attr('width', HEIGHT + GAP_SIZE + legendBBox.width)
     }
 
-    // LANGUAGES
+    // IDENNTIFIER
     {
+        const queries = { ISBN: 9, DOI: '10.', QID: 'Q' }
+        const identifiers = ['ISBN', 'DOI', 'QID']
+        const data = identifiers.map(key => [key, d3.sum(Object.values(all).map(d => !!d[key]))])
+        console.log(data)
+
+        const WIDTH = 420
+        const BAR_SIZE = 60
+        const GAP_SIZE = 50
+        const HEIGHT = BAR_SIZE * identifiers.length
+
+        const svg = d3
+            .select('#by_identifier .table')
+            .append('svg')
+                .attr('height', HEIGHT)
+                .attr('font-family', 'sans-serif')
+
+        const x = d3.scaleLinear().domain([0, Object.values(all).length]).range([0, WIDTH])
+        const y = d3.scaleBand().domain(identifiers).range([0, BAR_SIZE * identifiers.length])
+        const color = d3.scaleOrdinal()
+              .domain(identifiers)
+              .range(["#000000", "#c4202a", "#989d89"])
+
+        const a = svg
+            .selectAll('a')
+            .data(data)
+            .join('a')
+                .attr('href', ([key, _]) => `/catalog/?field=${key}&query=${queries[key]}`)
+                .attr('transform', ([key, _]) => `translate(0,${y(key)})`)
+
+        a.append('rect')
+            .attr('fill', ([key, _]) => color(key))
+            .attr('height', y.bandwidth() - 1)
+            .attr('width', ([_, count]) => x(count))
+            .exit()
+
+        a.append('line')
+            .attr('stroke', '#989d89')
+            .attr('x1', ([_, count]) => x(count))
+            .attr('x2', WIDTH)
+            .attr('y1', BAR_SIZE / 2)
+            .attr('y2', BAR_SIZE / 2)
+            .exit()
+
+        const legend = a.append('text')
+            .attr('x', WIDTH + GAP_SIZE)
+            .attr('y', BAR_SIZE / 2)
+            .text(([key, _]) => fieldLabels[key])
+
+        svg.append('g').call(d3.axisLeft(y))
+
+        const legendWidth = d3.max(legend.nodes().map(node => node.getBBox().width))
+        svg.attr('width', WIDTH + GAP_SIZE + legendWidth)
+    }
+
+    // BY COLUMN
+    {
+        const _select = document.querySelector('#by_column select')
+        const options = ['language', 'license', 'key_type', 'entry_type', 'target_taxa', 'complete']
+        for (const key of options) {
+            const _option = document.createElement('option')
+            _option.setAttribute('value', key)
+            _option.textContent = fieldLabels[key]
+            _select.appendChild(_option)
+        }
+        _select.addEventListener('change', displayPieChart)
+        displayPieChart()
+    }
+
+    function displayPieChart () {
+        const key = document.querySelector('#by_column select').value
+        const parse = {
+            language: d => d.split('-')[0],
+            // license: d => d.endsWith('?>') ? 'unclear' : d,
+        }
+
         const data = Array.from(d3.rollup(
-            Object.values(all).reduce((v, d) => v.concat(d.language.split('; ')), []),
+            Object.values(all).reduce((v, d) => v.concat(d[key].split('; ')), []),
             v => v.length,
-            d => d.split('-')[0]
+            parse[key] || (d => d)
         ))
 
         const HEIGHT = 420
         const GAP_SIZE = 50
         const LEGEND_SIZE = 20
+        const LEGEND_COLUMN = 60 + 10 * Math.max(...data.map(d => d[0].length))
         const LEGEND_ITEMS = 10
+
+        console.log(LEGEND_COLUMN)
 
         const levels = d3
             .sort(data, ([_, a], [__, b]) => d3.descending(a, b))
@@ -161,8 +239,12 @@ async function main () {
             .innerRadius(HEIGHT / 3)
             .outerRadius(HEIGHT / 2)
 
-        const svg = d3
-            .select('#by_language .table')
+        const container = d3
+            .select('#by_column .table')
+
+        container.select('svg').remove()
+
+        const svg = container
             .append('svg')
                 .attr('width', HEIGHT)
                 .attr('height', HEIGHT)
@@ -174,7 +256,7 @@ async function main () {
             .selectAll('a')
             .data(pie(data))
             .join('a')
-                .attr('href', d => `/catalog/?field=language&query=${d.data[0]}`)
+                .attr('href', d => `/catalog/?field=${key}&query=${d.data[0]}`)
             .append('path')
                 .attr('d', d => arc(d))
                 .attr('fill', d => color(d.data[0]))
@@ -187,10 +269,10 @@ async function main () {
             .selectAll('g')
             .data(levels)
             .join('a')
-            .attr('href', d => `/catalog/?field=language&query=${d}`)
+            .attr('href', d => `/catalog/?field=${key}&query=${d}`)
             .append('g')
             .attr('transform', (_, i) => `translate(${
-                4 * LEGEND_SIZE * Math.floor(i / LEGEND_ITEMS)
+                LEGEND_COLUMN * Math.floor(i / LEGEND_ITEMS)
             },${
                 2 * (i % LEGEND_ITEMS) * LEGEND_SIZE
             })`)
