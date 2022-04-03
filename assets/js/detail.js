@@ -129,11 +129,17 @@
     }
 
     if (data.language) {
-        const a = document.createElement('a')
-        a.setAttribute('href', `https://hub.toolforge.org/P218:${data.language.split('-')[0]}?site=wikidata`)
-        a.innerHTML = octicons.external_url
-        a.prepend(data.language + ' ')
-        document.getElementById('language').appendChild(a)
+        for (const language of data.language.split('; ')) {
+            const p = document.createElement('p')
+
+            const a = document.createElement('a')
+            a.setAttribute('href', `https://hub.toolforge.org/P218:${language.split('-')[0]}?site=wikidata`)
+            a.innerHTML = octicons.external_url
+            a.prepend(language + ' ')
+
+            p.appendChild(a)
+            document.getElementById('language').appendChild(p)
+        }
     }
 
     if (/^[^<]/.test(data.license)) {
