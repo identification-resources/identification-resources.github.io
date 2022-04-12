@@ -22,6 +22,18 @@
         </header>
 
         <main>
+            <form action="/catalog">
+                <select id="catalog_select" name="field"></select>
+                <input id="catalog_search" type="text" name="query">
+                <button type="submit">Search</button>
+            </form>
+
+            <p>
+                <a href="/catalog">Browse all</a>
+            </p>
+
+            <hr>
+
             <article>
                 <p>This repository holds a catalog of identification resources, complete with bibliographical metadata
                     and metadata on the type of key, the taxon/taxa it distinguishes, the geographical region it applies
