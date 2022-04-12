@@ -54,6 +54,7 @@ const fieldLabels = {
 }
 
 async function loadCsv (url) {
+    inProgress = true
     const request = await fetch(url)
     const file = await request.text()
 
