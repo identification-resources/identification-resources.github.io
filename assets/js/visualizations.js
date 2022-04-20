@@ -208,7 +208,10 @@ async function main () {
         const key = document.querySelector('#by_column select').value
         const parse = {
             language: d => d.split('-')[0],
-            // license: d => d.endsWith('?>') ? 'unclear' : d,
+            license: d => d.endsWith('?>') ? 'unclear' : d,
+        }
+        const link = {
+            license: d => d === 'unclear' ? '?>' : d,
         }
 
         const data = Array.from(d3.rollup(
@@ -253,7 +256,7 @@ async function main () {
             .selectAll('a')
             .data(pie(data))
             .join('a')
-                .attr('href', d => `/catalog/?field=${key}&query=${d.data[0]}`)
+                .attr('href', d => `/catalog/?field=${key}&query=${link[key] ? link[key](d.data[0]): d.data[0]}`)
             .append('path')
                 .attr('d', d => arc(d))
                 .attr('fill', d => color(d.data[0]))
@@ -266,7 +269,7 @@ async function main () {
             .selectAll('g')
             .data(levels)
             .join('a')
-            .attr('href', d => `/catalog/?field=${key}&query=${d}`)
+            .attr('href', d => `/catalog/?field=${key}&query=${link[key] ? link[key](d) : d}`)
             .append('g')
             .attr('transform', (_, i) => `translate(${
                 LEGEND_COLUMN * Math.floor(i / LEGEND_ITEMS)
