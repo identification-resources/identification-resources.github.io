@@ -140,7 +140,6 @@ async function main () {
         const queries = { ISBN: 9, DOI: '10.', QID: 'Q' }
         const identifiers = ['ISBN', 'DOI', 'QID']
         const data = identifiers.map(key => [key, d3.sum(Object.values(all).map(d => !!d[key]))])
-        console.log(data)
 
         const WIDTH = 420
         const BAR_SIZE = 60
@@ -223,8 +222,6 @@ async function main () {
         const LEGEND_SIZE = 20
         const LEGEND_COLUMN = 60 + 10 * Math.max(...data.map(d => d[0].length))
         const LEGEND_ITEMS = 10
-
-        console.log(LEGEND_COLUMN)
 
         const levels = d3
             .sort(data, ([_, a], [__, b]) => d3.descending(a, b))
