@@ -238,7 +238,9 @@
         DOI: data.DOI,
         ISSN: data.ISSN,
         URL: data.url || data.fulltext_url || data.archive_url,
-        issued: { 'date-parts': [data.date.split('-').map(parseFloat)] },
+        ...(data.date
+            ? { issued: { 'date-parts': [data.date.split('-').map(parseFloat)] } }
+            : undefined),
         language: data.language
     })
 
@@ -249,4 +251,40 @@
     document.getElementById('citation').innerHTML = citation.format('bibliography', {
         format: 'html'
     })
+
+    // Meta tags
+    const metaTags = {
+        citation_title: data => data.title,
+        citation_author: data => data.author && data.author.map(name => Cite.get.name(name, false)),
+        citation_publication_date: data => data.issued && data.issued['date-parts'] && data.issued['date-parts'][0].join('/'),
+        citation_issn: data => data.ISSN,
+        citation_isbn: data => data.ISBN,
+        citation_volume: data => data.volume,
+        citation_issue: data => data.issue,
+        citation_firstpage: data => data.page && data.page.split('-')[0],
+        citation_lastpage: data => data.page && data.page.split('-')[1],
+        citation_pdf_url: () => data.fulltext_url,
+
+        ...(citation.data[0].type === 'article-journal'
+            ? { citation_journal_title: data => data['container-title'] }
+            : undefined),
+        ...(citation.data[0].type === 'thesis'
+            ? { citation_dissertation_institution: data => data.publisher }
+            : undefined),
+        ...(citation.data[0].type === 'report'
+            ? { citation_technical_report_institution: data => data.publisher }
+            : undefined)
+    }
+
+    for (const metaTag in metaTags) {
+        const contents = metaTags[metaTag](citation.format('data', { format: 'object' })[0])
+        if (!contents) { continue }
+
+        for (const content of [].concat(contents)) {
+            const meta = document.createElement('meta')
+            meta.setAttribute('name', metaTag)
+            meta.setAttribute('content', content)
+            document.querySelector('head').appendChild(meta)
+        }
+    }
 })().catch(console.error)
