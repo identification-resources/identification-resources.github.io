@@ -268,7 +268,7 @@
         citation_pmid: data => data.PMID,
         citation_doi: data => data.DOI,
         citation_language: data => data.language,
-        citation_keywords: data => data.keywords.split(','),
+        citation_keywords: data => data.keywords && data.keywords.split(','),
 
         ...(citation.data[0].type === 'article-journal' ? {
             citation_journal_title: data => data['container-title'],
