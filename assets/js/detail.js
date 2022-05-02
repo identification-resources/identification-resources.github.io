@@ -264,16 +264,23 @@
         citation_firstpage: data => data.page && data.page.split('-')[0],
         citation_lastpage: data => data.page && data.page.split('-')[1],
         citation_pdf_url: () => data.fulltext_url,
+        citation_publisher: data => data.publisher,
+        citation_pmid: data => data.PMID,
+        citation_doi: data => data.DOI,
+        citation_language: data => data.language,
+        citation_keywords: data => data.keywords.split(','),
 
-        ...(citation.data[0].type === 'article-journal'
-            ? { citation_journal_title: data => data['container-title'] }
-            : undefined),
-        ...(citation.data[0].type === 'thesis'
-            ? { citation_dissertation_institution: data => data.publisher }
-            : undefined),
-        ...(citation.data[0].type === 'report'
-            ? { citation_technical_report_institution: data => data.publisher }
-            : undefined)
+        ...(citation.data[0].type === 'article-journal' ? {
+            citation_journal_title: data => data['container-title'],
+            citation_journal_abbrev: data => data['container-title-short']
+        } : undefined),
+        ...(citation.data[0].type === 'thesis' ? {
+            citation_dissertation_institution: data => data.publisher
+        } : undefined),
+        ...(citation.data[0].type === 'report' ? {
+            citation_technical_report_institution: data => data.publisher,
+            citation_technical_report_number: data => data.number
+        } : undefined)
     }
 
     for (const metaTag in metaTags) {
