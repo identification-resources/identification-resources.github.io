@@ -52,6 +52,9 @@ const fieldLabels = {
     complete: 'Completeness',
     target_taxa: 'Taxon. level',
     part_of: 'Part of/Ref. in',
+    year: 'Year',
+    decade: 'Decade',
+    access: 'Access'
 }
 
 async function loadCsv (url) {
@@ -74,6 +77,37 @@ async function loadCsv (url) {
         }, [[]])
 }
 
+function extendCatalog (rows) {
+  const headers = rows[0].concat('year', 'decade', 'access')
+  const i = {
+    date: headers.indexOf('date'),
+    license: headers.indexOf('license'),
+    url: headers.indexOf('url'),
+    fulltext_url: headers.indexOf('fulltext_url'),
+    archive_url: headers.indexOf('archive_url')
+  }
+
+  const rest = rows.slice(1).map(row => {
+    const date = row[i.date]
+    const year = date ? parseInt(date.split('-')[0]) : ''
+    const decade = year ? year - (year % 10) : ''
+
+    const license = row[i.license]
+    const url = row[i.url]
+    const fulltextUrl = row[i.fulltext_url]
+    const archiveUrl = row[i.archive_url]
+    const access = license && !license.endsWith('?>')
+        ? 'Open license'
+        : fulltextUrl || (archiveUrl && (!url || !archiveUrl.endsWith(url) || url === fulltextUrl))
+            ? 'Full text available, no license'
+            : 'No full text available'
+
+    return row.concat(year.toString(), decade.toString(), access)
+  })
+
+  return [headers, ...rest]
+}
+
 async function indexCsv (url, header) {
     const [headers, ...rows] = await loadCsv(url)
     const column = headers.indexOf(header)
@@ -89,8 +123,8 @@ async function indexCsv (url, header) {
         }, {})
 }
 
-function loadCatalog () {
-    return loadCsv('/assets/data/catalog.csv')
+async function loadCatalog () {
+    return extendCatalog(await loadCsv('/assets/data/catalog.csv'))
 }
 
 function formatAuthors (value) {

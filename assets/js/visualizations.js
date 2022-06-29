@@ -8,14 +8,6 @@ async function main () {
         for (const [index, value] of Object.entries(row)) {
             data[headers[index]] = value
         }
-        data.year = data.date ? parseInt(data.date.split('-')[0]) : null
-        data.decade = data.year ? data.year - 1 - ((data.year - 1) % 10) : null
-
-        data.access = data.license && !data.license.endsWith('?>')
-            ? 'Open license'
-            : data.fulltext_url || (data.archive_url && (!data.url || !data.archive_url.endsWith(data.url) || data.url === data.fulltext_url))
-                ? 'Full text available, no license'
-                : 'No full text available'
     }
 
     // DECADES
@@ -24,7 +16,7 @@ async function main () {
             d3.sort(Object.values(all), d => d.year),
             v => v.length,
             d => d.decade
-        )).filter(([decade, count]) => decade !== null)
+        )).filter(([decade, count]) => decade !== '')
 
         const HEIGHT = 420
         const AXIS_SIZE = 20
@@ -49,7 +41,7 @@ async function main () {
             .selectAll('a')
             .data(decadeCounts)
             .join('a')
-                .attr('href', ([decade, _]) => `/catalog/?field=date&query=${decade.toString().slice(0, 3)}`)
+                .attr('href', ([decade, _]) => `/catalog/?field=decade&query=${decade}`)
                 .attr('transform', ([decade, _]) => `translate(${y(decade)},0)`)
             .append('rect')
                 .attr('fill', '#989d89')
@@ -102,9 +94,11 @@ async function main () {
         svg
             .append('g')
             .attr('transform', `translate(${HEIGHT / 2}, ${HEIGHT / 2})`)
-            .selectAll('path')
+            .selectAll('a')
             .data(pie(accessCounts))
-            .join('path')
+            .join('a')
+                .attr('href', d => `/catalog/?field=access&query=${d.data[0]}`)
+            .append('path')
                 .attr('d', d => arc(d))
                 .attr('fill', d => color(d.data[0]))
 
@@ -115,7 +109,9 @@ async function main () {
         const labels = legend
             .selectAll('g')
             .data(accessLevels)
-            .join('g')
+            .join('a')
+            .attr('href', d => `/catalog/?field=access&query=${d}`)
+            .append('g')
             .attr('transform', (_, i) => `translate(0,${2 * i * LEGEND_SIZE})`)
 
         labels
