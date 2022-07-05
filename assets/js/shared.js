@@ -62,10 +62,8 @@ async function loadCsv (url) {
     const request = await fetch(url)
     const file = await request.text()
 
-    return file
-        .trim()
-        .match(/("([^"]|"")*?"|[^,\n]*)(,|\n|$)/g)
-        .slice(0, -1)
+    return (file.trim() + '\n')
+        .match(/("([^"]|"")*?"|[^,\n]*)(,|\n)/g)
         .reduce((rows, value) => {
             const last = rows[rows.length - 1]
             if (value.endsWith('\n')) {
@@ -75,6 +73,7 @@ async function loadCsv (url) {
             last.push(value.startsWith('"') ? value.replace(/""/g, '"').slice(1, -1) : value)
             return rows
         }, [[]])
+        .slice(0, -1)
 }
 
 function extendCatalog (rows) {
@@ -104,6 +103,7 @@ function extendCatalog (rows) {
 
     return row.concat(year.toString(), decade.toString(), access)
   })
+  rest.forEach(row => console.log(row))
 
   return [headers, ...rest]
 }
