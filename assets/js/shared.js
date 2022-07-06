@@ -51,7 +51,9 @@ const fieldLabels = {
     region: 'Region',
     complete: 'Completeness',
     target_taxa: 'Taxon. level',
-    part_of: 'Part of/Ref. in',
+    listed_in: 'Referenced in',
+    part_of: 'Part of',
+    version_of: 'Version of',
     year: 'Year',
     decade: 'Decade',
     access: 'Access'
@@ -103,7 +105,6 @@ function extendCatalog (rows) {
 
     return row.concat(year.toString(), decade.toString(), access)
   })
-  rest.forEach(row => console.log(row))
 
   return [headers, ...rest]
 }

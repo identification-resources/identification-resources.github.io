@@ -4,7 +4,9 @@
     const id = search.get('id')
 
     const all = {}
+    const allVersions = {}
     const parts = []
+    const references = []
 
     for (const row of rows) {
         const data = {}
@@ -12,14 +14,29 @@
             data[headers[index]] = value
         }
 
+        if (data.listed_in && data.listed_in.split('; ').includes(id)) {
+            references.push(data.id)
+        }
+
         if (data.part_of && data.part_of.split('; ').includes(id)) {
             parts.push(data.id)
         }
 
         all[data.id] = data
+
+        if (data.version_of) {
+            for (const version of data.version_of.split('; ')) {
+                if (!allVersions[version]) {
+                    allVersions[version] = [data]
+                } else {
+                    allVersions[version].push(data)
+                }
+            }
+        }
     }
 
     const data = all[id]
+    const versions = allVersions[data.version_of]
 
     document.querySelector('head title').textContent = data.title + ' — Library of Identification Resources'
     document.getElementById('title').textContent = data.title
@@ -199,6 +216,18 @@
         }
     }
 
+    if (data.listed_in) {
+        renderTable(data.listed_in.split('; '), 'listed_in')
+    } else {
+        document.getElementById('listed_in_section').remove()
+    }
+
+    if (references.length) {
+        renderTable(references, 'references')
+    } else {
+        document.getElementById('references_section').remove()
+    }
+
     if (data.part_of) {
         renderTable(data.part_of.split('; '), 'part_of')
     } else {
@@ -209,6 +238,48 @@
         renderTable(parts, 'parts')
     } else {
         document.getElementById('parts_section').remove()
+    }
+
+    if (versions) {
+        const table = document.getElementById('versions')
+        for (const data of versions) {
+            const row = document.createElement('tr')
+
+            const idCell = document.createElement('td')
+            const idLink = document.createElement('a')
+            idLink.setAttribute('href', `/catalog/detail/?id=${data.id}`)
+            idLink.textContent = data.id
+            idCell.appendChild(idLink)
+            row.appendChild(idCell)
+
+            const titleCell = document.createElement('td')
+            const titleLink = document.createElement('a')
+            titleLink.setAttribute('href', `/catalog/detail/?id=${data.id}`)
+            titleLink.textContent = data.title
+            titleCell.appendChild(titleLink)
+            row.appendChild(titleCell)
+
+            const authorCell = document.createElement('td')
+            authorCell.textContent = data.author
+            row.appendChild(authorCell)
+
+            const dateCell = document.createElement('td')
+            dateCell.textContent = data.date
+            row.appendChild(dateCell)
+
+            const editionCell = document.createElement('td')
+            editionCell.textContent = data.edition
+            row.appendChild(editionCell)
+
+            const languageCell = document.createElement('td')
+            languageCell.setAttribute('href', `/catalog/detail/?id=${data.id}`)
+            languageCell.textContent = data.language
+            row.appendChild(languageCell)
+
+            table.appendChild(row)
+        }
+    } else {
+        document.getElementById('versions_section').remove()
     }
 
     function getEntryType (data) {
