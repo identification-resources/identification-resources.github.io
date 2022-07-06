@@ -284,6 +284,9 @@
 
     function getEntryType (data) {
         if (data.pages && data.pages.includes('-')) {
+            if (all[data.part_of] && all[data.part_of].entry_type !== 'online') {
+                return 'chapter'
+            }
             return 'article-journal'
         } else if (data.entry_type === 'online') {
             return 'webpage'
@@ -298,7 +301,8 @@
         title: data.title,
         author: data.author && data.author.split('; ').map(Cite.parse.name),
         publisher: data.publisher,
-        'container-title': data.series,
+        'container-title': data.series || (all[data.part_of] && all[data.part_of].title),
+        'container-author': all[data.part_of] && all[data.part_of].author && all[data.part_of].author.split('; ').map(Cite.parse.name),
         volume: data.volume,
         issue: data.issue,
         ...(data.pages && data.pages.includes('-')
