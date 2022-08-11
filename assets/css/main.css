@@ -170,7 +170,7 @@ main > nav li > * {
     padding: 0.25em 0.75em;
 }
 
-main > nav a[href]:hover {
+main > nav a[href][aria-current], main > nav a[href]:hover {
     outline: 2px solid black;
 }
 
