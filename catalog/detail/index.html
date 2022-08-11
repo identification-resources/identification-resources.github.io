@@ -25,6 +25,12 @@
                 </ul>
             </nav>
         </header>
+        <script>
+            if ((new URLSearchParams(window.location.search)).has('embed')) {
+                document.querySelector('body > header').remove()
+            }
+            document.currentScript.remove()
+        </script>
 
         <main>
             <article>
