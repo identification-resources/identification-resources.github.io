@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title>Detail — Library of Identification Resources</title>
+
+        <link rel="stylesheet" href="/assets/css/main.css">
+        <link rel="shortcut icon" href="/assets/img/logo_124.png">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <header class="small">
+            <a href="/">
+                <img id="logo" src="/assets/img/logo_512.png" alt="Logo: moth with spread, speckled black and red wings">
+            </a>
+
+            <h1>Library of Identification Resources</h1>
+
+            <nav>
+                <ul>
+                    <li><a href="/catalog">Catalog</a></li>
+                    <li><a href="/catalog/visualizations">Statistics</a></li>
+                    <li><a href="https://github.com/identification-resources">GitHub</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <article>
+                <header>
+                    <h2 id="title"></h2>
+                </header>
+
+                <section>
+                    <div class="table">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <th>Authors</th>
+                                    <td id="author"></td>
+                                </tr>
+                                <tr>
+                                    <th>Pages</th>
+                                    <td id="pages"></td>
+                                </tr>
+                                <tr>
+                                    <th>Part of</th>
+                                    <td id="part_of"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Key info</h3>
+                    <div class="table">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <th>Resource type</th>
+                                    <td id="resource_type"></td>
+                                </tr>
+                                <tr>
+                                    <th>Applies to</th>
+                                    <td id="scope"></td>
+                                </tr>
+                                <tr>
+                                    <th>For the region</th>
+                                    <td id="region"></td>
+                                </tr>
+                                <tr>
+                                    <th>Number of taxa</th>
+                                    <td id="taxon_count"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Taxa</h3>
+
+                    <ul id="taxa_section"></ul>
+                    <style>
+                        #taxa_section { padding-left: 0; }
+                        #taxa_section, #taxa_section ul { list-style-type: none; }
+                        #taxa_section summary { margin-left: -17px; }
+                    </style>
+                </section>
+            </article>
+        </main>
+
+        <script src="/assets/js/shared.js" charset="utf-8"></script>
+        <script src="/assets/js/key.js" charset="utf-8"></script>
+    </body>
+</html>

@@ -128,6 +128,31 @@ async function loadCatalog () {
     return extendCatalog(await loadCsv('/assets/data/catalog.csv'))
 }
 
+const loadKeys = (function () {
+    const url = '/assets/data/resources/index.json'
+    let resources
+
+    return async function loadKeys () {
+        if (!resources) {
+            resources = await fetch(url).then(response => response.json())
+        }
+        return resources
+    }
+})()
+
+async function loadKey (id) {
+    const metadata = (await loadKeys())[id]
+
+    const fileId = id.split(':').join('-')
+    const [header, ...rows] = await loadCsv(`/assets/data/resources/dwc/${fileId}.csv`, 'taxonID')
+    const taxa = rows.reduce((taxa, row) => {
+        taxa[row[0]] = { data: row }
+        return taxa
+    }, {})
+
+    return { metadata, taxa }
+}
+
 function formatAuthors (value) {
     return formatLinkedList(value, author => `/catalog/author/?name=${author}`)
 }
