@@ -62,22 +62,6 @@
     ))
     document.getElementById('complete').textContent = data.complete ? data.complete === 'TRUE' ? 'Yes' : 'No' : ''
 
-    {
-        const element = document.getElementById('resources')
-        const keys = await loadKeys()
-        let keyIndex = 1
-        let keyId
-        while ((keyId = `${id}:${keyIndex}`) in keys) {
-            const key = keys[keyId]
-            const a = document.createElement('a')
-            a.setAttribute('href', `/catalog/resource/?id=${keyId}`)
-            a.textContent = `${keyId} (${key.taxonCount} taxa)`
-            if (keyIndex > 1) { element.append(', ') }
-            element.appendChild(a)
-            keyIndex++
-        }
-    }
-
     // Bibliographical info
     if (data.entry_type) {
         if (octicons[data.entry_type]) {
@@ -383,6 +367,22 @@
             meta.setAttribute('name', metaTag)
             meta.setAttribute('content', content)
             document.querySelector('head').appendChild(meta)
+        }
+    }
+
+    {
+        const element = document.getElementById('resources')
+        const keys = await loadKeys()
+        let keyIndex = 1
+        let keyId
+        while ((keyId = `${id}:${keyIndex}`) in keys) {
+            const key = keys[keyId]
+            const a = document.createElement('a')
+            a.setAttribute('href', `/catalog/resource/?id=${keyId}`)
+            a.textContent = `${keyId} (${key.taxonCount} taxa)`
+            if (keyIndex > 1) { element.append(', ') }
+            element.appendChild(a)
+            keyIndex++
         }
     }
 })().catch(console.error)
