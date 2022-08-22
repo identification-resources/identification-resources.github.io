@@ -186,6 +186,79 @@ async function main () {
         svg.attr('width', WIDTH + GAP_SIZE + legendWidth)
     }
 
+    // TAXA DATA
+    {
+        const counts = Array.from(d3.rollup(
+            Object.values(all),
+            v => v.length,
+            d => d.taxa_data
+        ))
+
+        const HEIGHT = 420
+        const GAP_SIZE = 50
+        const LEGEND_SIZE = 20
+
+        const levels = [
+            'true',
+            'false'
+        ]
+
+        const color = d3.scaleOrdinal()
+              .domain(levels)
+              .range(['#c4202a', '#989d89'])
+
+        const pie = d3.pie().value(([_, count]) => count)
+        const arc = d3.arc()
+            .innerRadius(HEIGHT / 3)
+            .outerRadius(HEIGHT / 2)
+
+        const svg = d3
+            .select('#by_taxa_data .table')
+            .append('svg')
+                .attr('width', HEIGHT)
+                .attr('height', HEIGHT)
+                .attr('font-family', 'sans-serif')
+
+        svg
+            .append('g')
+            .attr('transform', `translate(${HEIGHT / 2}, ${HEIGHT / 2})`)
+            .selectAll('a')
+            .data(pie(counts))
+            .join('a')
+                .attr('href', d => `/catalog/?field=taxa_data&query=${d.data[0]}`)
+            .append('path')
+                .attr('d', d => arc(d))
+                .attr('fill', d => color(d.data[0]))
+
+        const legend = svg
+            .append('g')
+            .attr('font-size', 14)
+
+        const labels = legend
+            .selectAll('g')
+            .data(levels)
+            .join('a')
+            .attr('href', d => `/catalog/?field=taxa_data&query=${d}`)
+            .append('g')
+            .attr('transform', (_, i) => `translate(0,${2 * i * LEGEND_SIZE})`)
+
+        labels
+            .append('rect')
+            .attr('width', LEGEND_SIZE)
+            .attr('height', LEGEND_SIZE)
+            .attr('fill', d => color(d))
+
+        labels
+            .append('text')
+            .attr('x', LEGEND_SIZE * 1.5)
+            .attr('y', LEGEND_SIZE * 0.75)
+            .text(d => d === 'true' ? 'Extracted' : 'Not extracted')
+
+        const legendBBox = legend.node().getBBox()
+        legend.attr('transform', `translate(${HEIGHT + GAP_SIZE},${(HEIGHT - legendBBox.height) / 2})`)
+        svg.attr('width', HEIGHT + GAP_SIZE + legendBBox.width)
+    }
+
     // BY COLUMN
     {
         const _select = document.querySelector('#by_column select')

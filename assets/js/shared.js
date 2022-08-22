@@ -56,7 +56,8 @@ const fieldLabels = {
     version_of: 'Version of',
     year: 'Year',
     decade: 'Decade',
-    access: 'Access'
+    access: 'Access',
+    taxa_data: 'Tax. data extr.'
 }
 
 async function loadCsv (url) {
@@ -78,8 +79,8 @@ async function loadCsv (url) {
         .slice(0, -1)
 }
 
-function extendCatalog (rows) {
-  const headers = rows[0].concat('year', 'decade', 'access')
+async function extendCatalog (rows) {
+  const headers = rows[0].concat('year', 'decade', 'access', 'taxa_data')
   const i = {
     date: headers.indexOf('date'),
     license: headers.indexOf('license'),
@@ -87,6 +88,7 @@ function extendCatalog (rows) {
     fulltext_url: headers.indexOf('fulltext_url'),
     archive_url: headers.indexOf('archive_url')
   }
+  const keys = await loadKeys()
 
   const rest = rows.slice(1).map(row => {
     const date = row[i.date]
@@ -102,8 +104,9 @@ function extendCatalog (rows) {
         : fulltextUrl || (archiveUrl && (!url || !archiveUrl.endsWith(url) || url === fulltextUrl))
             ? 'Full text available, no license'
             : 'No full text available'
+    const taxaData = keys.hasOwnProperty(row[0] + ':1').toString()
 
-    return row.concat(year.toString(), decade.toString(), access)
+    return row.concat(year.toString(), decade.toString(), access, taxaData)
   })
 
   return [headers, ...rest]
