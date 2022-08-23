@@ -81,11 +81,11 @@
         for (const id in key.taxa) {
             const taxon = key.taxa[id]
             if (taxon.data[13]) {
-                const parent = key.taxa[taxon.data[13]] || {}
+                const parent = key.taxa[taxon.data[13]]
                 if (!parent.children) { parent.children = [] }
                 parent.children.push(taxon)
             } else if (taxon.data[11]) {
-                const parent = key.taxa[taxon.data[11]] || {}
+                const parent = key.taxa[taxon.data[11]]
                 if (!parent.synonyms) { parent.synonyms = [] }
                 parent.synonyms.push(taxon)
             } else {
