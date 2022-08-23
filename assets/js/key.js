@@ -118,7 +118,7 @@
 
             {
                 const a = document.createElement('a')
-                a.setAttribute('href', `/catalog/key/?id=${id}#${taxon.data[0]}`)
+                a.setAttribute('href', `/catalog/resource/?id=${id}#${taxon.data[0]}`)
                 a.setAttribute('name', taxon.data[0])
                 a.innerHTML = octicons.persistent_url
                 fragment.append(' ')
