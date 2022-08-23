@@ -35,7 +35,7 @@
         part.volume,
         part.issue,
         part.pages
-    ].map(parseFloat)))
+    ].map(number => isNaN(parseFloat(number)) ? 0 : parseFloat(number))))
 
     const titles = parts
         .map(part => part.series)
