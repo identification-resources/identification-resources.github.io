@@ -37,39 +37,82 @@
             <hr>
 
             <article>
-                <p>This repository holds a catalog of identification resources, complete with bibliographical metadata
-                    and metadata on the type of key, the taxon/taxa it distinguishes, the geographical region it applies
-                    to, and the intended completeness.
+                <p>This repository holds a catalog of works containing identification resources, complete with
+                    bibliographical metadata and metadata on the types of identification resources within the work,
+                    the taxon/taxa they distinguish, the geographical region they apply to, and their intended
+                    completeness. Here, “identification resources” are identification keys, multi-access (matrix)
+                    keys, lists of species descriptions with or without explicit comparisons to similar species,
+                    and any other tools that can aid in the identification of species.
+                </p>
+                <blockquote>
+                    <p>Works can also be added to help link between related works, for example by adding web pages
+                        that collect identification keys on a certain topic (such as this project). Although the work
+                        (i.e. the web page) does not itself assist in identification, it can be useful nonetheless, for
+                        grouping works and if not all the works that are listed in the collection are already included
+                        in this catalog. Another type of work that can be added to link related works are of a more
+                        abstract type: when an author publishes a key to a single taxon in several bibliographical works,
+                        it may be useful to include in this catalog an additional, abstract works consisting of those
+                        several parts.
+                    </p>
+                </blockquote>
+                <p>In addition to works, the <strong>individual resources</strong> within the work can also be modeled, with additional
+                    bibliographic metadata (e.g. page numbers), a per-resource specification of the biological scope
+                    of the resource (e.g. key only for females, or larvae, or terrestrial species), and a list of
+                    the species (or genera, families; the leaf taxa) that can be distinguished with the individual
+                    resource, optionally with their taxonomic classification. For example, in
+                    <a href="https://purl.org//identification-resources/resource/B501:1">
+                        a key to the Dutch species of Pompilidae (Hymenoptera)
+                    </a>
+                    the species can be listed grouped by subgenus, genus and family, as well as with synonyms, as
+                    long as this information is presented in the original work.
+                </p>
+                <p>Some data is linked to other sources: authors, publishers, and places of works, as well as works
+                    themselves, are linked to
+                    <a href="https://wikidata.org/">Wikidata</a>.
+                    The taxa are, when possible, linked to
+                    <a href="https://www.catalogueoflife.org/">Catalogue of Life</a>
+                    and
+                    <a href="https://www.gbif.org/">GBIF</a>.
                 </p>
                 <h2>
-                    <a id="user-content-limitations" class="anchor" aria-hidden="true" href="#limitations">
+                    <a id="user-content-interacting-with-the-data" class="anchor" aria-hidden="true" href="#interacting-with-the-data">
                         <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">
                             <path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path>
                         </svg>
                     </a>
-                    Limitations
+                    Interacting with the data
                 </h2>
-                <p>Some info was collected but is as of yet missing from the repo: this includes further scope
-                    limitations (keys only for larvae, only for females, only for aquatic species), a more specific
-                    description of incompleteness in the taxonomy ("all species and genera of family X, except species
-                    of genus Y") and keys separated across different bibliographical units.
+                <p>A simple interface to this data is being developed in
+                    <a href="https://github.com/identification-resources/identification-resources.github.io">
+                        a parallel Git repository
+                    </a>,
+                    and is available online at
+                    <a href="https://identification-resources.github.io/">
+                        https://identification-resources.github.io/
+                    </a>.
                 </p>
-                <p>In addition the data model has its limitations. The bibliographical info is constrained to a few
-                    specific columns, entry types are not encoded, and the concept of editions, translations, different
-                    versions, and the distinction between printed books and ebooks is not well represented. Furthermore,
-                    all keys in a single work are treated as one, leading to problems with the completeness definition.
-                </p>
-                <h2>
-                    <a id="user-content-current-intentions" class="anchor" aria-hidden="true" href="#current-intentions">
-                        <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">
-                            <path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path>
-                        </svg>
-                    </a>
-                    Current intentions
-                </h2>
-                <p>Proof-of-concept of an application that selects the right key for you (and gives you the other
-                    options as well, of course). The entries in the catalog are mainly focused on Europe right now, but
-                    content for the US is welcome (see <a href="#contributing">contributing</a>).
+                <ul>
+                    <li>The catalog of works can be searched and browsed here:<br>
+                        <a href="https://identification-resources.github.io/catalog">https://identification-resources.github.io/catalog</a>
+                    </li>
+                    <li>From there, individual works can be viewed in more detail, for example here:<br>
+                        <a href="https://identification-resources.github.io/catalog/detail/?id=B501">https://identification-resources.github.io/catalog/detail/?id=B501</a>
+                    </li>
+                    <li>From there, the individual resources within the work can be explored for example here:<br>
+                        <a href="https://identification-resources.github.io/catalog/resource/?id=B501:1">https://identification-resources.github.io/catalog/resource/?id=B501:1</a>
+                    </li>
+                    <li>A set of dynamic, interactive visualizations of the catalog can be viewed here:<br>
+                        <a href="https://identification-resources.github.io/catalog/visualizations">https://identification-resources.github.io/catalog/visualizations</a>
+                    </li>
+                </ul>
+                <p>In addition, a proof-of-concept application is also being developed in
+                    <a href="https://github.com/identification-resources/proof-of-concept">
+                        another Git repository
+                    </a>.
+                    This application is intended to select the right key for you (and gives you the other options as
+                    well, of course), automatically. This is based on a known parent taxon and the location of
+                    the observation. The results are then sorted on a number of heuristics, such as the
+                    availability of full text, the recency and completeness of the work, and the specificity.
                 </p>
                 <h2>
                     <a id="user-content-future-roadmap" class="anchor" aria-hidden="true" href="#future-roadmap">
@@ -79,8 +122,10 @@
                     </a>
                     Future roadmap
                 </h2>
-                <p>Appart from collecting more data, the existing data should be put in a more structured form and
-                    perhaps added to Wikidata or similar platforms, or at least cross-referenced with them.
+                <p>The entries in the catalog are mainly focused on Europe right now as I have been adding the keys
+                    that I have been using (and related works), but content from elsewhere is very, very welcome
+                    (see <a href="#contributing">contributing</a>). Apart from collecting more data, I want to synchronize more
+                    of the data to Wikidata or similar platforms, or at least link them better.
                 </p>
                 <p>As for the application, in cases where keys are available under open license, they can be
                     converted to a standard format and chained together in the interface. Additional improvements
@@ -98,9 +143,26 @@
                     including
                 </p>
                 <ol>
-                    <li><a href="https://github.com/identification-resources/catalog/issues/new?assignees=&amp;labels=untriaged%2C+untriaged%3A+addition&amp;template=addition-to-the-catalog.md&amp;title=">Suggesting new keys or other resources to add to the catalog.</a></li>
-                    <li><a href="https://github.com/identification-resources/catalog/issues/new?assignees=&amp;labels=untriaged%2C+untriaged%3A+error&amp;template=catalog-error.md&amp;title=">Reporting errors in the metadata of already added resources.</a></li>
-                    <li><a href="https://github.com/identification-resources/catalog/blob/main/CONTRIBUTING.md#adding-resources">Adding or improving resources yourself by editing the catalog file and making a pull request.</a></li>
+                    <li>
+                        <a href="https://github.com/identification-resources/catalog/issues/new?assignees=&amp;labels=untriaged%2C+untriaged%3A+addition&amp;template=addition-to-the-catalog.md&amp;title=">
+                            Suggesting new keys or other works to add to the catalog.
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/identification-resources/catalog/issues/new?assignees=&amp;labels=untriaged%2C+untriaged%3A+error&amp;template=catalog-error.md&amp;title=">
+                            Reporting errors in the metadata of already added resources.
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/identification-resources/catalog/blob/main/CONTRIBUTING.md#adding-works">
+                            Adding or improving works yourself by editing the catalog file and making a pull request.
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/identification-resources/catalog/blob/main/CONTRIBUTING.md#adding-resources-within-works">
+                            Adding or improving resources within works.
+                        </a>
+                    </li>
                 </ol>
             </article>
         </main>
