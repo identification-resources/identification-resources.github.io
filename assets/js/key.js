@@ -100,10 +100,25 @@
                 let authorship = taxon.data[2]
                 let name = authorship ? taxon.data[1].slice(0, -(1 + authorship.length)) : taxon.data[1]
 
-                if (['genus', 'subgenus', 'group', 'species', 'subspecies', 'variety', 'form', 'race', 'stirps', 'aberration'].includes(taxon.data[7])) {
+                if (['genus', 'subgenus', 'species'].includes(taxon.data[7])) {
                     const i = document.createElement('i')
                     i.textContent = name
                     fragment.append(i)
+                } else if ('group' === taxon.data[7]) {
+                    const parts = name.match(/^(.+?)((-group)?)$/)
+                    const i = document.createElement('i')
+                    i.textContent = parts[1]
+                    fragment.append(i)
+                    fragment.append(parts[2])
+                } else if (['subspecies', 'variety', 'form', 'race', 'stirps', 'aberration'].includes(taxon.data[7])) {
+                    const parts = name.match(new RegExp(`^(${taxon.data[3]} ${taxon.data[5]})(.+)(${taxon.data[6]})$`))
+                    const start = document.createElement('i')
+                    start.textContent = parts[1]
+                    fragment.append(start)
+                    fragment.append(parts[2])
+                    const end = document.createElement('i')
+                    end.textContent = parts[3]
+                    fragment.append(end)
                 } else {
                     fragment.append(name)
                 }
