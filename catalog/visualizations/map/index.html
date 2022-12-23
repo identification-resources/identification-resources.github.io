@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title>Map visualization — Library of Identification Resources</title>
+
+        <link rel="stylesheet" href="/assets/css/main.css">
+        <link rel="stylesheet" href="/assets/css/visualizations.css">
+        <link rel="shortcut icon" href="/assets/img/logo_124.png">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ==" crossorigin=""/>
+
+        <style>
+            .leaflet-popup-content hr {
+                margin-left: -21px;
+                margin-right: -25px;
+            }
+            #legend {
+                float: right;
+                margin: 1em 0;
+            }
+        </style>
+    </head>
+    <body>
+        <header class="small">
+            <a href="/">
+                <img id="logo" src="/assets/img/logo_512.png" alt="Logo: moth with spread, speckled black and red wings">
+            </a>
+
+            <h1>Library of Identification Resources</h1>
+
+            <nav>
+                <ul>
+                    <li><a href="/catalog">Catalog</a></li>
+                    <li><a href="/catalog/visualizations">Statistics</a></li>
+                    <li><a href="https://github.com/identification-resources">GitHub</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <article>
+                <header>
+                    <h2>Map visualization</h2>
+                </header>
+
+                <div id="map" style="height: 600px;"></div>
+                <div id="legend"></div>
+
+                <h3>Places with no map data</h3>
+                <ul id="rest"></ul>
+            </article>
+        </main>
+
+        <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+        <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js" integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ==" crossorigin=""></script>
+        <script src="/assets/js/shared.js" charset="utf-8"></script>
+        <script src="/assets/js/visualizations-map.js" charset="utf-8"></script>
+    </body>
+</html>
+ 
