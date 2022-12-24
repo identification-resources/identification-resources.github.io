@@ -30,7 +30,6 @@ async function getShapes (places) {
         .map(place => place.inatid)
         .join(',')
     const url = `https://api.inaturalist.org/v1/places/${values}`
-    console.log(url)
     const response = await fetch(url, { headers: { accept: 'application/json' } })
     if (response.status >= 400) {
         throw new Error(`Fetching iNaturalist data for places: ${response.status}`)
@@ -88,8 +87,6 @@ async function main () {
         maxCount = Math.max(maxCount, inatMap[id].totalCount)
     }
 
-    console.log(places)
-
     // Visualizations
     const opacity = d3.scaleLinear([0, maxCount], [0.1, 1])
 
@@ -141,6 +138,8 @@ async function main () {
             .append('svg')
                 .attr('width', BIN_WIDTH * n + 2)
                 .attr('height', BIN_HEIGHT * 2 + 1)
+                .attr('viewBox', `0 0 ${BIN_WIDTH * n + 2} ${BIN_HEIGHT * 2 + 1}`)
+                .attr('style', 'max-width: 100%')
                 .attr('font-family', 'sans-serif')
                 .attr('font-size', 14)
 
