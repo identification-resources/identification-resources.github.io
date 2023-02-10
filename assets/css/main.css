@@ -176,11 +176,34 @@ main > nav a[href][aria-current], main > nav a[href]:hover {
 }
 
 .sr-only {
-  clip: rect(0 0 0 0);
-  clip-path: inset(50%);
-  height: 1px;
-  overflow: hidden;
-  position: absolute;
-  white-space: nowrap;
-  width: 1px;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+}
+
+#gallery {
+    display: flex;
+    gap: 1em;
+}
+
+#gallery > div {
+    border: 1px solid black;
+}
+
+#gallery > div a {
+    display: flex;
+    flex-direction: column;
+}
+
+#gallery > div h3 {
+    margin: 0;
+    padding: 0.5em;
+}
+
+#gallery > div img {
+    width: 100%;
 }
