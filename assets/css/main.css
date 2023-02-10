@@ -53,14 +53,23 @@ body > main .table {
 }
 
 body > main header {
+    align-items: center;
     border-bottom: 1px solid #989d89;
     display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
     justify-content: space-between;
-    align-items: center;
+    padding: 1em;
 }
 
-body > main header > * {
-    display: inline-block;
+body > main header h2 {
+    flex: 1 1 20em;
+    margin: 0;
+}
+
+body > main header #date {
+    margin: 0;
+    white-space: nowrap;
 }
 
 a {
@@ -83,11 +92,6 @@ dt {
 
 dd {
     margin-bottom: 1em;
-}
-
-article header #date {
-    white-space: nowrap;
-    margin-left: 1em;
 }
 
 article h2:not(:hover) .anchor {
