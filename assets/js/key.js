@@ -194,6 +194,16 @@
         console.log(roots)
 
         const section = document.getElementById('taxa_section')
+        {
+            const p = document.createElement('p')
+            const a = document.createElement('a')
+            a.setAttribute('download', '')
+            a.setAttribute('href', `/assets/data/resources/dwc/${id.split(':').join('-')}.csv`)
+            a.textContent =  'Download as Darwin Core'
+            p.appendChild(a)
+            section.appendChild(p)
+        }
+
         for (const taxon of roots) {
             section.appendChild(renderTaxon(taxon))
         }
