@@ -108,20 +108,18 @@
       table.appendChild(row)
     }
   }
+
   const schemas = document.getElementById('schemas-org')
-  schemas.textContent =
-  `
-{
-  "@context": "https://schema.org",
-  "@type": "TaxonName",
-  "http://purl.org/dc/terms/conformsTo": {
-    "@type": "CreativeWork",
-    "@id": "https://bioschemas.org/profiles/TaxonName/1.0-RELEASE"
-  },
-  "name": "${gbifData.scientificName}",
-  "url": "${location.origin}/taxonomy/taxon/?gbif=${gbif}",
-  "identifier": "${gbif}",
-  "sameAs": "https://www.gbif.org/species/${gbif}"
-}
-`
+  schemas.textContent = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'TaxonName',
+    'http://purl.org/dc/terms/conformsTo': {
+      '@type': 'CreativeWork',
+      '@id': 'https://bioschemas.org/profiles/TaxonName/1.0-RELEASE'
+    },
+    name: gbifData.scientificName,
+    url: `${location.origin}/taxonomy/taxon/?gbif=${gbif}`,
+    identifier: gbif,
+    sameAs: `https://www.gbif.org/species/${gbif}`
+  }, null, 2)
 })().catch(console.error)
