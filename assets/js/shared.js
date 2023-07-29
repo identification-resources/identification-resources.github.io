@@ -20,6 +20,7 @@ const octicons = {
     persistent_url: `<svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><title>Persistent URL</title><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg>`,
 
     // other
+    info: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="-4 -4 24 24" width="24" height="24"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>`,
     available: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill-rule="evenodd" d="M1 12C1 5.925 5.925 1 12 1s11 4.925 11 11-4.925 11-11 11S1 18.075 1 12zm16.28-2.72a.75.75 0 00-1.06-1.06l-5.97 5.97-2.47-2.47a.75.75 0 00-1.06 1.06l3 3a.75.75 0 001.06 0l6.5-6.5z"></path></svg>`,
     not_available: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M9.036 7.976a.75.75 0 00-1.06 1.06L10.939 12l-2.963 2.963a.75.75 0 101.06 1.06L12 13.06l2.963 2.964a.75.75 0 001.061-1.06L13.061 12l2.963-2.964a.75.75 0 10-1.06-1.06L12 10.939 9.036 7.976z"></path><path fill-rule="evenodd" d="M12 1C5.925 1 1 5.925 1 12s4.925 11 11 11 11-4.925 11-11S18.075 1 12 1zM2.5 12a9.5 9.5 0 1119 0 9.5 9.5 0 01-19 0z"></path></svg>`
 }
@@ -182,4 +183,37 @@ function formatLinkedList (list, makeUrl) {
     }
 
     return nodes
+}
+
+function formatTaxonName (name, authorship, rank) {
+    const fragment = document.createDocumentFragment()
+
+    if (['genus', 'subgenus', 'species'].includes(rank)) {
+        const i = document.createElement('i')
+        i.textContent = name
+        fragment.append(i)
+    } else if ('group' === rank) {
+        const parts = name.match(/^(.+?)((-group)?)$/)
+        const i = document.createElement('i')
+        i.textContent = parts[1]
+        fragment.append(i)
+        fragment.append(parts[2])
+    } else if (['subspecies', 'variety', 'form', 'race', 'stirps', 'aberration'].includes(rank)) {
+        const parts = name.match(/^(\S+ \S+)(.+)(\S+)$/)
+        const start = document.createElement('i')
+        start.textContent = parts[1]
+        fragment.append(start)
+        fragment.append(parts[2])
+        const end = document.createElement('i')
+        end.textContent = parts[3]
+        fragment.append(end)
+    } else {
+        fragment.append(name)
+    }
+
+    if (authorship) {
+        fragment.append(' ' + authorship)
+    }
+
+    return fragment
 }

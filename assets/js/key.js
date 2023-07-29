@@ -140,6 +140,15 @@
                 fragment.appendChild(a)
             }
 
+            // Taxon info page
+            if (taxon.data[25]) {
+                const a = document.createElement('a')
+                a.setAttribute('href', `/taxonomy/taxon/?gbif=${taxon.data[25]}`)
+                a.innerHTML = octicons.info
+                fragment.append(' ')
+                fragment.appendChild(a)
+            }
+
             // gbif id
             if (taxon.data[25]) {
                 const a = document.createElement('a')
