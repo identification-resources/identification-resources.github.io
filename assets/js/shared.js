@@ -48,6 +48,7 @@ const fieldLabels = {
     license: 'License',
     key_type: 'Resource type',
     taxon: 'Taxon',
+    taxon_scope: 'Taxon. scope',
     scope: 'Scope',
     region: 'Region',
     complete: 'Completeness',

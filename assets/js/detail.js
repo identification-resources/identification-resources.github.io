@@ -54,7 +54,12 @@
         }
     }
 
-    document.getElementById('taxon_scope').textContent = data.taxon ? data.scope ? `${data.taxon} (${data.scope})` : data.taxon : data.scope
+    document.getElementById('taxon_scope').textContent = data.taxon
+    if (data.taxon_scope || data.scope) {
+        const scope = [data.taxon_scope, data.scope.split('; ').join(', ')].filter(Boolean).join('; ')
+        document.getElementById('taxon_scope').append(` (${scope})`)
+    }
+
     document.getElementById('target_taxa').textContent = data.target_taxa
     document.getElementById('region').append(...formatLinkedList(
         data.region,
