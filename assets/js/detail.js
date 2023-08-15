@@ -135,7 +135,7 @@
 
         if (data.archive_url.endsWith(data.fulltext_url)) {
             const a = document.createElement('a')
-            a.setAttribute('href', data.url)
+            a.setAttribute('href', data.archive_url)
             a.innerHTML = octicons.external_url
             a.prepend('Archived ')
             document.getElementById('fulltext_url').append(' (', a, ')')
