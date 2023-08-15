@@ -119,7 +119,7 @@
 
         if (data.archive_url.endsWith(data.url)) {
             const a = document.createElement('a')
-            a.setAttribute('href', data.url)
+            a.setAttribute('href', data.archive_url)
             a.innerHTML = octicons.external_url
             a.prepend('Archived ')
             document.getElementById('info_url').append(' (', a, ')')
