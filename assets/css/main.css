@@ -206,10 +206,12 @@ main > nav a[href][aria-current], main > nav a[href]:hover {
 #gallery {
     display: flex;
     gap: 1em;
+    margin-bottom: 1em;
 }
 
 #gallery > div {
     border: 1px solid black;
+    flex: 1 1;
 }
 
 #gallery > div a {
