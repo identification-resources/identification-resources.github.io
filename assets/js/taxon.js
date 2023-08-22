@@ -16,22 +16,42 @@
 
   {
     const element = document.getElementById('status')
-    element.textContent = gbifData.taxonomicStatus.toLowerCase()
+    const a = document.createElement('a')
+    a.setAttribute('href', `http://rs.gbif.org/vocabulary/gbif/taxonomicStatus/${gbifData.taxonomicStatus.toLowerCase().replace(/_(.)/g, (_, l) => l.toUpperCase())}`)
+    a.textContent = gbifData.taxonomicStatus.toLowerCase().replace(/_/g, ' ')
+    element.appendChild(a)
     if (gbifData.synonym) {
       const [name, author] = gbifData.accepted.split(/ (?=\S+ \S+$)/)
       const a = document.createElement('a')
       a.setAttribute('href', `/taxonomy/taxon/?gbif=${gbifData.acceptedKey}`)
       a.append(formatTaxonName(name, author, gbifData.rank.toLowerCase()))
-      element.append(' (of ', a, ')')
+      element.append(' of ', a)
     }
   }
 
   {
     const a = document.createElement('a')
     a.setAttribute('href', `https://www.gbif.org/species/${gbif}`)
+    a.setAttribute('target', '_blank')
     a.innerHTML = octicons.external_url
     a.prepend(gbif + ' ')
     document.getElementById('gbif').append(a)
+  }
+
+  {
+    const a = document.getElementById('wikidata')
+    a.setAttribute('href', `https://hub.toolforge.org/P846:${gbif}`)
+    a.setAttribute('target', '_blank')
+    a.innerHTML = octicons.external_url
+    a.prepend('Wikidata ')
+  }
+
+  {
+    const a = document.getElementById('scholia')
+    a.setAttribute('href', `https://hub.toolforge.org/P846:${gbif}?site=scholia`)
+    a.setAttribute('target', '_blank')
+    a.innerHTML = octicons.external_url
+    a.prepend('Scholia ')
   }
 
   {
