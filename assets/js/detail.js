@@ -38,6 +38,10 @@
     const data = all[id]
     const versions = allVersions[data.version_of]
 
+    if (data.duplicate_of) {
+        window.location.href = '/catalog/detail/?id=' + data.duplicate_of
+    }
+
     document.querySelector('head title').textContent = data.title + ' — Library of Identification Resources'
     document.getElementById('title').textContent = data.title
     document.getElementById('date').textContent = data.date
