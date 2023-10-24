@@ -29,7 +29,7 @@
         }
     }
 
-    document.getElementById('scope').textContent = key.metadata.scope.join(', ')
+    document.getElementById('scope').textContent = data.scope && data.scope.join(', ')
     document.getElementById('region').append(...formatLinkedList(
         data.region,
         place => `/catalog/place/?name=${place}`
@@ -37,8 +37,25 @@
     document.getElementById('taxon_count').textContent = key.metadata.taxonCount
 
     // Bibliographical info
-    document.getElementById('author').append(...formatAuthors(data.author))
-    document.getElementById('pages').textContent = data.pages
+    for (const field in key.metadata.catalog) {
+        if (['key_type', 'scope', 'region'].includes(field)) {
+            continue
+        }
+
+        const tr = document.createElement('tr')
+        const th = document.createElement('th')
+        th.textContent = fieldLabels[field]
+        const td = document.createElement('td')
+
+        if (field === 'author') {
+            td.append(...formatAuthors(data.author))
+        } else {
+            td.textContent = data[field]
+        }
+
+        tr.append(th, td)
+        document.getElementById('metadata').append(tr)
+    }
 
     {
         const a = document.createElement('a')
@@ -53,9 +70,9 @@
         // 1,scientificName
         // 2,scientificNameAuthorship
         // 3,genericName
-        // 4,intragenericEpithet
+        // 4,infragenericEpithet
         // 5,specificEpithet
-        // 6,intraspecificEpithet
+        // 6,infraspecificEpithet
         // 7,taxonRank
         // 8,taxonRemarks
         // 9,collectionCode
@@ -73,8 +90,11 @@
         // 21,genus
         // 22,subgenus
         // 23,higherClassification
-        // 24,colTaxonID
-        // 25,gbifTaxonID
+        // 24,verbatimIdentification
+        // 25,colTaxonID
+        // 26,gbifTaxonID
+        // 27,colAcceptedTaxonID
+        // 28,gbifAcceptedTaxonID
 
         const roots = []
 
@@ -141,18 +161,18 @@
             }
 
             // Taxon info page
-            if (taxon.data[25]) {
+            if (taxon.data[26]) {
                 const a = document.createElement('a')
-                a.setAttribute('href', `/taxonomy/taxon/?gbif=${taxon.data[25]}`)
+                a.setAttribute('href', `/taxonomy/taxon/?gbif=${taxon.data[26]}`)
                 a.innerHTML = octicons.info
                 fragment.append(' ')
                 fragment.appendChild(a)
             }
 
             // gbif id
-            if (taxon.data[25]) {
+            if (taxon.data[26]) {
                 const a = document.createElement('a')
-                a.setAttribute('href', `https://gbif.org/species/${taxon.data[25]}`)
+                a.setAttribute('href', `https://gbif.org/species/${taxon.data[26]}`)
                 const img = document.createElement('img')
                 img.setAttribute('src', '/assets/img/gbif-mark-green-logo.png')
                 img.setAttribute('width', 16)
