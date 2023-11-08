@@ -377,14 +377,56 @@
         const keys = await loadKeys()
         let keyIndex = 1
         let keyId
-        while ((keyId = `${id}:${keyIndex}`) in keys) {
+        while ((keyId = `${id}:${keyIndex++}`) in keys) {
             const key = keys[keyId]
-            const a = document.createElement('a')
-            a.setAttribute('href', `/catalog/resource/?id=${keyId}`)
-            a.textContent = `${keyId} (${key.taxonCount} taxa)`
-            if (keyIndex > 1) { element.append(', ') }
-            element.appendChild(a)
-            keyIndex++
+            const tr = document.createElement('tr')
+
+            {
+                const td = document.createElement('td')
+                const a = document.createElement('a')
+                a.setAttribute('href', `/catalog/resource/?id=${keyId}`)
+                a.textContent = key.id
+                td.append(a)
+                tr.append(td)
+            }
+
+            {
+                const td = document.createElement('td')
+                const keyTypes = key.catalog && key.catalog.key_type ? key.catalog.key_type : data.key_type.split('; ')
+                for (const type of keyTypes) {
+                    const p = document.createElement('p')
+                    if (octicons[type]) {
+                        p.innerHTML = octicons[type]
+                    }
+                    p.append(' ' + type)
+                    td.appendChild(p)
+                }
+                tr.append(td)
+            }
+
+            {
+                const td = document.createElement('td')
+                td.textContent = `${key.taxonCount} taxa`
+                tr.append(td)
+            }
+
+            {
+                const td = document.createElement('td')
+                td.textContent = key.catalog && key.catalog.taxon
+                if (key.catalog && (key.catalog.taxon_scope || key.catalog.scope)) {
+                    const scope = [key.catalog.taxon_scope, (key.catalog.scope || []).join(', ')].filter(Boolean).join('; ')
+                    td.append(td.textContent ? ` (${scope})` : scope)
+                }
+                tr.append(td)
+            }
+
+            {
+                const td = document.createElement('td')
+                td.textContent = key.catalog && key.catalog.pages ? 'pp. ' + key.catalog.pages : ''
+                tr.append(td)
+            }
+
+            element.appendChild(tr)
         }
     }
 })().catch(console.error)
