@@ -114,44 +114,37 @@
     }
 
     // Access
-    if (data.url) {
-        const a = document.createElement('a')
-        a.setAttribute('href', data.url)
-        a.innerHTML = octicons.external_url
-        a.prepend(data.url + ' ')
-        document.getElementById('info_url').append(a)
+    function displayUrl (id, urls, archiveUrls) {
+        archiveUrls = archiveUrls.split('; ')
 
-        if (data.archive_url.endsWith(data.url)) {
+        for (const url of urls.split('; ')) {
             const a = document.createElement('a')
-            a.setAttribute('href', data.archive_url)
+            a.setAttribute('href', url)
             a.innerHTML = octicons.external_url
-            a.prepend('Archived ')
-            document.getElementById('info_url').append(' (', a, ')')
+            a.prepend(url + ' ')
+            document.getElementById(id).append(a)
+
+            const archiveUrl = archiveUrls.find(archiveUrl => archiveUrl.endsWith(url))
+            if (archiveUrl) {
+                const a = document.createElement('a')
+                a.setAttribute('href', data.archive_url)
+                a.innerHTML = octicons.external_url
+                a.prepend('Archived ')
+                document.getElementById(id).append(' (', a, ')')
+            }
         }
+    }
+
+    if (data.url) {
+        displayUrl('info_url', data.url, data.archive_url)
     }
 
     if (data.fulltext_url) {
-        const a = document.createElement('a')
-        a.setAttribute('href', data.fulltext_url)
-        a.innerHTML = octicons.external_url
-        a.prepend(data.fulltext_url + ' ')
-        document.getElementById('fulltext_url').append(a)
-
-        if (data.archive_url.endsWith(data.fulltext_url)) {
-            const a = document.createElement('a')
-            a.setAttribute('href', data.archive_url)
-            a.innerHTML = octicons.external_url
-            a.prepend('Archived ')
-            document.getElementById('fulltext_url').append(' (', a, ')')
-        }
+        displayUrl('fulltext_url', data.fulltext_url, data.archive_url)
     }
 
-    if ((!data.url || !data.archive_url.endsWith(data.url)) && !data.fulltext_url && data.archive_url) {
-        const a = document.createElement('a')
-        a.setAttribute('href', data.archive_url)
-        a.innerHTML = octicons.external_url
-        a.prepend(data.archive_url + ' ')
-        document.getElementById('fulltext_url').append(a)
+    if (!data.fulltext_url && data.archive_url && (!data.url || data.archive_url.split('; ').some(url => !url.endsWith(data.url)))) {
+        displayUrl('fulltext_url', data.archive_url, '')
     }
 
     if (data.language) {
