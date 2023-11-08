@@ -25,7 +25,17 @@
         </header>
 
         <main>
+            <p>
+                The <strong>Library of Identification Resources</strong> aims to help with species identification of
+                animals, plants, and fungi. It contains a catalog of works that provide identification keys,
+                pictorial guides, multi-access (matrix) keys, taxonomic references, or simply checklists.
+            </p>
+
             <form action="/catalog">
+                <p>
+                    <a href="/catalog">Browse the catalog</a>, or search metadata fields:
+                </p>
+
                 <label for="catalog_select" class="sr-only">Search field</label>
                 <select id="catalog_select" name="field"><option></option></select>
                 <label for="catalog_search" class="sr-only">Search query</label>
@@ -33,40 +43,47 @@
                 <button type="submit">Search</button>
             </form>
 
-            <p>
-                <a href="/catalog">Browse all</a>
-            </p>
+            <article>
+                <h2>
+                    <a id="header-explore" class="anchor" aria-hidden="true" href="#header-explore">
+                        <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path>
+                        </svg>
+                    </a>
+                    Explore
+                </h2>
 
-            <div id="gallery">
-                <div>
-                    <a href="/catalog/visualizations/map">
-                        <h3>Explore by map</h3>
-                        <img src="/assets/img/screenshot_map.png">
-                    </a>
+                <div id="gallery">
+                    <div>
+                        <a href="/find-resources">
+                            <h3 style="text-align: center;">
+                                Find identification resources by relevance
+                            </h3>
+                        </a>
+                    </div>
                 </div>
-                <div>
-                    <a href="/catalog/visualizations#by_year">
-                        <h3>Explore by date</h3>
-                        <img src="/assets/img/screenshot_decade.png">
-                    </a>
-                </div>
-                <div>
-                    <a href="/catalog/visualizations#by_column">
-                        <h3>Explore by other info</h3>
-                        <img src="/assets/img/screenshot_other.png">
-                    </a>
-                </div>
-            </div>
 
-            <div id="gallery">
-                <div>
-                    <a href="/find-resources">
-                        <h3 style="text-align: center;">
-                            Find identification resources by checklist
-                        </h3>
-                    </a>
+                <div id="gallery">
+                    <div>
+                        <a href="/catalog/visualizations/map">
+                            <h3>Explore by map</h3>
+                            <img src="/assets/img/screenshot_map.png">
+                        </a>
+                    </div>
+                    <div>
+                        <a href="/catalog/visualizations#by_year">
+                            <h3>Explore by date</h3>
+                            <img src="/assets/img/screenshot_decade.png">
+                        </a>
+                    </div>
+                    <div>
+                        <a href="/catalog/visualizations#by_column">
+                            <h3>Explore by other info</h3>
+                            <img src="/assets/img/screenshot_other.png">
+                        </a>
+                    </div>
                 </div>
-            </div>
+            </article>
 
             <article>
                 <h2>
@@ -77,109 +94,57 @@
                     </a>
                     About
                 </h2>
-                <p>This repository holds a catalog of works containing identification resources, complete with
-                    bibliographical metadata and metadata on the types of identification resources within the work,
-                    the taxon/taxa they distinguish, the geographical region they apply to, and their intended
-                    completeness. Here, “identification resources” are identification keys, multi-access (matrix)
-                    keys, lists of species descriptions with or without explicit comparisons to similar species,
-                    and any other tools that can aid in the identification of species.
+                <p>
+                    The first part of the library is the catalog. It consists of both bibliographical metadata
+                    and other information on how to access the works, as well as information on the scope of the resource,
+                    such as the taxon or taxa that they distinguish, the geographical region that the resource
+                    applies to, and their intended completeness. Authors, publishers, and places of works, as well
+                    as works themselves, are linked to <a href="https://wikidata.org/">Wikidata</a>.
                 </p>
-                <blockquote>
-                    <p>Works can also be added to help link between related works, for example by adding web pages
-                        that collect identification keys on a certain topic (such as this project). Although the work
-                        (i.e. the web page) does not itself assist in identification, it can be useful nonetheless, for
-                        grouping works and if not all the works that are listed in the collection are already included
-                        in this catalog. Another type of work that can be added to link related works are of a more
-                        abstract type: when an author publishes a key to a single taxon in several bibliographical works,
-                        it may be useful to include in this catalog an additional, abstract works consisting of those
-                        several parts.
-                    </p>
-                </blockquote>
-                <p>In addition to works, the <strong>individual resources</strong> within the work can also be modeled, with additional
-                    bibliographic metadata (e.g. page numbers), a per-resource specification of the biological scope
-                    of the resource (e.g. key only for females, or larvae, or terrestrial species), and a list of
-                    the species (or genera, families; the leaf taxa) that can be distinguished with the individual
-                    resource, optionally with their taxonomic classification. For example, in
-                    <a href="https://purl.org//identification-resources/resource/B501:1">
-                        a key to the Dutch species of Pompilidae (Hymenoptera)
-                    </a>
-                    the species can be listed grouped by subgenus, genus and family, as well as with synonyms, as
-                    long as this information is presented in the original work.
+                <p>
+                    The second part is that, in addition to works, the individual keys or guides within the works
+                    are also listed, with additional bibliographic metadata (e.g. page numbers),
+                    a per-resource specification of the biological scope of the resource (e.g. keys only for females,
+                    or only for larvae, or only for terrestrial species), and a list of the species (or genera,
+                    families; the leaf taxa) that can be distinguished with the individual resource, optionally with
+                    their taxonomic classification. These taxa are, when possible, linked to
+                    <a href="https://www.catalogueoflife.org/">Catalogue of Life</a> and <a href="https://www.gbif.org/">GBIF</a>.
                 </p>
-                <p>Some data is linked to other sources: authors, publishers, and places of works, as well as works
-                    themselves, are linked to
-                    <a href="https://wikidata.org/">Wikidata</a>.
-                    The taxa are, when possible, linked to
-                    <a href="https://www.catalogueoflife.org/">Catalogue of Life</a>
-                    and
-                    <a href="https://www.gbif.org/">GBIF</a>.
+                <p>
+                    For example, <a href="https://purl.org//identification-resources/catalog/B1378"><i>Liheyidy</i> (Puchkov, 1969)</a>
+                    an important work about the seed bugs (Heteroptera: Lygaeidae) of Ukraine is listed with bibliographical
+                    metadata and a link to a <a href="https://en.wikipedia.org/wiki/DjVu">DjVu</a> file of a scan of
+                    the book. The book contains a key to the families of the superfamily Lygaeoidea
+                    (<a href="https://purl.org//identification-resources/resource/B1378:1">B1378:1</a>),
+                    as well as three keys to species: one for adults (<a href="https://purl.org//identification-resources/resource/B1378:2">B1378:2</a>),
+                    one for nymphs (<a href="https://purl.org//identification-resources/resource/B1378:3">B1378:3</a>),
+                    and one for eggs (<a href="https://purl.org//identification-resources/resource/B1378:4">B1378:4</a>).
+                    Because the species included in those three keys differs (for some species, the larval form is
+                    simply not known), the keys are listed separately to correctly reflect the taxonomic coverage of
+                    the key.
+                </p>
+                <p>
+                    <blockquote>
+                        The project got <a href="https://www.gbif.org/news/EQgUzZ4YA75BSeLs1naI9/#lir">a joint third place</a>
+                        in the 2023 <a href="https://www.gbif.org/ebbe">GBIF Ebbe Nielsen Challenge</a> from the Global
+                        Biodiversity Information Facility (GBIF).
+                    </blockquote>
                 </p>
                 <h2>
-                    <a id="header-interacting-with-the-data" class="anchor" aria-hidden="true" href="#header-interacting-with-the-data">
+                    <a id="header-data" class="anchor" aria-hidden="true" href="#header-data">
                         <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">
                             <path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path>
                         </svg>
                     </a>
-                    Interacting with the data
+                    Data
                 </h2>
-                <p>A simple interface to this data is being developed in
-                    <a href="https://github.com/identification-resources/identification-resources.github.io">
-                        a parallel Git repository
-                    </a>,
-                    and is available online at
-                    <a href="https://identification-resources.github.io/">
-                        https://identification-resources.github.io/
-                    </a>.
+                <p>
+                    The data in the catalog and in the individual resources is released under the
+                    <a href="https://github.com/identification-resources/catalog/blob/main/LICENSE">CC0 Public Domain Dedication</a>
+                    and available on GitHub at <a href="https://github.com/identification-resources/catalog">https://github.com/identification-resources/catalog</a>.
                 </p>
-                <ul>
-                    <li>The catalog of works can be searched and browsed here:<br>
-                        <a href="https://identification-resources.github.io/catalog">https://identification-resources.github.io/catalog</a>
-                    </li>
-                    <li>From there, individual works can be viewed in more detail, for example here:<br>
-                        <a href="https://identification-resources.github.io/catalog/detail/?id=B501">https://identification-resources.github.io/catalog/detail/?id=B501</a>
-                    </li>
-                    <li>From there, the individual resources within the work can be explored for example here:<br>
-                        <a href="https://identification-resources.github.io/catalog/resource/?id=B501:1">https://identification-resources.github.io/catalog/resource/?id=B501:1</a>
-                    </li>
-                    <li>A set of dynamic, interactive visualizations of the catalog can be viewed here:<br>
-                        <a href="https://identification-resources.github.io/catalog/visualizations">https://identification-resources.github.io/catalog/visualizations</a>
-                    </li>
-                </ul>
-                <p>In addition, a web application is being developed in
-                    <a href="https://github.com/identification-resources/proof-of-concept">
-                        another Git repository
-                    </a>.
-                    This application is intended to select the right key for you (and gives you the other options as
-                    well, of course), automatically. This is based on a known parent taxon and the location of
-                    the observation. The results are then sorted on a number of heuristics, such as the
-                    availability of full text, the recency and completeness of the work, and the specificity.
-                </p>
-                <h2>
-                    <a id="header-future-roadmap" class="anchor" aria-hidden="true" href="#header-future-roadmap">
-                        <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">
-                            <path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path>
-                        </svg>
-                    </a>
-                    Future roadmap
-                </h2>
-                <p>The entries in the catalog are mainly focused on Europe right now as I have been adding the keys
-                    that I have been using (and related works), but content from elsewhere is very, very welcome
-                    (see <a href="#contributing">contributing</a>). Apart from collecting more data, I want to synchronize more
-                    of the data to Wikidata or similar platforms, or at least link them better.
-                </p>
-                <p>As for the application, in cases where keys are available under open license, they can be
-                    converted to a standard format and chained together in the interface. Additional improvements
-                    to the (currently theoretical) identification interface will be researched.
-                </p>
-                <h2>
-                    <a id="header-contributing" class="anchor" aria-hidden="true" href="#header-contributing">
-                        <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">
-                            <path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path>
-                        </svg>
-                    </a>
-                    Contributing
-                </h2>
-                <p>You are of course welcome to help improve the catalog. You can do this in a number of ways,
+                <p>
+                    Contributions to help improve the catalog are of course welcome. This can be done in a number of ways,
                     including
                 </p>
                 <ol>
@@ -204,6 +169,40 @@
                         </a>
                     </li>
                 </ol>
+                <h2>
+                    <a id="header-use" class="anchor" aria-hidden="true" href="#header-use">
+                        <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path>
+                        </svg>
+                    </a>
+                    How to use the site
+                </h2>
+                <ul>
+                    <li>
+                        To rank works by their relevance for a given observation at a given location, a tool has been developed which can be accessed here:<br>
+                        <a href="https://identification-resources.github.io/find-resources">https://identification-resources.github.io/find-resources</a>
+                    </li>
+                    <li>
+                        The full catalog of works can be searched and browsed here:<br>
+                        <a href="https://identification-resources.github.io/catalog">https://identification-resources.github.io/catalog</a>
+                    </li>
+                    <li>
+                        From there, individual works can be viewed in more detail, for example here:<br>
+                        <a href="https://identification-resources.github.io/catalog/detail/?id=B501">https://identification-resources.github.io/catalog/detail/?id=B501</a>
+                    </li>
+                    <li>
+                        From there, the individual resources within the work can be explored for example here:<br>
+                        <a href="https://identification-resources.github.io/catalog/resource/?id=B501:1">https://identification-resources.github.io/catalog/resource/?id=B501:1</a>
+                    </li>
+                    <li>
+                        A set of dynamic, interactive visualizations of the catalog can be viewed here:<br>
+                        <a href="https://identification-resources.github.io/catalog/visualizations">https://identification-resources.github.io/catalog/visualizations</a>
+                    </li>
+                </ul>
+                <p>
+                    A video tutorial showcasing some of these features, especially the first tool, is available on YouTube:
+                    <a href="https://youtu.be/QbYiM0qU1O4">https://youtu.be/QbYiM0qU1O4</a>.
+                </p>
             </article>
         </main>
 
