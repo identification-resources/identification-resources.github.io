@@ -72,7 +72,6 @@ async function main () {
     for (const { id, ancestor_place_ids, geometry_geojson } of await getShapes(places)) {
         inatMap[id].geojson = geometry_geojson
         inatMap[id].totalCount = inatMap[id].count
-        inatMap[id].parents = []
 
         if (Array.isArray(ancestor_place_ids)) {
             for (const parentId of ancestor_place_ids) {
@@ -80,7 +79,6 @@ async function main () {
                     continue
                 } else if (parentId in inatMap) {
                     inatMap[id].totalCount += inatMap[parentId].count
-                    inatMap[id].parents.unshift(inatMap[parentId].name)
                 }
             }
         }
@@ -99,17 +97,12 @@ async function main () {
                 color: '#000000',
                 weight: 1
             }
-        },
-        onEachFeature: function (feature, layer) {
-            layer.bindPopup(feature.properties.popup)
         }
     }).addTo(map)
 
     for (const name in places) {
         const place = places[name]
-        const popup = [name, ...(place.parents || [])]
-            .map(name => makePopup(places[name]))
-            .join('<hr>')
+        const popup = makePopup(place)
 
         if (place.geojson) {
             layer.addData({
@@ -123,6 +116,15 @@ async function main () {
             rest.append(li)
         }
     }
+
+    // Popups
+    map.on('click', function (e) {
+        const features = leafletPip.pointInLayer(e.latlng, layer).reverse()
+        if (features.length) {
+            const popup = features.map(({ feature }) => feature.properties.popup).join('<hr>')
+            map.openPopup(popup, e.latlng)
+        }
+    })
 
     // Legend
     {
