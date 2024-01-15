@@ -14,12 +14,15 @@
         key.metadata.catalog || {}
     )
 
+    if (typeof data.key_type === 'string') { data.key_type = data.key_type.split('; ') }
+    if (typeof data.scope === 'string') { data.scope = data.scope.split('; ') }
+
     document.querySelector('head title').textContent = data.title + ' — Library of Identification Resources'
     document.getElementById('title').textContent = data.title
 
     if (data.key_type) {
         const element = document.getElementById('resource_type')
-        for (const type of data.key_type.split('; ')) {
+        for (const type of data.key_type) {
             const p = document.createElement('p')
             if (octicons[type]) {
                 p.innerHTML = octicons[type]
