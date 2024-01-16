@@ -20,7 +20,7 @@
     a.setAttribute('href', `http://rs.gbif.org/vocabulary/gbif/taxonomicStatus/${gbifData.taxonomicStatus.toLowerCase().replace(/_(.)/g, (_, l) => l.toUpperCase())}`)
     a.textContent = gbifData.taxonomicStatus.toLowerCase().replace(/_/g, ' ')
     element.appendChild(a)
-    if (gbifData.synonym) {
+    if (gbifData.accepted) {
       const [name, author] = gbifData.accepted.split(/ (?=\S+ \S+$)/)
       const a = document.createElement('a')
       a.setAttribute('href', `/taxonomy/taxon/?gbif=${gbifData.acceptedKey}`)
