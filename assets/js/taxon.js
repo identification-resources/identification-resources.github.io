@@ -73,7 +73,7 @@
   }
 
   // References
-  if (gbifIndex[gbif]) {
+  if (gbifIndex[gbifData.acceptedKey || gbif]) {
     const [headers, ...rest] = await loadCatalog()
     const catalog = rest.reduce((index, row) => {
       const entry = row.reduce((entry, v, i) => (entry[headers[i]] = v, entry), {})
@@ -81,7 +81,7 @@
       return index
     }, {})
 
-    const mentions = gbifIndex[gbif]
+    const mentions = gbifIndex[gbifData.acceptedKey || gbif]
     const keyIds = mentions.map(mention => mention.replace(/:\d+$/, ''))
     const keys = (await Promise.all(
       keyIds.filter((v, i, a) => a.indexOf(v) === i).map(id => loadKey(id))
