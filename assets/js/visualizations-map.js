@@ -25,10 +25,7 @@ ${place.count} resource${place.count > 1 ? 's' : ''}`
 }
 
 async function getShapes (places) {
-    const values = Object.values(places)
-        .filter(place => place.inatid)
-        .map(place => place.inatid)
-        .join(',')
+    const values = Object.keys(places).join(',')
     const url = `https://api.inaturalist.org/v1/places/${values}`
     const response = await fetch(url, { headers: { accept: 'application/json' } })
     if (response.status >= 400) {
@@ -69,7 +66,7 @@ async function main () {
 
     let maxCount = -Infinity
 
-    for (const { id, ancestor_place_ids, geometry_geojson } of await getShapes(places)) {
+    for (const { id, ancestor_place_ids, geometry_geojson } of await getShapes(inatMap)) {
         inatMap[id].geojson = geometry_geojson
         inatMap[id].totalCount = inatMap[id].count
 
@@ -86,14 +83,14 @@ async function main () {
     }
 
     // Visualizations
-    const opacity = d3.scaleLinear([0, maxCount], [0.1, 1])
+    const colorScale = d3.scaleLinear([0, maxCount], [d3.interpolateRgb('#f2efe9', '#c4202a')(0.1), '#c4202a'])
 
     const rest = document.getElementById('rest')
     const layer = L.geoJSON(undefined, {
         style: function (feature) {
             return {
-                fillOpacity: opacity(feature.properties.count),
-                fillColor: '#c4202a',
+                fillOpacity: 1,
+                fillColor: colorScale(feature.properties.totalCount),
                 color: '#000000',
                 weight: 1
             }
@@ -107,7 +104,7 @@ async function main () {
         if (place.geojson) {
             layer.addData({
                 type: 'Feature',
-                properties: { name, count: place.count, popup },
+                properties: { name, count: place.count, totalCount: place.totalCount, popup },
                 geometry: place.geojson
             })
         } else {
@@ -153,8 +150,7 @@ async function main () {
                 .attr('transform', ([i, _]) => `translate(${bin(i)},1)`)
 
         g.append('rect')
-            .attr('fill', '#c4202a')
-            .attr('fill-opacity', ([_, count]) => opacity(count))
+            .attr('fill', ([_, count]) => colorScale(count))
             .attr('stroke', '#000000')
             .attr('stroke-width', 2)
             .attr('height', BIN_HEIGHT)
