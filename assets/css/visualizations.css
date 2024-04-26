@@ -1,4 +1,4 @@
-a[href]:hover > * {
+svg a[href]:hover > * {
     stroke: black;
     stroke-width: 2px;
 }
