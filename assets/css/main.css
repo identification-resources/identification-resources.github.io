@@ -221,7 +221,7 @@ main > nav a[href][aria-current], main > nav a[href]:hover {
     flex: 1 1;
 }
 
-#gallery > div a {
+#gallery > div > a {
     display: flex;
     flex-direction: column;
 }
