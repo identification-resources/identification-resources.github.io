@@ -218,3 +218,56 @@ function formatTaxonName (name, authorship, rank) {
 
     return fragment
 }
+
+function formatPagination (pagination, search, data) {
+    const searchPage = parseInt(search.get('page') || 1)
+    const searchLimit = parseInt(search.get('limit') || 50)
+    const searchPages = Math.ceil(data.length / searchLimit)
+    const paginationContext = 2
+
+    function makePaginationLink (page, limit, text, label) {
+        const navigationItem = document.createElement('li')
+        const navigationLink = document.createElement('a')
+        navigationLink.textContent = text || page
+
+        const url = new URL(window.location)
+        url.searchParams.set('page', page)
+        url.searchParams.set('limit', limit)
+        navigationLink.setAttribute('href', url.toString())
+        navigationLink.setAttribute('aria-label', label || `Page ${page}`)
+        if (page === searchPage) {
+            navigationLink.setAttribute('aria-current', 'true')
+        }
+
+        navigationItem.appendChild(navigationLink)
+        pagination.appendChild(navigationItem)
+    }
+
+    if (searchPage > 1) {
+        makePaginationLink(searchPage - 1, searchLimit, '<', 'Previous page')
+    }
+    if (searchPage > 1 + paginationContext) {
+        makePaginationLink(1, searchLimit)
+    }
+    if (searchPage > 2 + paginationContext) {
+        const navigationItem = document.createElement('li')
+        navigationItem.textContent = '...'
+        pagination.appendChild(navigationItem)
+    }
+    for (let page = Math.max(1, searchPage - paginationContext); page <= Math.min(searchPages, searchPage + paginationContext); page++) {
+        makePaginationLink(page, searchLimit)
+    }
+    if (searchPage < searchPages - paginationContext - 1) {
+        const navigationItem = document.createElement('li')
+        navigationItem.textContent = '...'
+        pagination.appendChild(navigationItem)
+    }
+    if (searchPage < searchPages - paginationContext) {
+        makePaginationLink(searchPages, searchLimit)
+    }
+    if (searchPage < searchPages) {
+        makePaginationLink(searchPage + 1, searchLimit, '>', 'Next page')
+    }
+
+    return { searchPage, searchLimit }
+}
