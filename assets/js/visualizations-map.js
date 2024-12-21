@@ -36,16 +36,32 @@ async function getShapes (places) {
 }
 
 async function main () {
-    var map = L.map('map')
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map)
-    map.setView([20, 0], 2)
+    var map = L.map('map', {
+        center: [20, 0],
+        zoom: 2,
+        maxBounds: L.latLngBounds(L.latLng(90, -180), L.latLng(-90, 180)),
+        maxBoundsViscosity: 1
+    })
 
     const [headers, ...rows] = await loadCatalog()
-    const places = await indexCsv('/assets/data/places.csv', 'name')
-    const placeColumn = headers.indexOf('region')
+    const catalogPlaces = await indexCsv('/assets/data/places.csv', 'name')
+    const places = {
+        'South America': {
+            name: 'South America',
+            qid: 'Q18',
+            display_name: 'South America',
+            count: 0
+        },
+        'Oceania': {
+            name: 'Oceania',
+            qid: 'Q55643',
+            display_name: 'Oceania',
+            count: 0
+        },
+        ...catalogPlaces
+    }
 
+    const placeColumn = headers.indexOf('region')
     for (const row of rows) {
         for (const place of row[placeColumn].split('; ')) {
             if (!places[place]) {
@@ -82,8 +98,11 @@ async function main () {
         maxCount = Math.max(maxCount, inatMap[id].totalCount)
     }
 
+    places['South America'].totalCount = NaN
+    places['Oceania'].totalCount = NaN
+
     // Visualizations
-    const colorScale = d3.scaleLinear([0, maxCount], [d3.interpolateRgb('#f2efe9', '#c4202a')(0.1), '#c4202a'])
+    const colorScale = d3.scaleLinear([0, maxCount], [d3.interpolateRgb('#f2efe9', '#c4202a')(0.1), '#c4202a']).unknown('#ffffff')
 
     const rest = document.getElementById('rest')
     const layer = L.geoJSON(undefined, {
