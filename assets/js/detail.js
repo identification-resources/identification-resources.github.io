@@ -285,7 +285,9 @@
     }
 
     function getEntryType (data) {
-        if (data.pages && data.pages.includes('-')) {
+        if (data.ISSN) {
+            return 'article-journal'
+        } else if (data.pages && data.pages.includes('-')) {
             if (all[data.part_of] && all[data.part_of].entry_type !== 'online') {
                 return 'chapter'
             }
