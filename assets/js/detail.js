@@ -103,7 +103,21 @@
     document.getElementById('issue').textContent = data.issue
     document.getElementById('pages').textContent = data.pages
     document.getElementById('edition').textContent = data.edition
-    document.getElementById('isbn').textContent = data.ISBN
+
+    if (data.ISBN) {
+        for (const isbn of data.ISBN.split('; ')) {
+            const div = document.createElement('div')
+            div.append(isbn)
+
+            const a = document.createElement('a')
+            a.setAttribute('href', `https://www.worldcat.org/search?q=isbn%3A${isbn}`)
+            a.innerHTML = octicons.external_url
+            a.prepend('WorldCat ')
+            div.append(' (', a, ')')
+
+            document.getElementById('isbn').append(div)
+        }
+    }
 
     if (data.DOI) {
         const a = document.createElement('a')
