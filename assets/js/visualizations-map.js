@@ -21,7 +21,7 @@ async function getPlaces (places) {
 function makePopup (place) {
     return `<a href="/catalog/place/?name=${place.name}">${place.display_name
  || place.name}</a><br>
-${place.count} resource${place.count > 1 ? 's' : ''}`
+${place.count} resource${place.count !== 1 ? 's' : ''}`
 }
 
 async function getShapes (places) {
