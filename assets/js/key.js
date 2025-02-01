@@ -179,7 +179,7 @@
                 const img = document.createElement('img')
                 img.setAttribute('src', '/assets/img/gbif-mark-green-logo.png')
                 img.setAttribute('width', 16)
-                img.setAttribute('style', 'vertical-align: bottom;')
+                img.setAttribute('style', 'vertical-align: middle;')
                 a.appendChild(img)
                 fragment.append(' ')
                 fragment.appendChild(a)
