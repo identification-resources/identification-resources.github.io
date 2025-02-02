@@ -20,7 +20,7 @@ async function main () {
 
         const HEIGHT = 420
         const AXIS_SIZE = 20
-        const BAR_SIZE = 60
+        const BAR_SIZE = 55
 
         const x = d3.scaleLinear()
             .domain([0, d3.max(decadeCounts, ([_, count]) => count)])
@@ -48,7 +48,8 @@ async function main () {
                 .attr('y', ([_, count]) => HEIGHT - x(count))
                 .attr('width', y.bandwidth() - 1)
                 .attr('height', ([_, count]) => x(count))
-                .exit()
+            .append('title')
+                .text(([_, count]) => count)
 
         svg
             .append('g')
@@ -101,6 +102,8 @@ async function main () {
             .append('path')
                 .attr('d', d => arc(d))
                 .attr('fill', d => color(d.data[0]))
+            .append('title')
+                .text(d => d.data[1])
 
         const legend = svg
             .append('g')
@@ -165,7 +168,8 @@ async function main () {
             .attr('fill', ([key, _]) => color(key))
             .attr('height', y.bandwidth() - 1)
             .attr('width', ([_, count]) => x(count))
-            .exit()
+            .append('title')
+                .text(([_, count]) => count)
 
         a.append('line')
             .attr('stroke', '#989d89')
@@ -173,7 +177,6 @@ async function main () {
             .attr('x2', WIDTH)
             .attr('y1', BAR_SIZE / 2)
             .attr('y2', BAR_SIZE / 2)
-            .exit()
 
         const legend = a.append('text')
             .attr('x', WIDTH + GAP_SIZE)
@@ -229,6 +232,8 @@ async function main () {
             .append('path')
                 .attr('d', d => arc(d))
                 .attr('fill', d => color(d.data[0]))
+            .append('title')
+                .text(d => d.data[1])
 
         const legend = svg
             .append('g')
@@ -329,6 +334,8 @@ async function main () {
             .append('path')
                 .attr('d', d => arc(d))
                 .attr('fill', d => color(d.data[0]))
+            .append('title')
+                .text(d => d.data[1])
 
         const legend = svg
             .append('g')
