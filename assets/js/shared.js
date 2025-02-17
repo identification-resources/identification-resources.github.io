@@ -56,6 +56,7 @@ const fieldLabels = {
     listed_in: 'Referenced in',
     part_of: 'Part of',
     version_of: 'Version of',
+    duplicate_of: 'Duplicate of',
     year: 'Year',
     decade: 'Decade',
     access: 'Access',
