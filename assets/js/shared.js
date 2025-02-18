@@ -201,7 +201,7 @@ function formatTaxonName (name, authorship, rank) {
         fragment.append(i)
         fragment.append(parts[2])
     } else if (['subspecies', 'variety', 'form', 'race', 'stirps', 'aberration'].includes(rank)) {
-        const parts = name.match(/^(\S+ \S+)(.+)(\S+)$/)
+        const parts = name.match(/^(\S+ \S+)(.+?)(\S+)$/)
         const start = document.createElement('i')
         start.textContent = parts[1]
         fragment.append(start)
