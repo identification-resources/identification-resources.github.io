@@ -117,7 +117,6 @@ async function extendCatalog (rows) {
 
 async function indexCsv (url, header) {
     const [headers, ...rows] = await loadCsv(url)
-    const column = headers.indexOf(header)
 
     return rows
         .map(row => row.reduce((object, value, index) => {
