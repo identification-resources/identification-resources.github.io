@@ -67,6 +67,21 @@
         document.getElementById('part_of').append(a)
     }
 
+    // Flags
+    if (key.metadata.flags) {
+        const flags = document.getElementById('flags')
+        for (const flag of key.metadata.flags) {
+            const p = document.createElement('p')
+            p.classList.add('alert')
+            p.textContent = flagLabels[flag]
+            const span = document.createElement('span')
+            span.textContent = `(${flag})`
+            span.setAttribute('style', 'color: grey;')
+            p.append('. ', span)
+            flags.append(p)
+        }
+    }
+
     // Taxa
     {
         // 0,scientificNameID

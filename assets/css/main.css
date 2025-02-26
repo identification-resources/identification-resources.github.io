@@ -238,3 +238,9 @@ main > nav a[href][aria-current], main > nav a[href]:hover {
 #gallery > div img {
     width: 100%;
 }
+
+.alert {
+    background-color: #f3d2d4;
+    border: 1px solid #c4202a;
+    padding: 0.5em;
+}

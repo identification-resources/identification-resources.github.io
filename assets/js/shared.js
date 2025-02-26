@@ -63,6 +63,12 @@ const fieldLabels = {
     taxa_data: 'Tax. data extr.'
 }
 
+const flagLabels = {
+    MISSING_TAXA: 'Not all taxa named in the resource have yet been added to this list',
+    MISSING_PARENT_TAXA: 'Not all parent taxa named in the resource have yet been added to this list',
+    MISSING_SYNONYMS: 'Not all synonyms named in the resource have yet been added to this list'
+}
+
 async function loadCsv (url) {
     inProgress = true
     const request = await fetch(url)
