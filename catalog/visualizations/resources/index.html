@@ -2,7 +2,7 @@
 <html lang="en" dir="ltr">
     <head>
         <meta charset="utf-8">
-        <title>Visualizations — Library of Identification Resources</title>
+        <title>Visualizations of resources — Library of Identification Resources</title>
 
         <link rel="stylesheet" href="/assets/css/main.css">
         <link rel="stylesheet" href="/assets/css/visualizations.css">
@@ -33,38 +33,16 @@
         <main>
             <article>
                 <header>
-                    <h2>Visualizations</h2>
+                    <h2>Visualizations of resources</h2>
                 </header>
 
-                <section id="by_year">
-                    <h2>Publications by decade</h2>
-                    <div class="table"></div>
-                </section>
-
-                <section id="by_access">
-                    <h2>Publications by access</h2>
+                <section id="by_count">
+                    <h2>Resources by the number of scientific names</h2>
                     <div class="table"></div>
                 </section>
 
                 <section id="by_identifier">
-                    <h2>Publications by identifier</h2>
-                    <div class="table"></div>
-                </section>
-
-                <section id="by_taxa_data">
-                    <h2>Publications by whether or not taxa are extracted</h2>
-                    <p>
-                        <a href="/catalog/visualizations/resources">View statistics of checklists.</a>
-                    </p>
-                    <div class="table"></div>
-                </section>
-
-                <section id="by_column">
-                    <h2>
-                      Publications by
-                      <label for="by_column_field" class="sr-only">column</label>
-                      <select id="by_column_field"></select>
-                    </h2>
+                    <h2>Scientific names by identifier</h2>
                     <div class="table"></div>
                 </section>
             </article>
@@ -72,6 +50,6 @@
 
         <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
         <script src="/assets/js/shared.js" charset="utf-8"></script>
-        <script src="/assets/js/visualizations.js" charset="utf-8"></script>
+        <script src="/assets/js/visualizations-resources.js" charset="utf-8"></script>
     </body>
 </html>
