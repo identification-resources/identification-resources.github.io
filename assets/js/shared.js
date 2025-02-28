@@ -101,7 +101,7 @@ async function extendCatalog (rows) {
 
   const rest = rows.slice(1).map(row => {
     const date = row[i.date]
-    const year = date ? parseInt(date.split('-')[0]) : ''
+    const year = date ? parseInt(date) : ''
     const decade = year ? year - (year % 10) : ''
 
     const license = row[i.license]

@@ -20,7 +20,7 @@
         all[data.id] = data
     }
 
-    parts.sort((a, b) => a.date ? b.date ? b.date.split('-')[0] - a.date.split('-')[0] : -1 : 0)
+    parts.sort((a, b) => a.date ? b.date ? parseInt(b.date) - parseInt(a.date) : -1 : 0)
 
     document.querySelector('head title').textContent = (publishers[name].full_name || name) + ' — Library of Identification Resources'
     document.getElementById('mainTitle').textContent = publishers[name].full_name || name
@@ -65,7 +65,7 @@
             const row = document.createElement('tr')
 
             const year = document.createElement('td')
-            year.textContent = part.date ? part.date.split('-')[0] : ''
+            year.textContent = part.date ? part.date.replace(/-\d+/g, '') : ''
             row.appendChild(year)
 
             const author = document.createElement('td')

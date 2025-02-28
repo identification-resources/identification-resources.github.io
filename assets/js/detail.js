@@ -332,7 +332,7 @@
         ISSN: data.ISSN,
         URL: data.url || data.fulltext_url || data.archive_url,
         ...(data.date
-            ? { issued: { 'date-parts': [data.date.split('-').map(parseFloat)] } }
+            ? { issued: { 'date-parts': data.date.split('/').map(part => part.split('-').map(parseFloat)) } }
             : undefined),
         language: data.language
     })
