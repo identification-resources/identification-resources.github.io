@@ -258,7 +258,8 @@
 
     if (versions) {
         const table = document.getElementById('versions')
-        for (const data of versions) {
+        const sortedVersions = versions.slice().sort(({ date: a }, { date: b }) => a > b ? 1 : a < b ? -1 : 0)
+        for (const data of sortedVersions) {
             const row = document.createElement('tr')
 
             const idCell = document.createElement('td')
