@@ -47,7 +47,7 @@
     inputQuery.value = searchQuery
 
     let searchRows = !searchQuery ? rows : rows.filter(function (row) {
-        const field = searchField ? row[searchFieldIndex] : row.join('\u001D')
+        const field = searchField !== '' && searchField !== '*' ? row[searchFieldIndex] : row.join('\u001D')
         return field.toLowerCase().includes(searchQuery.toLowerCase())
     })
 
