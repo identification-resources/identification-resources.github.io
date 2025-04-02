@@ -5,6 +5,7 @@
         <title>Taxon — Library of Identification Resources</title>
 
         <link rel="stylesheet" href="/assets/css/main.css">
+        <link rel="stylesheet" href="/assets/css/visualizations.css">
         <link rel="shortcut icon" href="/assets/img/logo_124.png">
 
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -63,10 +64,28 @@
                         </table>
                     </div>
 
-                    <p style="color: #989d89;">
-                        Above data from the <a href="https://www.gbif.org/dataset/d7dddbf4-2cf0-4f39-9b2a-bb099caae36c">GBIF Backbone Taxonomy</a>,
-                        licensed under <a href="http://creativecommons.org/licenses/by/4.0/legalcode">CC BY 4.0</a>.
-                    </p>
+                    <p id="data-source" style="color: #989d89;"></p>
+                </section>
+
+                <section>
+                    <h3>Children</h3>
+
+                    <div id="children-graph" class="table" style="margin: 2em 0;"></div>
+
+                    <details>
+                        <summary>All children</summary>
+
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Count</th>
+                                </tr>
+                            </thead>
+                            <tbody id="children">
+                            </tbody>
+                        </table>
+                    </detials>
                 </section>
 
                 <section>
@@ -84,9 +103,27 @@
                         </tbody>
                     </table>
                 </section>
+
+                <section>
+                    <h3>Resources for this taxon</h3>
+                    <p>This does not include resources associated with higher taxonomic groups that could potentially include this taxon (instead see <a href="#refs">References</a> above), nor resources for specific subtaxa.</p>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Publication</th>
+                                <th>Region</th>
+                            </tr>
+                        </thead>
+                        <tbody id="resources">
+                        </tbody>
+                    </table>
+                </section>
             </article>
         </main>
 
+        <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
         <script src="/assets/js/shared.js" charset="utf-8"></script>
         <script src="/assets/js/taxon.js" charset="utf-8"></script>
 

@@ -58,7 +58,10 @@
         }
     }
 
-    document.getElementById('taxon_scope').textContent = data.taxon
+    document.getElementById('taxon_scope').append(...formatLinkedList(
+        data.taxon,
+        taxon => `/taxonomy/taxon/?name=${taxon}`
+    ))
     if (data.taxon_scope || data.scope) {
         const scope = [data.taxon_scope, data.scope.split('; ').join(', ')].filter(Boolean).join('; ')
         document.getElementById('taxon_scope').append(` (${scope})`)
