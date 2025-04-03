@@ -59,6 +59,7 @@
     for (const rank in gbifRanks) {
       if (gbifRanks[rank] && data[rank]) {
         ancestors.push({
+          source: 'gbif',
           gbif: data[rank + 'Key'],
           name: data[rank],
           rank
@@ -187,7 +188,7 @@
 
       const parentIndex = ancestors.indexOf(parentTaxon.gbif)
       if ((ancestors.length && parentIndex === ancestors.length - 1) || parentTaxon.children.includes(taxon.gbif)) {
-        const key = taxon.gbif ?? taxonName
+        const key = taxon.gbif || taxonName
         if (!children[key]) {
           children[key] = taxon
         }
@@ -207,6 +208,7 @@
 
     for (const data of await Promise.all(Array.from(gbifChildren).map(fetchTaxon))) {
       children[data.key] = {
+        source: 'gbif',
         name: data.scientificName,
         rank: data.rank.toLowerCase(),
         gbif: data.key
@@ -215,25 +217,29 @@
 
     for (const child in children) {
       const taxon = children[child]
-      taxon.works = []
+      const works = new Set()
 
       if (taxon.children_gbif) {
         for (const descendant of taxon.children_gbif.split('; ')) {
           for (const work of gbifIndexCatalog[descendant] ?? []) {
-            if (!taxon.works.includes(work)) {
-              taxon.works.push(work)
-            }
+            works.add(work)
           }
         }
       }
 
       if (taxon.gbif) {
         for (const work of gbifIndexCatalog[taxon.gbif]) {
-          if (!taxon.works.includes(work)) {
-            taxon.works.push(work)
-          }
+          works.add(work)
         }
       }
+
+      if (taxonIndexCatalog[taxon.name]) {
+        for (const work of taxonIndexCatalog[taxon.name]) {
+          works.add(work)
+        }
+      }
+
+      taxon.works = Array.from(works)
     }
 
     return Object.values(children).sort((a, b) => b.works.length - a.works.length)
@@ -249,7 +255,7 @@
   }
 
   function makeTaxonLink (taxon) {
-    if (taxon.gbif && !taxon.children_gbif) {
+    if (taxon.source === 'gbif') {
       return `/taxonomy/taxon/?gbif=${taxon.gbif}`
     } else {
       return `/taxonomy/taxon/?name=${taxon.name}`
@@ -358,7 +364,7 @@
     {
       const sliceCount = 11
 
-      const chartData = topChildren/*.filter(child => gbifRanks[child.rank])*/.slice(0, sliceCount)
+      const chartData = topChildren.slice(0, sliceCount)
 
       const color = d3.scaleOrdinal()
         .domain(chartData.map(d => d.name))
@@ -443,8 +449,8 @@
   }
 
   // References
-  if (gbifIndex[taxon.acceptedGbif ?? taxon.gbif]) {
-    const mentions = gbifIndex[taxon.acceptedGbif ?? taxon.gbif]
+  if (gbifIndex[taxon.acceptedGbif || taxon.gbif]) {
+    const mentions = gbifIndex[taxon.acceptedGbif || taxon.gbif]
     const keyIds = mentions.map(mention => mention.replace(/:\d+$/, ''))
     const keys = (await Promise.all(
       keyIds.filter((v, i, a) => a.indexOf(v) === i).map(id => loadKey(id))
