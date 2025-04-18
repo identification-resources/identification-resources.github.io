@@ -1,8 +1,20 @@
 (async function () {
-    const [headers, ...rows] = await loadCatalog()
-    const places = await indexCsv('/assets/data/places.csv', 'name')
+    const places = await indexCsv('/assets/data/places.csv', 'id')
+
     const search = new URLSearchParams(window.location.search)
-    const name = search.get('name')
+    if (search.has('name')) {
+        const name = search.get('name')
+        const place = Object.values(places).find(place => place.name.split('; ').includes(name))
+        if (place) {
+            search.delete('name')
+            search.set('id', place.id)
+            window.location.replace(window.location.pathname + '?' + search.toString() + window.location.hash)
+        }
+    }
+
+    const id = search.get('id')
+
+    const [headers, ...rows] = await loadCatalog()
 
     const all = {}
     const parts = []
@@ -13,7 +25,7 @@
             data[headers[index]] = value
         }
 
-        if (data.region.split('; ').includes(name)) {
+        if (data.region.split('; ').includes(places[id].name)) {
             parts.push(data)
         }
 
@@ -22,11 +34,20 @@
 
     parts.sort((a, b) => a.date ? b.date ? parseInt(b.date) - parseInt(a.date) : -1 : 0)
 
-    document.querySelector('head title').textContent = (places[name].display_name || name) + ' — Library of Identification Resources'
-    document.getElementById('mainTitle').textContent = places[name].display_name || name
+    document.querySelector('head title').textContent = places[id].display_name + ' — Library of Identification Resources'
+    document.getElementById('mainTitle').textContent = places[id].display_name
 
     {
-        const qid = places[name].qid
+        const purl = `https://purl.org/identification-resources/place/${id}`
+        const permalink = document.createElement('a')
+        permalink.setAttribute('href', purl)
+        permalink.innerHTML = octicons.persistent_url
+        permalink.append(' ' + purl)
+        document.getElementById('permalink').append(permalink)
+    }
+
+    {
+        const qid = places[id].qid
 
         const wikidata = document.createElement('a')
         wikidata.setAttribute('href', `http://www.wikidata.org/entity/${qid}`)
@@ -43,7 +64,7 @@
 
     {
         const a = document.createElement('a')
-        const url = `/catalog/?field=region&query=${name}`
+        const url = `/catalog/?field=region&query=${places[id].name}`
         a.setAttribute('href', url)
         a.textContent = 'View all'
         document.getElementById('search').append(a)

@@ -1,5 +1,5 @@
 (async function () {
-  const taxa = await indexCsv('/assets/data/taxa.csv', 'name')
+  const taxa = await indexCsv('/assets/data/taxa.csv', 'id')
 
   async function fetchJson (url) {
     const response = await fetch(url)
@@ -79,6 +79,7 @@
 
     return {
       source: 'gbif',
+      id: null,
       gbif: data.key.toString(),
       qid: `P846:${data.key}`,
       name: data.scientificName,
@@ -98,19 +99,20 @@
     return { name, citation }
   }
 
-  async function getTaxonFromLoir (taxonName) {
-    const data = taxa[taxonName]
+  async function getTaxonFromLoir (id) {
+    const data = taxa[id]
 
     if (!data) {
-      throw new Error(`Taxon "${taxonName}" not found`)
+      throw new Error(`Taxon "${id}" not found`)
     }
 
-    const parsedName = parseTaxonName(taxonName)
+    const parsedName = parseTaxonName(data.name)
     const taxon = {
       source: 'loir',
+      id: data.id,
       gbif: data.gbif,
       qid: data.qid,
-      name: taxonName,
+      name: data.name,
       canonicalName: parsedName.name,
       authorship: parsedName.citation,
       rank: data.rank
@@ -141,17 +143,42 @@
     return taxon
   }
 
+  function redirectToTaxon (id) {
+    const search = new URLSearchParams(window.location.search)
+    if (search.has('gbif')) {
+      search.delete('gbif')
+    }
+    if (search.has('name')) {
+      search.delete('name')
+    }
+    search.set('id', id)
+    window.location.replace(window.location.pathname + '?' + search.toString() + window.location.hash)
+  }
+
   async function getTaxon () {
     const search = new URLSearchParams(window.location.search)
+
     let taxon
 
-    if (search.has('gbif')) {
-      taxon = await getTaxonFromGbif(search.get('gbif'))
-      document.getElementById('data-source').innerHTML = `
-        Above data from the <a href="https://www.gbif.org/dataset/d7dddbf4-2cf0-4f39-9b2a-bb099caae36c">GBIF Backbone Taxonomy</a>,
-        licensed under <a href="http://creativecommons.org/licenses/by/4.0/legalcode">CC BY 4.0</a>.`
+    if (search.has('name')) {
+      const name = search.get('name')
+      const localTaxon = Object.values(taxa).find(taxon => taxon.name === name)
+      if (localTaxon) {
+        redirectToTaxon(localTaxon.id)
+      }
+    } else if (search.has('gbif')) {
+      const gbif = search.get('gbif')
+      const localTaxon = Object.values(taxa).find(taxon => taxon.gbif === gbif)
+      if (localTaxon) {
+        redirectToTaxon(localTaxon.id)
+      } else {
+        taxon = await getTaxonFromGbif(gbif)
+        document.getElementById('data-source').innerHTML = `
+          Above data from the <a href="https://www.gbif.org/dataset/d7dddbf4-2cf0-4f39-9b2a-bb099caae36c">GBIF Backbone Taxonomy</a>,
+          licensed under <a href="http://creativecommons.org/licenses/by/4.0/legalcode">CC BY 4.0</a>.`
+      }
     } else {
-      taxon = await getTaxonFromLoir(search.get('name'))
+      taxon = await getTaxonFromLoir(search.get('id'))
     }
 
     return taxon
@@ -182,13 +209,13 @@
     const gbifIndexCatalog = {}
     const gbifChildren = new Set()
 
-    for (const taxonName in taxa) {
-      const taxon = taxa[taxonName]
+    for (const id in taxa) {
+      const taxon = taxa[id]
       const ancestors = taxon.ancestors_gbif ? taxon.ancestors_gbif.split('; ') : []
 
       const parentIndex = ancestors.indexOf(parentTaxon.gbif)
       if ((ancestors.length && parentIndex === ancestors.length - 1) || parentTaxon.children.includes(taxon.gbif)) {
-        const key = taxon.gbif || taxonName
+        const key = taxon.gbif || taxon.name
         if (!children[key]) {
           children[key] = taxon
         }
@@ -201,7 +228,7 @@
       }
 
       for (const ancestor of ancestors) {
-        const works = taxonIndexCatalog[taxonName] ?? []
+        const works = taxonIndexCatalog[taxon.name] ?? []
         addToIndex(gbifIndexCatalog, ancestor, ...works)
       }
     }
@@ -282,6 +309,15 @@
       a.append(formatTaxonName(name, authorship, taxon.rank))
       element.append(' of ', a)
     }
+  }
+
+  if (taxon.id) {
+    const purl = `https://purl.org/identification-resources/taxon/${taxon.id}`
+    const permalink = document.createElement('a')
+    permalink.setAttribute('href', purl)
+    permalink.innerHTML = octicons.persistent_url
+    permalink.append(' ' + purl)
+    document.getElementById('permalink').append(permalink)
   }
 
   if (taxon.gbif) {

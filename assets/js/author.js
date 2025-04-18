@@ -1,8 +1,21 @@
 (async function () {
-    const [headers, ...rows] = await loadCatalog()
-    const authors = await indexCsv('/assets/data/authors.csv', 'name')
+    const authors = await indexCsv('/assets/data/authors.csv', 'id')
+
     const search = new URLSearchParams(window.location.search)
-    const name = search.get('name')
+    if (search.has('name')) {
+        const name = search.get('name')
+        const author = Object.values(authors).find(author => author.name.split('; ').includes(name))
+        if (author) {
+            search.delete('name')
+            search.set('id', author.id)
+            window.location.replace(window.location.pathname + '?' + search.toString() + window.location.hash)
+        }
+    }
+
+    const id = search.get('id')
+    const names = authors[id].name.split('; ')
+
+    const [headers, ...rows] = await loadCatalog()
 
     const all = {}
     const parts = []
@@ -13,8 +26,11 @@
             data[headers[index]] = value
         }
 
-        if (data.author.split('; ').includes(name)) {
-            parts.push(data)
+        const authors = data.author.split('; ')
+        for (const author of authors) {
+            if (names.includes(author)) {
+                parts.push(data)
+            }
         }
 
         all[data.id] = data
@@ -26,20 +42,29 @@
         .flatMap(part => part.language.split('; '))
         .filter((v, i, a) => a.indexOf(v) === i)
 
-    document.querySelector('head title').textContent = (authors[name].main_full_name || name) + ' — Library of Identification Resources'
-    document.getElementById('mainTitle').textContent = authors[name].main_full_name || name
+    document.querySelector('head title').textContent = authors[id].display_name + ' — Library of Identification Resources'
+    document.getElementById('mainTitle').textContent = authors[id].display_name
 
-    if (authors[name].full_names) {
+    if (authors[id].full_names) {
         const element = document.getElementById('title')
-        for (const longName of authors[name].full_names.split('; ')) {
+        for (const longName of authors[id].full_names.split('; ')) {
             const p = document.createElement('p')
             p.textContent = longName
             element.appendChild(p)
         }
     }
 
-    if (authors[name].qid) {
-        const qid = authors[name].qid
+    {
+        const purl = `https://purl.org/identification-resources/author/${id}`
+        const permalink = document.createElement('a')
+        permalink.setAttribute('href', purl)
+        permalink.innerHTML = octicons.persistent_url
+        permalink.append(' ' + purl)
+        document.getElementById('permalink').append(permalink)
+    }
+
+    if (authors[id].qid) {
+        const qid = authors[id].qid
 
         const wikidata = document.createElement('a')
         wikidata.setAttribute('href', `http://www.wikidata.org/entity/${qid}`)
@@ -63,9 +88,10 @@
         }
     }
 
-    {
+    // TODO improve search
+    if (names.length === 1) {
         const a = document.createElement('a')
-        const url = `/catalog/?field=author&query=${name}`
+        const url = `/catalog/?field=author&query=${names[0]}`
         a.setAttribute('href', url)
         a.textContent = 'View all'
         document.getElementById('search').append(a)

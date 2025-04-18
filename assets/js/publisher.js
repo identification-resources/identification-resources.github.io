@@ -1,8 +1,21 @@
 (async function () {
-    const [headers, ...rows] = await loadCatalog()
-    const publishers = await indexCsv('/assets/data/publishers.csv', 'name')
+    const publishers = await indexCsv('/assets/data/publishers.csv', 'id')
+
     const search = new URLSearchParams(window.location.search)
-    const name = search.get('name')
+    if (search.has('name')) {
+        const name = search.get('name')
+        const publisher = Object.values(publishers).find(publisher => publisher.name.split('; ').includes(name))
+        if (publisher) {
+            search.delete('name')
+            search.set('id', publisher.id)
+            window.location.replace(window.location.pathname + '?' + search.toString() + window.location.hash)
+        }
+    }
+
+    const id = search.get('id')
+    const names = authors[id].name.split('; ')
+
+    const [headers, ...rows] = await loadCatalog()
 
     const all = {}
     const parts = []
@@ -13,8 +26,11 @@
             data[headers[index]] = value
         }
 
-        if (data.publisher.split('; ').includes(name)) {
-            parts.push(data)
+        const publishers = data.publisher.split('; ')
+        for (const publisher of publishers) {
+            if (names.includes(publisher)) {
+                parts.push(data)
+            }
         }
 
         all[data.id] = data
@@ -22,20 +38,29 @@
 
     parts.sort((a, b) => a.date ? b.date ? parseInt(b.date) - parseInt(a.date) : -1 : 0)
 
-    document.querySelector('head title').textContent = (publishers[name].full_name || name) + ' — Library of Identification Resources'
-    document.getElementById('mainTitle').textContent = publishers[name].full_name || name
+    document.querySelector('head title').textContent = publishers[id].display_name + ' — Library of Identification Resources'
+    document.getElementById('mainTitle').textContent = publishers[id].display_name
 
     {
         const element = document.getElementById('title')
-        for (const longName of publishers[name].long_name.split('; ')) {
+        for (const name of publishers[id].full_names.split('; ')) {
             const p = document.createElement('p')
-            p.textContent = longName
+            p.textContent = name
             element.appendChild(p)
         }
     }
 
-    if (publishers[name].qid) {
-        const qid = publishers[name].qid
+    {
+        const purl = `https://purl.org/identification-resources/publisher/${id}`
+        const permalink = document.createElement('a')
+        permalink.setAttribute('href', purl)
+        permalink.innerHTML = octicons.persistent_url
+        permalink.append(' ' + purl)
+        document.getElementById('permalink').append(permalink)
+    }
+
+    if (publishers[id].qid) {
+        const qid = publishers[id].qid
 
         const wikidata = document.createElement('a')
         wikidata.setAttribute('href', `http://www.wikidata.org/entity/${qid}`)
@@ -50,9 +75,10 @@
         document.getElementById('scholia').append(scholia)
     }
 
-    {
+    // TODO improve search
+    if (names.length === 1) {
         const a = document.createElement('a')
-        const url = `/catalog/?field=publisher&query=${name}`
+        const url = `/catalog/?field=publisher&query=${names[0]}`
         a.setAttribute('href', url)
         a.textContent = 'View all'
         document.getElementById('search').append(a)

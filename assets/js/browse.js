@@ -1,10 +1,18 @@
 (async function () {
     const categories = {
         authors: async function () {
-            const authors = await indexCsv('/assets/data/authors.csv', 'name')
+            const authors = await indexCsv('/assets/data/authors.csv', 'id')
+            const authorNames = {}
+            for (const id in authors) {
+                for (const name of authors[id].name.split('; ')) {
+                    authorNames[name] = id
+                }
+            }
+
             for (const id in catalog) {
                 if (catalog[id].author) {
-                    for (const author of catalog[id].author.split('; ')) {
+                    for (const name of catalog[id].author.split('; ')) {
+                        const author = authorNames[name]
                         authors[author].works = authors[author].works || []
                         authors[author].works.push(catalog[id])
                     }
@@ -14,21 +22,21 @@
             return Object.values(authors).map(author => {
                 const entry = {}
 
-                entry._letter = author.name.split(/[ -]/g).pop().slice(0, 1).toUpperCase()
+                entry._name = author.display_name.split(/[ -]/g).pop().toUpperCase()
 
                 {
                     const a = document.createElement('a')
-                    a.textContent = author.name
-                    a.setAttribute('href', `/catalog/author/?name=${author.name}`)
+                    a.textContent = author.display_name
+                    a.setAttribute('href', `/catalog/author/?id=${author.id}`)
                     entry['Author'] = a
                 }
 
                 {
-                    entry['Name'] = author.main_full_name || author.name
+                    entry['Other names'] = author.full_names.split('; ').join(', ')
                 }
 
                 {
-                    entry['Other names'] = author.full_names
+                    entry['ID'] = author.id
                 }
 
                 if (author.qid) {
@@ -42,21 +50,25 @@
                 }
 
                 {
-                    const a = document.createElement('a')
-                    a.textContent = author.works.length
-                    a.setAttribute('href', `/catalog/?field=author&query=${author.name}`)
-                    a.setAttribute('style', 'text-align: right;')
-                    entry['Works'] = a
+                    entry['Works'] = author.works.length
                 }
 
                 return entry
             })
         },
         places: async function () {
-            const places = await indexCsv('/assets/data/places.csv', 'name')
+            const places = await indexCsv('/assets/data/places.csv', 'id')
+            const placeNames = {}
+            for (const id in places) {
+                for (const name of places[id].name.split('; ')) {
+                    placeNames[name] = id
+                }
+            }
+
             for (const id in catalog) {
                 if (catalog[id].region) {
-                    for (const place of catalog[id].region.split('; ')) {
+                    for (const name of catalog[id].region.split('; ')) {
+                        const place = placeNames[name]
                         places[place].works = places[place].works || []
                         places[place].works.push(catalog[id])
                     }
@@ -64,22 +76,25 @@
             }
 
             return Object.values(places)
-                .filter(place => !['?', '-'].includes(place.name))
+                .filter(place => !['G1', 'G2'].includes(place.id))
                 .map(place => {
                     const entry = {}
 
-                    entry._name = place.display_name || place.name
-                    entry._letter = entry._name.slice(0, 1).toUpperCase()
+                    entry._name = place.display_name.toUpperCase()
 
                     {
                         const a = document.createElement('a')
-                        a.textContent = entry._name
-                        a.setAttribute('href', `/catalog/place/?name=${place.name}`)
+                        a.textContent = place.display_name
+                        a.setAttribute('href', `/catalog/place/?id=${place.id}`)
                         entry['Place'] = a
                     }
 
                     {
                         entry['Located in'] = place.name.split(', ').slice(0, -1).join(' > ')
+                    }
+
+                    {
+                        entry['ID'] = place.id
                     }
 
                     if (place.qid) {
@@ -93,22 +108,25 @@
                     }
 
                     {
-                        const a = document.createElement('a')
-                        a.textContent = place.works.length
-                        a.setAttribute('href', `/catalog/?field=place&query=${place.name}`)
-                        a.setAttribute('style', 'text-align: right;')
-                        entry['Works'] = a
+                        entry['Works'] = place.works.length
                     }
 
                     return entry
                 })
-                .sort(({ _name: a }, { _name: b }) => a < b ? -1 : a > b ? 1 : 0)
         },
         publishers: async function () {
-            const publishers = await indexCsv('/assets/data/publishers.csv', 'name')
+            const publishers = await indexCsv('/assets/data/publishers.csv', 'id')
+            const publisherNames = {}
+            for (const id in publishers) {
+                for (const name of publishers[id].name.split('; ')) {
+                    publisherNames[name] = id
+                }
+            }
+
             for (const id in catalog) {
                 if (catalog[id].publisher) {
-                    for (const publisher of catalog[id].publisher.split('; ')) {
+                    for (const name of catalog[id].publisher.split('; ')) {
+                        const publisher = publisherNames[name] ?? 'P1'
                         publishers[publisher].works = publishers[publisher].works || []
                         publishers[publisher].works.push(catalog[id])
                     }
@@ -119,22 +137,21 @@
                 .map(publisher => {
                     const entry = {}
 
-                    entry._sortName = publisher.name.toUpperCase()
-                    entry._letter = entry._sortName.slice(0, 1)
+                    entry._name = publisher.display_name.toUpperCase()
 
                     {
                         const a = document.createElement('a')
-                        a.textContent = publisher.name
-                        a.setAttribute('href', `/catalog/publisher/?name=${publisher.name}`)
+                        a.textContent = publisher.display_name
+                        a.setAttribute('href', `/catalog/publisher/?id=${publisher.id}`)
                         entry['Publisher'] = a
                     }
 
                     {
-                        entry['Name'] = publisher.full_name || publisher.name
+                        entry['Other names'] = publisher.full_names.split('; ').join(', ')
                     }
 
                     {
-                        entry['Other name'] = publisher.long_name
+                        entry['ID'] = publisher.id
                     }
 
                     if (publisher.qid) {
@@ -148,16 +165,11 @@
                     }
 
                     {
-                        const a = document.createElement('a')
-                        a.textContent = publisher.works.length
-                        a.setAttribute('href', `/catalog/?field=publisher&query=${publisher.name}`)
-                        a.setAttribute('style', 'text-align: right;')
-                        entry['Works'] = a
+                        entry['Works'] = (publisher.works||[]).length
                     }
 
                     return entry
                 })
-                .sort(({ _sortName: a }, { _sortName: b }) => a < b ? -1 : a > b ? 1 : 0)
         },
         series: async function () {
             const series = {}
@@ -179,8 +191,7 @@
                 .map(series => {
                     const entry = {}
 
-                    entry._sortName = series.name.toUpperCase()
-                    entry._letter = entry._sortName.slice(0, 1)
+                    entry._name = series.name.toUpperCase()
 
                     if (series.ISSN) {
                         const a = document.createElement('a')
@@ -205,7 +216,6 @@
 
                     return entry
                 })
-                .sort(({ _sortName: a }, { _sortName: b }) => a < b ? -1 : a > b ? 1 : 0)
         }
     }
 
@@ -226,6 +236,8 @@
     const catalog = await indexCsv('/assets/data/catalog.csv', 'id')
 
     const entries = await categories[category].call()
+    entries.forEach(entry => { entry._letter = entry._name[0] })
+    entries.sort(({ _name: a }, { _name: b }) => a === b ? 0 : a > b ? 1 : -1)
 
     // Letters
     {

@@ -205,7 +205,7 @@
     {
         const purl = `https://purl.org/identification-resources/catalog/${data.id}`
         const a = document.createElement('a')
-        a.setAttribute('href', `https://purl.org/identification-resources/catalog/${data.id}`)
+        a.setAttribute('href', purl)
         a.innerHTML = octicons.persistent_url
         a.append(' ' + purl)
         document.getElementById('permalink').append(a)
