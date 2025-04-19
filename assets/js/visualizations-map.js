@@ -19,7 +19,7 @@ async function getPlaces (places) {
 }
 
 function makePopup (place) {
-    return `<a href="/catalog/place/?name=${place.name}">${place.display_name
+    return `<a href="/catalog/place/?id=${place.id}">${place.display_name
  || place.name}</a><br>
 ${place.count} resource${place.count !== 1 ? 's' : ''}`
 }

@@ -285,7 +285,7 @@
     if (taxon.source === 'gbif') {
       return `/taxonomy/taxon/?gbif=${taxon.gbif}`
     } else {
-      return `/taxonomy/taxon/?name=${taxon.name}`
+      return `/taxonomy/taxon/?id=${taxon.id}`
     }
   }
 
@@ -389,6 +389,10 @@
       nameCell.append(nameLink)
       row.append(nameCell)
 
+      const rankCell = document.createElement('td')
+      rankCell.textContent = taxon.rank
+      row.append(rankCell)
+
       const countCell = document.createElement('td')
       countCell.textContent = taxon.works.length
       row.appendChild(countCell)
@@ -397,10 +401,11 @@
     }
 
     // Pie chart
-    {
+    const strictChildren = topChildren.filter(child => gbifRanks[child.rank])
+    if (strictChildren.length) {
       const sliceCount = 11
 
-      const chartData = topChildren.slice(0, sliceCount)
+      const chartData = strictChildren.slice(0, sliceCount)
 
       const color = d3.scaleOrdinal()
         .domain(chartData.map(d => d.name))
@@ -479,6 +484,9 @@
       const legendBBox = legend.node().getBBox()
       legend.attr('transform', `translate(${HEIGHT + GAP_SIZE},${(HEIGHT - legendBBox.height) / 2})`)
       svg.attr('width', HEIGHT + GAP_SIZE + legendBBox.width)
+    } else {
+      document.getElementById('children-graph').remove()
+      document.getElementById('children').closest('details').open = true
     }
   } else {
     document.getElementById('children').closest('section').remove()
