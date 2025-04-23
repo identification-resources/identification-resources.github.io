@@ -191,6 +191,11 @@ function formatLinkedList (list, makeUrl) {
     return nodes
 }
 
+function parseTaxonName (taxon) {
+    const [name, authorship] = taxon.match(/^([A-Z]\S*(?: [a-z]\S*){0,2})(?: (.+))?$/).slice(1)
+    return { name, authorship }
+}
+
 function formatTaxonName (name, authorship, rank) {
     const fragment = document.createDocumentFragment()
 

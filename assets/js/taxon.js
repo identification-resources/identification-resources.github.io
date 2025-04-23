@@ -94,11 +94,6 @@
     }
   }
 
-  function parseTaxonName (taxon) {
-    const [name, citation] = taxon.match(/^([A-Z]\S*(?: [a-z]\S*){0,2})(?: (.+))?$/).slice(1)
-    return { name, citation }
-  }
-
   async function getTaxonFromLoir (id) {
     const data = taxa[id]
 
@@ -106,15 +101,15 @@
       throw new Error(`Taxon "${id}" not found`)
     }
 
-    const parsedName = parseTaxonName(data.name)
+    const { name, authorship } = parseTaxonName(data.name)
     const taxon = {
       source: 'loir',
       id: data.id,
       gbif: data.gbif,
       qid: data.qid,
       name: data.name,
-      canonicalName: parsedName.name,
-      authorship: parsedName.citation,
+      canonicalName: name,
+      authorship: authorship,
       rank: data.rank
       // taxonomicStatus: no
       // acceptedGbif: no
@@ -303,7 +298,7 @@
     a.textContent = taxon.taxonomicStatus.replace(/_/g, ' ')
     element.appendChild(a)
     if (taxon.acceptedTaxon) {
-      const [name, authorship] = parseTaxonName(taxon.acceptedTaxon)
+      const { name, authorship } = parseTaxonName(taxon.acceptedTaxon)
       const a = document.createElement('a')
       a.setAttribute('href', `/taxonomy/taxon/?gbif=${taxon.gbifAccepted}`)
       a.append(formatTaxonName(name, authorship, taxon.rank))
