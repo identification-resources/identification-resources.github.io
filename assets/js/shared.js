@@ -154,11 +154,7 @@ async function loadKey (id) {
     const metadata = (await loadKeys())[id]
 
     const fileId = id.split(':').join('-')
-    const [header, ...rows] = await loadCsv(`/assets/data/resources/dwc/${fileId}.csv`, 'taxonID')
-    const taxa = rows.reduce((taxa, row) => {
-        taxa[row[0]] = { data: row }
-        return taxa
-    }, {})
+    const taxa = await indexCsv(`/assets/data/resources/dwc/${fileId}.csv`, 'scientificNameID')
 
     return { metadata, taxa }
 }
@@ -193,6 +189,13 @@ function formatLinkedList (list, makeUrl) {
 
 function parseTaxonName (taxon) {
     const [name, authorship] = taxon.match(/^([A-Z]\S*(?: [a-z]\S*){0,2})(?: (.+))?$/).slice(1)
+    return { name, authorship }
+}
+
+function parseResourceTaxonName (taxon) {
+    const authorship = taxon.scientificNameAuthorship
+    const name = authorship ? taxon.scientificName.slice(0, -1 - authorship.length) : taxon.scientificName
+
     return { name, authorship }
 }
 

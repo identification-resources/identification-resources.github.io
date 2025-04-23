@@ -504,19 +504,18 @@
       const taxon = key.taxa[mention]
       const work = catalog[mention.split(':')[0]]
 
-      const authorship = taxon.data[2]
-      const name = authorship ? taxon.data[1].slice(0, -(1 + authorship.length)) : taxon.data[1]
+      const { name, authorship } = parseResourceTaxonName(taxon)
 
       const nameCell = document.createElement('td')
       const nameLink = document.createElement('a')
       nameLink.setAttribute('href', `/catalog/resource/?id=${key.metadata.id}#${mention}`)
       nameLink.setAttribute('style', 'white-space: pre;')
-      nameLink.append(formatTaxonName(name, authorship, taxon.data[7]))
+      nameLink.append(formatTaxonName(name, authorship, taxon.taxonRank))
       nameCell.append(nameLink)
       row.append(nameCell)
 
       const status = document.createElement('td')
-      status.textContent = taxon.data[10]
+      status.textContent = taxon.taxonomicStatus
       row.append(status)
 
       const resourceCell = document.createElement('td')

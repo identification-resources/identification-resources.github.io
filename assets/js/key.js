@@ -84,46 +84,16 @@
 
     // Taxa
     {
-        // 0,scientificNameID
-        // 1,scientificName
-        // 2,scientificNameAuthorship
-        // 3,genericName
-        // 4,infragenericEpithet
-        // 5,specificEpithet
-        // 6,infraspecificEpithet
-        // 7,taxonRank
-        // 8,taxonRemarks
-        // 9,collectionCode
-        // 10,taxonomicStatus
-        // 11,acceptedNameUsageID
-        // 12,acceptedNameUsage
-        // 13,parentNameUsageID
-        // 14,parentNameUsage
-        // 15,kingdom
-        // 16,phylum
-        // 17,class
-        // 18,order
-        // 19,family
-        // 20,subfamily
-        // 21,genus
-        // 22,subgenus
-        // 23,higherClassification
-        // 24,verbatimIdentification
-        // 25,colTaxonID
-        // 26,gbifTaxonID
-        // 27,colAcceptedTaxonID
-        // 28,gbifAcceptedTaxonID
-
         const roots = []
 
         for (const id in key.taxa) {
             const taxon = key.taxa[id]
-            if (taxon.data[13]) {
-                const parent = key.taxa[taxon.data[13]]
+            if (taxon.parentNameUsageID) {
+                const parent = key.taxa[taxon.parentNameUsageID]
                 if (!parent.children) { parent.children = [] }
                 parent.children.push(taxon)
-            } else if (taxon.data[11]) {
-                const parent = key.taxa[taxon.data[11]]
+            } else if (taxon.acceptedNameUsageID) {
+                const parent = key.taxa[taxon.acceptedNameUsageID]
                 if (!parent.synonyms) { parent.synonyms = [] }
                 parent.synonyms.push(taxon)
             } else {
@@ -135,21 +105,20 @@
             const fragment = document.createDocumentFragment()
 
             {
-                let authorship = taxon.data[2]
-                let name = authorship ? taxon.data[1].slice(0, -(1 + authorship.length)) : taxon.data[1]
+                const { name, authorship } = parseResourceTaxonName(taxon)
 
-                if (['genus', 'subgenus', 'species'].includes(taxon.data[7])) {
+                if (['genus', 'subgenus', 'species'].includes(taxon.taxonRank)) {
                     const i = document.createElement('i')
                     i.textContent = name
                     fragment.append(i)
-                } else if ('group' === taxon.data[7]) {
+                } else if ('group' === taxon.taxonRank) {
                     const parts = name.match(/^(.+?)((-group)?)$/)
                     const i = document.createElement('i')
                     i.textContent = parts[1]
                     fragment.append(i)
                     fragment.append(parts[2])
-                } else if (['subspecies', 'variety', 'form', 'race', 'stirps', 'aberration'].includes(taxon.data[7])) {
-                    const parts = name.match(new RegExp(`^(${taxon.data[3]} ${taxon.data[5]})(.+)(${taxon.data[6]})$`))
+                } else if (['subspecies', 'variety', 'form', 'race', 'stirps', 'aberration'].includes(taxon.taxonRank)) {
+                    const parts = name.match(new RegExp(`^(${taxon.genericName} ${taxon.specificEpithet})(.+)(${taxon.infraspecificEpithet})$`))
                     const start = document.createElement('i')
                     start.textContent = parts[1]
                     fragment.append(start)
@@ -165,32 +134,32 @@
 
                 const span = document.createElement('span')
                 span.setAttribute('style', 'color: grey;')
-                span.textContent = taxon.data[7]
+                span.textContent = taxon.taxonRank
                 fragment.append(span)
             }
 
             {
                 const a = document.createElement('a')
-                a.setAttribute('href', `/catalog/resource/?id=${id}#${taxon.data[0]}`)
-                a.setAttribute('name', taxon.data[0])
+                a.setAttribute('href', `/catalog/resource/?id=${id}#${taxon.scientificNameID}`)
+                a.setAttribute('name', taxon.scientificNameID)
                 a.innerHTML = octicons.persistent_url
                 fragment.append(' ')
                 fragment.appendChild(a)
             }
 
             // Taxon info page
-            if (taxon.data[26]) {
+            if (taxon.gbifTaxonID) {
                 const a = document.createElement('a')
-                a.setAttribute('href', `/taxonomy/taxon/?gbif=${taxon.data[26]}`)
+                a.setAttribute('href', `/taxonomy/taxon/?gbif=${taxon.gbifTaxonID}`)
                 a.innerHTML = octicons.info
                 fragment.append(' ')
                 fragment.appendChild(a)
             }
 
-            // gbif id
-            if (taxon.data[26]) {
+            // GBIF link
+            if (taxon.gbifTaxonID) {
                 const a = document.createElement('a')
-                a.setAttribute('href', `https://gbif.org/species/${taxon.data[26]}`)
+                a.setAttribute('href', `https://gbif.org/species/${taxon.gbifTaxonID}`)
                 const img = document.createElement('img')
                 img.setAttribute('src', '/assets/img/gbif-mark-green-logo.png')
                 img.setAttribute('width', 16)
@@ -238,7 +207,6 @@
 
             return li
         }
-        console.log(roots)
 
         const section = document.getElementById('taxa_section')
         {
