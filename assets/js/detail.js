@@ -310,6 +310,8 @@
                 return 'chapter'
             }
             return 'article-journal'
+        } else if (data.key_type.split('; ').includes('algorithm')) {
+            return 'software'
         } else if (data.entry_type === 'online') {
             return 'webpage'
         } else {
@@ -330,7 +332,9 @@
         ...(data.pages && data.pages.includes('-')
             ? { page: data.pages }
             : { 'number-of-pages': data.pages }),
-        edition: data.edition,
+        ...(data.key_type.split('; ').includes('algorithm')
+            ? { version: data.edition }
+            : { edition: data.edition }),
         ISBN: data.ISBN,
         DOI: data.DOI,
         ISSN: data.ISSN,
