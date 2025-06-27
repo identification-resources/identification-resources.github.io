@@ -67,7 +67,8 @@ const fieldLabels = {
 const flagLabels = {
     MISSING_TAXA: 'Not all taxa named in the resource have yet been added to this list',
     MISSING_PARENT_TAXA: 'Not all parent taxa named in the resource have yet been added to this list',
-    MISSING_SYNONYMS: 'Not all synonyms named in the resource have yet been added to this list'
+    MISSING_SYNONYMS: 'Not all synonyms named in the resource have yet been added to this list',
+    MISSING_AUTHORSHIP: 'Not all taxa named in the resource have their reported authorship yet in this list'
 }
 
 async function loadCsv (url) {
