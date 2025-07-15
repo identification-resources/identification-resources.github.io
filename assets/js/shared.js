@@ -53,6 +53,7 @@ const fieldLabels = {
     scope: 'Scope',
     region: 'Region',
     complete: 'Completeness',
+    key_characteristics: 'Resource info',
     target_taxa: 'Taxon. level',
     listed_in: 'Referenced in',
     part_of: 'Part of',

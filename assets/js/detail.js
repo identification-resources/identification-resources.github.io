@@ -73,6 +73,7 @@
         author => `/catalog/place/?name=${author}`
     ))
     document.getElementById('complete').textContent = data.complete ? data.complete === 'TRUE' ? 'Yes' : 'No' : ''
+    document.getElementById('key_characteristics').textContent = data.key_characteristics
 
     // Bibliographical info
     if (data.entry_type) {

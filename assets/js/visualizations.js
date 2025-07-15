@@ -267,7 +267,7 @@ async function main () {
     // BY COLUMN
     {
         const _select = document.querySelector('#by_column select')
-        const options = ['language', 'license', 'key_type', 'entry_type', 'scope', 'target_taxa', 'complete']
+        const options = ['language', 'license', 'key_type', 'entry_type', 'scope', 'key_characteristics', 'target_taxa', 'complete']
         for (const key of options) {
             const _option = document.createElement('option')
             _option.setAttribute('value', key)
