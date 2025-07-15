@@ -13,7 +13,8 @@
     }
 
     const id = search.get('id')
-    const names = authors[id].name.split('; ')
+    const names = publishers[id].name.split('; ')
+
 
     const [headers, ...rows] = await loadCatalog()
 
