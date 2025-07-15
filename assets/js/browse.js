@@ -4,6 +4,11 @@
             const authors = await indexCsv('/assets/data/authors.csv', 'id')
             const authorNames = {}
             for (const id in authors) {
+                if (authors[id].duplicate_of) {
+                    delete authors[id]
+                    continue
+                }
+
                 for (const name of authors[id].name.split('; ')) {
                     authorNames[name] = id
                 }
@@ -60,6 +65,11 @@
             const places = await indexCsv('/assets/data/places.csv', 'id')
             const placeNames = {}
             for (const id in places) {
+                if (places[id].duplicate_of) {
+                    delete places[id]
+                    continue
+                }
+
                 for (const name of places[id].name.split('; ')) {
                     placeNames[name] = id
                 }
@@ -118,6 +128,11 @@
             const publishers = await indexCsv('/assets/data/publishers.csv', 'id')
             const publisherNames = {}
             for (const id in publishers) {
+                if (publishers[id].duplicate_of) {
+                    delete publishers[id]
+                    continue
+                }
+
                 for (const name of publishers[id].name.split('; ')) {
                     publisherNames[name] = id
                 }

@@ -14,6 +14,10 @@
 
     const id = search.get('id')
 
+    if (places[id].duplicate_of) {
+        window.location.href = '/catalog/place/?id=' + places[id].duplicate_of
+    }
+
     const [headers, ...rows] = await loadCatalog()
 
     const all = {}

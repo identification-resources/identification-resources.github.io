@@ -15,6 +15,9 @@
     const id = search.get('id')
     const names = publishers[id].name.split('; ')
 
+    if (publishers[id].duplicate_of) {
+        window.location.href = '/catalog/publisher/?id=' + publishers[id].duplicate_of
+    }
 
     const [headers, ...rows] = await loadCatalog()
 
