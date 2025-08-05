@@ -101,6 +101,10 @@ async function main () {
     places['South America'].totalCount = NaN
     places['Oceania'].totalCount = NaN
 
+    // Count without any
+    const placesWithoutMapData = rows.filter(row => row[placeColumn].split('; ').every(place => !places[place].geojson))
+    document.getElementById('rest_count').textContent = ` (${placesWithoutMapData.length} resources)`
+
     // Visualizations
     const colorScale = d3.scaleLinear([0, maxCount], [d3.interpolateRgb('#f2efe9', '#c4202a')(0.1), '#c4202a']).unknown('#ffffff')
 
