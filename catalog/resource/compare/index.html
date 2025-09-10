@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title>Compare resources — Library of Identification Resources</title>
+
+        <link rel="stylesheet" href="/assets/css/main.css">
+        <link rel="shortcut icon" href="/assets/img/logo_124.png">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <script>window.goatcounter={path:p=>location.host+p}</script>
+        <script data-goatcounter="https://larsgw.goatcounter.com/count" async src="//gc.zgo.at/count.v4.js" crossorigin="anonymous" integrity="sha384-nRw6qfbWyJha9LhsOtSb2YJDyZdKvvCFh0fJYlkquSFjUxp9FVNugbfy8q1jdxI+"></script>
+    </head>
+    <body>
+        <header class="small">
+            <a href="/">
+                <img id="logo" src="/assets/img/logo_512.png" alt="Logo: moth with spread, speckled black and red wings">
+            </a>
+
+            <h1>Library of Identification Resources</h1>
+
+            <nav>
+                <ul>
+                    <li><a href="/catalog">Catalog</a></li>
+                    <li><a href="/catalog/visualizations">Statistics</a></li>
+                    <li><a href="https://github.com/identification-resources">GitHub</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <article>
+                <header>
+                    <h2>Compare Resources</h2>
+                </header>
+
+                <section>
+                    <div class="table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>
+                                    <th>A</th>
+                                    <th>B</th>
+                                </tr>
+                            </thead>
+                            <tbody id="metadata">
+                                <tr>
+                                    <th>Work</th>
+                                    <td id="a_work"></td>
+                                    <td id="b_work"></td>
+                                </tr>
+                                <tr>
+                                    <th>Resource</th>
+                                    <td id="a_resource"></td>
+                                    <td id="b_resource"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Taxa</h3>
+
+                    <div id="flags">
+                    </div>
+
+                    <ul id="taxa_section"></ul>
+                    <style>
+                        #taxa_section { padding-left: 0; }
+                        #taxa_section, #taxa_section ul { list-style-type: none; }
+                        #taxa_section summary { margin-left: -17px; }
+
+                        ins { color: #008800; background-color: #88ff88; }
+                        del { color: #880000; background-color: #ff8888; }
+                    </style>
+                </section>
+            </article>
+        </main>
+
+        <script src="/assets/js/shared.js" charset="utf-8"></script>
+        <script src="/assets/js/key-compare.js" charset="utf-8"></script>
+    </body>
+</html>
