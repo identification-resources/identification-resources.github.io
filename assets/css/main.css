@@ -244,3 +244,20 @@ main > nav a[href][aria-current], main > nav a[href]:hover {
     border: 1px solid #c4202a;
     padding: 0.5em;
 }
+
+#taxa_section * {
+    scroll-margin-top: 5em;
+}
+
+#taxa_section li:has(> :target),
+#taxa_section li:has(> details > summary > :target) {
+    background: #ede5d2;
+    display: inline-block;
+    margin-left: -1em;
+    padding: 0 1em;
+}
+
+#taxa_section li:has(> details > summary > :target) {
+    margin-left: -2em;
+    padding-left: 2em;
+}
