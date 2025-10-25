@@ -573,7 +573,7 @@
   }
 
   const schemas = document.getElementById('schemas-org')
-  schemas.textContent = JSON.stringify({
+  const schemasData = {
     '@context': 'https://schema.org',
     '@type': 'TaxonName',
     'http://purl.org/dc/terms/conformsTo': {
@@ -582,7 +582,13 @@
     },
     name: taxon.name,
     url: location.origin + makeTaxonLink(taxon),
-    identifier: taxon.gbif,
-    sameAs: taxon.gbif ? `https://www.gbif.org/species/${taxon.gbif}` : undefined
-  }, null, 2)
+    identifier: []
+  }
+  if (taxon.id) {
+    schemasData.identifier.push({ '@id': `https://purl.org/identification-resources/taxon/${taxon.id}` })
+  }
+  if (taxon.gbif) {
+    schemasData.identifier.push({ '@id': `https://www.gbif.org/species/${taxon.gbif}` })
+  }
+  schemas.textContent = JSON.stringify(schemasData, null, 2)
 })().catch(console.error)
