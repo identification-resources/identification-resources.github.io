@@ -582,7 +582,7 @@
     },
     name: taxon.name,
     url: location.origin + makeTaxonLink(taxon),
-    identifier: taxon.gbif,
-    sameAs: taxon.gbif ? `https://www.gbif.org/species/${taxon.gbif}` : undefined
+    identifier: id,
+    sameAs: taxon.gbif ? `https://www.gbif.org/species/${id}` : undefined
   }, null, 2)
 })().catch(console.error)
