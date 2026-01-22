@@ -300,7 +300,7 @@
     if (taxon.acceptedTaxon) {
       const { name, authorship } = parseTaxonName(taxon.acceptedTaxon)
       const a = document.createElement('a')
-      a.setAttribute('href', `/taxonomy/taxon/?gbif=${taxon.gbifAccepted}`)
+      a.setAttribute('href', `/taxonomy/taxon/?gbif=${taxon.acceptedGbif}`)
       a.append(formatTaxonName(name, authorship, taxon.rank))
       element.append(' of ', a)
     }
