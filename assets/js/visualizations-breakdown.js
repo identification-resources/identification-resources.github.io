@@ -45,7 +45,7 @@ function getTaxonCategory (entry, taxa) {
         return 'Mollusca'
     } else if (commonAncestors.includes('216')) {
         return 'Insecta'
-    } else if (commonAncestors.includes('367')) {
+    } else if (commonAncestors.includes('54')) {
         return 'Other Arthropods'
     } else if (commonAncestors.includes('6')) {
         return 'Plantae'
