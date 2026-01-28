@@ -47,6 +47,8 @@ function getTaxonCategory (entry, taxa) {
         return 'Insecta'
     } else if (commonAncestors.includes('54')) {
         return 'Other Arthropods'
+    } else if (commonAncestors.includes('1')) {
+        return 'Other Animals'
     } else if (commonAncestors.includes('6')) {
         return 'Plantae'
     } else if (commonAncestors.includes('5')) {
