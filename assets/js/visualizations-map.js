@@ -46,16 +46,16 @@ async function main () {
     const [headers, ...rows] = await loadCatalog()
     const catalogPlaces = await indexCsv('/assets/data/places.csv', 'id')
     const places = {
-        'A-tmp-1': {
+        'TMP-1': {
             name: 'South America',
-            id: 'A-tmp-1',
+            id: 'TMP-1',
             qid: 'Q18',
             display_name: 'South America',
             count: 0
         },
-        'A-tmp-2': {
+        'TMP-2': {
             name: 'Oceania',
-            id: 'A-tmp-2',
+            id: 'TMP-2',
             qid: 'Q55643',
             display_name: 'Oceania',
             count: 0
@@ -100,8 +100,8 @@ async function main () {
         maxCount = Math.max(maxCount, inatMap[id].totalCount)
     }
 
-    places['South America'].totalCount = NaN
-    places['Oceania'].totalCount = NaN
+    places['TMP-1'].totalCount = NaN
+    places['TMP-2'].totalCount = NaN
 
     // Count without any
     const placesWithoutMapData = rows.filter(row => row[placeColumn].split('; ').every(place => !places[place].geojson))
@@ -129,7 +129,7 @@ async function main () {
         if (place.geojson) {
             layer.addData({
                 type: 'Feature',
-                properties: { name, count: place.count, totalCount: place.totalCount, popup },
+                properties: { name: place.display_name, count: place.count, totalCount: place.totalCount, popup },
                 geometry: place.geojson
             })
         } else {
