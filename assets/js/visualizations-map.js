@@ -1,7 +1,7 @@
 async function getPlaces (places) {
     const values = Object.values(places)
         .filter(place => place.qid)
-        .map(place => `(wd:${place.qid} "${place.name}")`)
+        .map(place => `(wd:${place.qid} "${place.id}")`)
         .join(' ')
 
     const query = `SELECT ?name ?id WHERE {
@@ -44,16 +44,18 @@ async function main () {
     })
 
     const [headers, ...rows] = await loadCatalog()
-    const catalogPlaces = await indexCsv('/assets/data/places.csv', 'name')
+    const catalogPlaces = await indexCsv('/assets/data/places.csv', 'id')
     const places = {
-        'South America': {
+        'A-tmp-1': {
             name: 'South America',
+            id: 'A-tmp-1',
             qid: 'Q18',
             display_name: 'South America',
             count: 0
         },
-        'Oceania': {
+        'A-tmp-2': {
             name: 'Oceania',
+            id: 'A-tmp-2',
             qid: 'Q55643',
             display_name: 'Oceania',
             count: 0
