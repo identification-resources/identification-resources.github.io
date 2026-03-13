@@ -44,16 +44,16 @@ async function main () {
     })
 
     const [headers, ...rows] = await loadCatalog()
-    const catalogPlaces = await indexCsv('/assets/data/places.csv', 'id')
+    const catalogPlaces = await indexCsv('/assets/data/places.csv', 'name')
     const places = {
-        'TMP-1': {
+        'South America': {
             name: 'South America',
             id: 'TMP-1',
             qid: 'Q18',
             display_name: 'South America',
             count: 0
         },
-        'TMP-2': {
+        'Oceania': {
             name: 'Oceania',
             id: 'TMP-2',
             qid: 'Q55643',
@@ -78,8 +78,9 @@ async function main () {
 
     const inatMap = {}
     for (const { name, id } of await getPlaces(places)) {
-        places[name.value].inatid = id.value
-        inatMap[id.value] = places[name.value]
+        const place = Object.values(places).find(place => place.id === name.value)
+        place.inatid = id.value
+        inatMap[id.value] = place
     }
 
     let maxCount = -Infinity
@@ -100,8 +101,8 @@ async function main () {
         maxCount = Math.max(maxCount, inatMap[id].totalCount)
     }
 
-    places['TMP-1'].totalCount = NaN
-    places['TMP-2'].totalCount = NaN
+    places['South America'].totalCount = NaN
+    places['Oceania'].totalCount = NaN
 
     // Count without any
     const placesWithoutMapData = rows.filter(row => row[placeColumn].split('; ').every(place => !places[place].geojson))
