@@ -162,6 +162,26 @@ async function loadKey (id) {
     return { metadata, taxa }
 }
 
+async function loadSettings () {
+    return new Promise(function (resolve, reject) {
+        const DBOpenRequest = window.indexedDB.open('settings', 1)
+        DBOpenRequest.onerror = () => reject(new Error('Error loading database'))
+        DBOpenRequest.onsuccess = () => resolve(DBOpenRequest.result)
+        DBOpenRequest.onupgradeneeded = (event) => {
+            const db = event.target.result
+
+            if (!db.objectStoreNames.contains('libraries')) {
+                const store = db.createObjectStore('libraries', { keyPath: ['libraryId', 'itemId'] })
+                store.createIndex('catalogId', 'catalogId')
+            }
+
+            if (!db.objectStoreNames.contains('settings')) {
+                db.createObjectStore('settings', { keyPath: 'key' })
+            }
+        }
+    })
+}
+
 function formatAuthors (value) {
     return formatLinkedList(value, author => `/catalog/author/?name=${author}`)
 }
