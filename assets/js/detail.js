@@ -99,14 +99,35 @@
         issn.innerHTML = octicons.external_url
         issn.prepend(data.ISSN + ' ')
         document.getElementById('series').append(series, ' (', issn, ')')
-    } else {
+    } else if (data.series) {
         document.getElementById('series').textContent = data.series
+    } else {
+        document.getElementById('series').parentElement.remove()
     }
 
-    document.getElementById('volume').textContent = data.volume
-    document.getElementById('issue').textContent = data.issue
-    document.getElementById('pages').textContent = data.pages
-    document.getElementById('edition').textContent = data.edition
+    if (data.volume) {
+        document.getElementById('volume').textContent = data.volume
+    } else {
+        document.getElementById('volume').parentElement.remove()
+    }
+
+    if (data.issue) {
+        document.getElementById('issue').textContent = data.issue
+    } else {
+        document.getElementById('issue').parentElement.remove()
+    }
+
+    if (data.pages) {
+        document.getElementById('pages').textContent = data.pages
+    } else {
+        document.getElementById('pages').parentElement.remove()
+    }
+
+    if (data.edition) {
+        document.getElementById('edition').textContent = data.edition
+    } else {
+        document.getElementById('edition').parentElement.remove()
+    }
 
     if (data.ISBN) {
         for (const isbn of data.ISBN.split('; ')) {
@@ -121,6 +142,8 @@
 
             document.getElementById('isbn').append(div)
         }
+    } else {
+        document.getElementById('isbn').parentElement.remove()
     }
 
     if (data.DOI) {
@@ -129,6 +152,8 @@
         a.innerHTML = octicons.external_url
         a.prepend(data.DOI + ' ')
         document.getElementById('doi').appendChild(a)
+    } else {
+        document.getElementById('doi').parentElement.remove()
     }
 
     // Access
@@ -427,19 +452,25 @@
         }
     }
 
+    const keys = []
     {
-        const element = document.getElementById('resources')
-        const keys = await loadKeys()
+        const allKeys = await loadKeys()
         let keyIndex = 1
         let keyId
-        while ((keyId = `${id}:${keyIndex++}`) in keys) {
-            const key = keys[keyId]
+        while ((keyId = `${id}:${keyIndex++}`) in allKeys) {
+            keys.push(allKeys[keyId])
+        }
+    }
+
+    if (keys.length) {
+        const element = document.getElementById('resources')
+        for (const key of keys) {
             const tr = document.createElement('tr')
 
             {
                 const td = document.createElement('td')
                 const a = document.createElement('a')
-                a.setAttribute('href', `/catalog/resource/?id=${keyId}`)
+                a.setAttribute('href', `/catalog/resource/?id=${key.id}`)
                 a.textContent = key.id
                 td.append(a)
                 tr.append(td)
@@ -483,5 +514,7 @@
 
             element.appendChild(tr)
         }
+    } else {
+        document.getElementById('resources_section').remove()
     }
 })().catch(console.error)
