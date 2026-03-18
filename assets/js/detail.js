@@ -118,7 +118,7 @@
     }
 
     if (data.pages) {
-        document.getElementById('pages').textContent = data.pages
+        document.getElementById('pages').textContent = data.pages.match(/^\d+$/) ? data.pages + ' pp.' : data.pages
     } else {
         document.getElementById('pages').parentElement.remove()
     }
@@ -385,9 +385,9 @@
         'container-author': all[data.part_of] && all[data.part_of].author && all[data.part_of].author.split('; ').map(Cite.parse.name),
         volume: data.volume,
         issue: data.issue,
-        ...(data.pages && data.pages.includes('-')
-            ? { page: data.pages }
-            : { 'number-of-pages': data.pages }),
+        ...(data.pages && data.pages.match(/^\d+$/)
+            ? { 'number-of-pages': data.pages }
+            : { page: data.pages }),
         ...(data.key_type.split('; ').includes('algorithm')
             ? { version: data.edition }
             : { edition: data.edition }),
