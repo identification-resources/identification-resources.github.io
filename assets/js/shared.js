@@ -182,6 +182,15 @@ async function loadSettings () {
     })
 }
 
+async function getLibraryHoldings (db, id) {
+    const store = db.transaction(['libraries'], 'readonly').objectStore('libraries')
+    return new Promise(function (resolve, reject) {
+        const request = store.index('catalogId').getAll(id)
+        request.onsuccess = () => reject('Unknown error')
+        request.onsuccess = (event) => resolve(event.target.result)
+    })
+}
+
 function formatAuthors (value) {
     return formatLinkedList(value, author => `/catalog/author/?name=${author}`)
 }

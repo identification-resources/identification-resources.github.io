@@ -165,6 +165,36 @@
         displayUrl('fulltext_url', data.archive_url, '')
     }
 
+    const settings = await loadSettings()
+    const libraryHoldings = await getLibraryHoldings(settings, id)
+    if (libraryHoldings.length) {
+        for (const holding of libraryHoldings) {
+            const p = document.createElement('p')
+
+            if (holding.item.url) {
+                const a = document.createElement('a')
+                a.setAttribute('href', holding.item.url)
+                a.textContent = holding.item.label
+                p.appendChild(a)
+            } else {
+                p.append(holding.item.label)
+            }
+
+            p.append(' in ')
+
+            if (holding.library.url) {
+                const a = document.createElement('a')
+                a.setAttribute('href', holding.library.url)
+                a.textContent = holding.library.label
+                p.appendChild(a)
+            } else {
+                p.append(holding.library.label)
+            }
+
+            document.getElementById('libraries').appendChild(p)
+        }
+    }
+
     if (data.language) {
         for (const language of data.language.split('; ')) {
             const p = document.createElement('p')
