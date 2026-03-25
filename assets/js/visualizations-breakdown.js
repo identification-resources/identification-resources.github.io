@@ -9,11 +9,11 @@ function getPlaceCategory (entry) {
     let all = null
     for (const place of entry.region.split('; ')) {
         const [continent] = place.split(', ')
-        if (!continents.includes(continent)) { return 'Other' }
-        if (all !== null && all !== continent) { return 'Other' }
+        if (!continents.includes(continent)) { return LABELS.breakdown_other }
+        if (all !== null && all !== continent) { return LABELS.breakdown_other }
         all = continent
     }
-    return all
+    return LABELS.continents.get(all)
 }
 
 function getTaxonCategory (entry, taxa) {
@@ -40,21 +40,21 @@ function getTaxonCategory (entry, taxa) {
     } else if (commonAncestors.includes('359')) {
         return 'Mammalia'
     } else if (commonAncestors.includes('44')) {
-        return 'Other Chordata'
+        return LABELS.breakdown_other_chordata
     } else if (commonAncestors.includes('52')) {
         return 'Mollusca'
     } else if (commonAncestors.includes('216')) {
         return 'Insecta'
     } else if (commonAncestors.includes('54')) {
-        return 'Other Arthropods'
+        return LABELS.breakdown_other_arthropods
     } else if (commonAncestors.includes('1')) {
-        return 'Other Animals'
+        return LABELS.breakdown_other_animals
     } else if (commonAncestors.includes('6')) {
         return 'Plantae'
     } else if (commonAncestors.includes('5')) {
         return 'Fungi'
     } else {
-        return 'Other'
+        return LABELS.breakdown_other
     }
 }
 
@@ -126,7 +126,7 @@ async function main () {
     $table.appendChild($placeTotals)
     {
         const $th = document.createElement('th')
-        $th.textContent = 'Total'
+        $th.textContent = LABELS.breakdown_total
         $placeTotals.append($th)
     }
 
@@ -148,7 +148,7 @@ async function main () {
 
     {
         const $th = document.createElement('th')
-        $th.textContent = 'Total'
+        $th.textContent = LABELS.breakdown_total
         $header.append($th)
     }
 }

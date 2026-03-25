@@ -69,7 +69,7 @@
         for (const publisher of publishers) {
             const p = document.createElement('p')
             const a = document.createElement('a')
-            a.setAttribute('href', `/catalog/publisher/?name=${publisher}`)
+            a.setAttribute('href', `${URL_PREFIX}/catalog/publisher/?name=${publisher}`)
             a.textContent = publisher
             p.appendChild(a)
             element.appendChild(p)
@@ -78,9 +78,9 @@
 
     {
         const a = document.createElement('a')
-        const url = `/catalog/?field=ISSN&query=${issn}`
+        const url = `${URL_PREFIX}/catalog/?field=ISSN&query=${issn}`
         a.setAttribute('href', url)
-        a.textContent = 'View all'
+        a.textContent = LABELS.pagination_view_all
         document.getElementById('search').append(a)
     }
 
@@ -108,7 +108,7 @@
 
             const titleCell = document.createElement('td')
             const titleLink = document.createElement('a')
-            titleLink.setAttribute('href', `/catalog/detail/?id=${part.id}`)
+            titleLink.setAttribute('href', `${URL_PREFIX}/catalog/detail/?id=${part.id}`)
             titleLink.textContent = part.title
             titleCell.appendChild(titleLink)
             row.appendChild(titleCell)

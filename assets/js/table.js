@@ -73,7 +73,7 @@
                 } else if (headers[index] === 'id') {
                     const a = document.createElement('a')
                     a.setAttribute('class', 'row-link')
-                    a.setAttribute('href', `/catalog/detail?id=${row[headers.indexOf('id')]}`)
+                    a.setAttribute('href', `${URL_PREFIX}/catalog/detail?id=${row[headers.indexOf('id')]}`)
                     a.textContent = value
                     tableCell.appendChild(a)
                 } else {
@@ -88,6 +88,6 @@
         data.push(rowData)
     }
 
-    resultCount.textContent = `Displaying ${data.length} result${data.length !== 1 ? 's' : ''} of ${searchRows.length} total.`
+    resultCount.textContent = LABELS.functions.search_result_count(data.length, searchRows.length)
 
 })().catch(console.error)

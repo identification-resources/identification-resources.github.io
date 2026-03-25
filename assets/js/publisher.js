@@ -16,7 +16,7 @@
     const names = publishers[id].name.split('; ')
 
     if (publishers[id].duplicate_of) {
-        window.location.href = '/catalog/publisher/?id=' + publishers[id].duplicate_of
+        window.location.href = URL_PREFIX + '/catalog/publisher/?id=' + publishers[id].duplicate_of
     }
 
     const [headers, ...rows] = await loadCatalog()
@@ -82,9 +82,9 @@
     // TODO improve search
     if (names.length === 1) {
         const a = document.createElement('a')
-        const url = `/catalog/?field=publisher&query=${names[0]}`
+        const url = `${URL_PREFIX}/catalog/?field=publisher&query=${names[0]}`
         a.setAttribute('href', url)
-        a.textContent = 'View all'
+        a.textContent = LABELS.pagination_view_all
         document.getElementById('search').append(a)
     }
 
@@ -104,7 +104,7 @@
 
             const titleCell = document.createElement('td')
             const titleLink = document.createElement('a')
-            titleLink.setAttribute('href', `/catalog/detail/?id=${part.id}`)
+            titleLink.setAttribute('href', `${URL_PREFIX}/catalog/detail/?id=${part.id}`)
             titleLink.textContent = part.title
             titleCell.appendChild(titleLink)
             row.appendChild(titleCell)

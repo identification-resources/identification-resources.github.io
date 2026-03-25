@@ -52,7 +52,7 @@
             {
                 const $td = document.createElement('td')
                 const $button = document.createElement('button')
-                $button.textContent = 'Add'
+                $button.textContent = LABELS.button_add
                 $button.setAttribute('value', key)
                 $td.appendChild($button)
                 $tr.appendChild($td)
@@ -101,13 +101,13 @@
             const $td = document.createElement('td')
             if (record.catalogId) {
                 const $a = document.createElement('a')
-                $a.setAttribute('href', `/catalog/detail/?id=${record.catalogId}`)
+                $a.setAttribute('href', `${URL_PREFIX}/catalog/detail/?id=${record.catalogId}`)
                 $a.textContent = record.catalogId
                 $td.appendChild($a)
             }
 
             const $button = document.createElement('button')
-            $button.textContent = 'Edit'
+            $button.textContent = LABELS.button_edit
             $button.addEventListener('click', function () {
                 document.querySelector('#mapping_link [name="library_id"]').value = record.libraryId
                 document.querySelector('#mapping_link [name="item_id"]').value = record.itemId
@@ -136,7 +136,7 @@
             } else {
                 const $div = document.createElement('div')
                 $div.classList.add('alert')
-                $div.textContent = `Unknown holding: ${record.item.data.snapshot['entity:title'] ?? ''}`
+                $div.textContent = LABELS.functions.unknown_holding(record.item.data.snapshot['entity:title'])
                 $td.appendChild($div)
             }
 
@@ -176,7 +176,7 @@
         {
             const $td = document.createElement('td')
             const $button = document.createElement('button')
-            $button.textContent = 'Remove'
+            $button.textContent = LABELS.button_remove
             $button.addEventListener('click', async function () {
                 const store = (await db).transaction(['libraries'], 'readwrite').objectStore('libraries')
                 await promisify(store.delete([record.libraryId, record.itemId])).then(function () {

@@ -16,7 +16,7 @@
     const names = authors[id].name.split('; ')
 
     if (authors[id].duplicate_of) {
-        window.location.href = '/catalog/author/?id=' + authors[id].duplicate_of
+        window.location.href = URL_PREFIX + '/catalog/author/?id=' + authors[id].duplicate_of
     }
 
     const [headers, ...rows] = await loadCatalog()
@@ -87,7 +87,7 @@
         const element = document.getElementById('language')
         for (const language of languages) {
             const p = document.createElement('p')
-            p.textContent = language
+            p.textContent = `${LANGUAGE_NAMES.of(language)} (${language})`
             element.appendChild(p)
         }
     }
@@ -95,9 +95,9 @@
     // TODO improve search
     if (names.length === 1) {
         const a = document.createElement('a')
-        const url = `/catalog/?field=author&query=${names[0]}`
+        const url = `${URL_PREFIX}/catalog/?field=author&query=${names[0]}`
         a.setAttribute('href', url)
-        a.textContent = 'View all'
+        a.textContent = LABELS.pagination_view_all
         document.getElementById('search').append(a)
     }
 
@@ -117,7 +117,7 @@
 
             const titleCell = document.createElement('td')
             const titleLink = document.createElement('a')
-            titleLink.setAttribute('href', `/catalog/detail/?id=${part.id}`)
+            titleLink.setAttribute('href', `${URL_PREFIX}/catalog/detail/?id=${part.id}`)
             titleLink.textContent = part.title
             titleCell.appendChild(titleLink)
             row.appendChild(titleCell)

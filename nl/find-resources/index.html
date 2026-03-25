@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title>Vind Determinatiesleutels - Library of Identification Resources</title>
+
+        <link rel="stylesheet" href="/assets/css/main.css">
+        <link rel="stylesheet" href="/find-resources/main.css">
+        <link rel="shortcut icon" href="/assets/img/logo_124.png">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <script>window.goatcounter={path:p=>location.host+p}</script>
+        <script data-goatcounter="https://larsgw.goatcounter.com/count" async src="//gc.zgo.at/count.v4.js" crossorigin="anonymous" integrity="sha384-nRw6qfbWyJha9LhsOtSb2YJDyZdKvvCFh0fJYlkquSFjUxp9FVNugbfy8q1jdxI+"></script>
+    </head>
+    <body>
+        <header class="small">
+            <a href="..">
+                <img id="logo" src="/assets/img/logo_512.png" alt="Logo: moth with spread, speckled black and red wings">
+            </a>
+
+            <h1>Library of Identification Resources</h1>
+
+            <nav role="navigation" aria-label="Site Navigation">
+                <ul>
+                    <li><a href="/nl/catalog">Catalogus</a></li>
+                    <li><a href="/nl/catalog/visualizations">Statistieken</a></li>
+                    <li><a href="/nl/users/settings">Instellingen</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <div id="input_wrapper">
+                <h2>Vind determinatiesleutels</h2>
+
+                <form action="#results_wrapper">
+                    <fieldset>
+                        <legend>Gebruik</legend>
+                        <p>
+                            Selecteer een organisme die je wil determineren. In het linkerveld "Taxon", zoek
+                            en selecteer de wetenschappelijke naam van de soortgroep waar het bij hoort. In
+                            het rechterveld, zoek voor het gebied of plak GPS-coördinaten (geschreven als: "0.000, 0.000")
+                            van de plek waar je het organisme hebt gevonden.
+                        </p>
+
+                        <div style="display: flex; gap: 2em; margin-bottom: 1em;">
+                            <div id="group_taxon" style="flex-grow: 1;"></div>
+                            <div id="group_location" style="flex-grow: 1;"></div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Soortenlijsten</legend>
+                        <p>
+                            Om te bepalen of een sleutel geschikt is voor de gegeven plek, wordt een soortenlijst gebruikt
+                            om te vergelijken met de lijst van soorten die in de sleutel worden behandled. Deze
+                            soortenlijst kan samengesteld worden van GBIF-waarnemingen, in welk geval de lijst alle
+                            soorten bevat die in het gegeven land voorkomen volgens GBIF. Daarnaast kan ook een sleutel of
+                            ander hulpmiddel uit de database gebruikt worden om mee te vergeleken, of een specifieke
+                            soortenlijst op GBIF, zoals het Nederlandse Soortenregister (daar: Dutch Species Register).
+                        </p>
+
+                        <div>
+                            <input type="radio" name="checklist" value="search" checked id="checklist_search">
+                            <label for="checklist_search">Soortenlijst gebaseerd op GBIF-waarnemingen</label>
+                        </div>
+
+                        <div>
+                            <input type="radio" name="checklist" value="gbif_dataset" id="checklist_gbif_dataset">
+                            <label for="checklist_gbif_dataset">Soortenlijst uit GBIF-dataset</label>
+                            <div id="group_checklist-gbif-dataset" style="margin-left: 25px;"></div>
+                        </div>
+
+                        <br>
+
+                        <div>
+                            <input type="radio" name="checklist" value="catalog" id="checklist_catalog">
+                            <label for="checklist_catalog">Soortenlijst uit de catalogus</label>
+                            <div id="group_checklist-catalog" style="margin-left: 25px;"></div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Filters</legend>
+                        <p>
+                            Zoekresultaten kunnen gefilterd worden op basis van andere informatie, waaronder eigenschappen
+                            van het organisme of de waarneming, die invloed hebben op welke determinatiekenmerken kunnen
+                            worden gebruikt.
+                        </p>
+
+                        <details>
+                            <summary>Filter op eigenschappen van het organisme of de waarneming</summary>
+                            <div>
+                                <b>Levensstadium:</b>
+                                <input type="checkbox" name="scope" value="adults" id="scope_adults">
+                                <label for="scope_adults">Imago</label>
+                                <input type="checkbox" name="scope" value="subimagos" id="scope_subimagos">
+                                <label for="scope_subimagos">Subimago</label>
+                                <input type="checkbox" name="scope" value="pupae" id="scope_pupae">
+                                <label for="scope_pupae">Pop</label>
+                                <input type="checkbox" name="scope" value="nymphs" id="scope_nymphs">
+                                <label for="scope_nymphs">Nimf</label>
+                                <input type="checkbox" name="scope" value="larvae" id="scope_larvae">
+                                <label for="scope_larvae">Larve</label>
+                                <input type="checkbox" name="scope" value="juvenile" id="scope_juvenile">
+                                <label for="scope_juvenile">Juveniel</label>
+                                <input type="checkbox" name="scope" value="eggs" id="scope_eggs">
+                                <label for="scope_eggs">Ei</label>
+                            </div>
+
+                            <div>
+                                <b>Sex:</b>
+                                <input type="checkbox" name="scope" value="females" id="scope_females">
+                                <label for="scope_females">Vrouw</label>
+                                <input type="checkbox" name="scope" value="males" id="scope_males">
+                                <label for="scope_males">Man</label>
+                            </div>
+
+                            <div>
+                                <b>Caste:</b>
+                                <input type="checkbox" name="scope" value="queens" id="scope_queens">
+                                <label for="scope_queens">Koningin</label>
+                                <input type="checkbox" name="scope" value="workers" id="scope_workers">
+                                <label for="scope_workers">Werkster</label>
+                                <input type="checkbox" name="scope" value="soldiers" id="scope_soldiers">
+                                <label for="scope_soldiers">Soldaat</label>
+                                <input type="checkbox" name="scope" value="alatae" id="scope_alatae">
+                                <label for="scope_alatae">Gevleugeld</label>
+                                <input type="checkbox" name="scope" value="apterae" id="scope_apterae">
+                                <label for="scope_apterae">Ongevleugeld</label>
+                                <input type="checkbox" name="scope" value="viviparae" id="scope_viviparae">
+                                <label for="scope_viviparae">Vivipara</label>
+                            </div>
+
+                            <div>
+                                <b>Evidence:</b>
+                                <input type="checkbox" name="scope" value="nests" id="scope_nests">
+                                <label for="scope_nests">Nest</label>
+                                <input type="checkbox" name="scope" value="galls" id="scope_galls">
+                                <label for="scope_galls">Gal</label>
+                                <input type="checkbox" name="scope" value="puparia" id="scope_puparia">
+                                <label for="scope_puparia">Pop</label>
+                                <input type="checkbox" name="scope" value="eggcases" id="scope_eggcases">
+                                <label for="scope_eggcases">Eierschaal</label>
+                                <input type="checkbox" name="scope" value="bones" id="scope_bones">
+                                <label for="scope_bones">Bot</label>
+                            </div>
+                        </details>
+
+                        <details id="filter_language">
+                            <summary>Filter op taal van de sleutel</summary>
+                        </details>
+                    </fieldset>
+
+                    <button type="submit">Zoek</button>
+                </form>
+
+                <p>
+                    <a href="#" onclick="license_info.showModal()">Licentie data</a>
+                </p>
+            </div>
+
+            <div id="results_wrapper">
+                <p>
+                    <label for="results_sort">Sorteer op:</label>
+                    <select id="results_sort">
+                        <option value="_score">Alles</option>
+                        <option value="_score_applicability">Toepasselijkheid</option>
+                        <option value="_score_usability">Bruikbaarheid</option>
+                        <option value="_score_recency">Actueelheid</option>
+                    </select>
+                </p>
+
+                <div id="results">
+                    <div id="results_message"></div>
+                </div>
+            </div>
+        </main>
+
+        <dialog id="dialog_result_score">
+            <h3>Zoekresultaat-score</h3>
+
+            <table>
+                <tr>
+                    <th>Toepasselijkheid</th>
+                    <td>Taxonomische and geografische toepasselijkheid</td>
+                    <td id="score_applicability"></td>
+                </tr>
+                <tr>
+                    <th>Bruikbaarheid</th>
+                    <td>Toegankelijkheid en hoe goed het taxa kan onderscheiden</td>
+                    <td id="score_usability"></td>
+                </tr>
+                <tr>
+                    <th>Actueelheid</th>
+                    <td>Hoe recent het is gepubliceerd</td>
+                    <td id="score_recency"></td>
+                </tr>
+            </table>
+
+            <section id="dialog_taxonomic_coverage">
+                <h4>Taxonomische dekking</h4>
+
+                <p>
+                    Deze sleutel behandled <span id="species_count"></span> van de verwachtte <span id="species_total"></span> soorten,
+                    d.w.z. <span id="species_ratio"></span>.
+                </p>
+
+                <p id="observation_ratio_text">
+                    Geschaald aan de hand van het aantal waarnemingen, dekt dit <span id="observation_ratio"></span> van de waarnemingen.
+                </p>
+
+                <div id="species_flags">
+                </div>
+
+                <details>
+                    <summary>Overeenkomende taxa</summary>
+                    <ol id="matching_taxa">
+                    </ol>
+                </details>
+
+                <details>
+                    <summary>Missende taxa</summary>
+                    <ol id="missing_taxa">
+                    </ol>
+                </details>
+            </section>
+
+            <br>
+
+            <form method="dialog">
+                <button>Terug</button>
+            </form>
+        </dialog>
+
+        <dialog>
+            <h3>Verschillende edities/versies</h3>
+
+            <div id="results_versions">
+            </div>
+
+            <form method="dialog">
+                <button>Terug</button>
+            </form>
+        </dialog>
+
+        <dialog id="license_info">
+            <h3>Licentie data</h3>
+
+            <ul>
+                <li>
+                    Zoekresultaten, inclusief de dekkingsgraad, en soortenlijsten uit de catalogus zijn
+                    <a href="https://github.com/identification-resources/catalog/blob/main/LICENSE">beschikbaar onder CC0 1.0</a>.
+                </li>
+                <li>
+                    Soortenlijsten gemaakt van GBIF-waarnemingen gebruiken de GBIF API en data beschikbaar onder CC-BY-NC 4.0.
+                </li>
+                <li>
+                    <i>Reverse geocoding</i> (regio's en landen vinden op basis van gegeven coördinaten) gebruikt API's
+                    van <a href="http://wikidata.org/">Wikidata</a> en <a href="https://www.inaturalist.org/">iNaturalist</a>.
+                </li>
+            </ul>
+
+            <form method="dialog">
+                <button>Terug</button>
+            </form>
+        </dialog>
+
+        <script src="/assets/js/shared.js" charset="utf-8"></script>
+        <script src="/find-resources/app.js" charset="utf-8"></script>
+    </body>
+</html>

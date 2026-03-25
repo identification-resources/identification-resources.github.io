@@ -15,7 +15,7 @@
     const id = search.get('id')
 
     if (places[id].duplicate_of) {
-        window.location.href = '/catalog/place/?id=' + places[id].duplicate_of
+        window.location.href = URL_PREFIX + '/catalog/place/?id=' + places[id].duplicate_of
     }
 
     const [headers, ...rows] = await loadCatalog()
@@ -68,9 +68,9 @@
 
     {
         const a = document.createElement('a')
-        const url = `/catalog/?field=region&query=${places[id].name}`
+        const url = `${URL_PREFIX}/catalog/?field=region&query=${places[id].name}`
         a.setAttribute('href', url)
-        a.textContent = 'View all'
+        a.textContent = LABELS.pagination_view_all
         document.getElementById('search').append(a)
     }
 
@@ -90,7 +90,7 @@
 
             const titleCell = document.createElement('td')
             const titleLink = document.createElement('a')
-            titleLink.setAttribute('href', `/catalog/detail/?id=${part.id}`)
+            titleLink.setAttribute('href', `${URL_PREFIX}/catalog/detail/?id=${part.id}`)
             titleLink.textContent = part.title
             titleCell.appendChild(titleLink)
             row.appendChild(titleCell)

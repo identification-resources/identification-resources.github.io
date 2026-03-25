@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title>Visualisaties — Library of Identification Resources</title>
+
+        <link rel="stylesheet" href="/assets/css/main.css">
+        <link rel="stylesheet" href="/assets/css/visualizations.css">
+        <link rel="shortcut icon" href="/assets/img/logo_124.png">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <script data-goatcounter="https://loir.goatcounter.com/count" async src="//gc.zgo.at/count.v4.js" crossorigin="anonymous" integrity="sha384-nRw6qfbWyJha9LhsOtSb2YJDyZdKvvCFh0fJYlkquSFjUxp9FVNugbfy8q1jdxI+"></script>
+    </head>
+    <body>
+        <header class="small">
+            <a href="/nl/">
+                <img id="logo" src="/assets/img/logo_512.png" alt="Logo: moth with spread, speckled black and red wings">
+            </a>
+
+            <h1>Library of Identification Resources</h1>
+
+            <nav>
+                <ul>
+                    <li><a href="/nl/catalog">Catalogus</a></li>
+                    <li><a href="/nl/catalog/visualizations">Statistieken</a></li>
+                    <li><a href="/nl/users/settings">Instellingen</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <article>
+                <header>
+                    <h2>Visualisaties</h2>
+                </header>
+
+                <section id="by_year">
+                    <h2>Publicaties per decennium</h2>
+                    <div class="table"></div>
+                </section>
+
+                <section id="by_access">
+                    <h2>Toegankelijkheid publicaties</h2>
+                    <div class="table"></div>
+                </section>
+
+                <section id="by_identifier">
+                    <h2>Publicaties per identifier</h2>
+                    <div class="table"></div>
+                </section>
+
+                <section id="by_taxa_data">
+                    <h2>Publicaties met/zonder soortenlijst</h2>
+                    <p>
+                        <a href="/nl/catalog/visualizations/resources">Bekijk statistieken van soortenlijsten.</a>
+                    </p>
+                    <div class="table"></div>
+                </section>
+
+                <section id="by_column">
+                    <h2>
+                      Publicaties per
+                      <label for="by_column_field" class="sr-only">kolom</label>
+                      <select id="by_column_field"></select>
+                    </h2>
+                    <div class="table"></div>
+                </section>
+            </article>
+        </main>
+
+        <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+        <script src="/assets/js/shared.js" charset="utf-8"></script>
+        <script src="/assets/js/visualizations.js" charset="utf-8"></script>
+    </body>
+</html>

@@ -168,9 +168,7 @@
         redirectToTaxon(localTaxon.id)
       } else {
         taxon = await getTaxonFromGbif(gbif)
-        document.getElementById('data-source').innerHTML = `
-          Above data from the <a href="https://www.gbif.org/dataset/d7dddbf4-2cf0-4f39-9b2a-bb099caae36c">GBIF Backbone Taxonomy</a>,
-          licensed under <a href="http://creativecommons.org/licenses/by/4.0/legalcode">CC BY 4.0</a>.`
+        document.getElementById('data-source').innerHTML = LABELS.gbif_license
       }
     } else {
       taxon = await getTaxonFromLoir(search.get('id'))
@@ -278,9 +276,9 @@
 
   function makeTaxonLink (taxon) {
     if (taxon.source === 'gbif') {
-      return `/taxonomy/taxon/?gbif=${taxon.gbif}`
+      return `${URL_PREFIX}/taxonomy/taxon/?gbif=${taxon.gbif}`
     } else {
-      return `/taxonomy/taxon/?id=${taxon.id}`
+      return `${URL_PREFIX}/taxonomy/taxon/?id=${taxon.id}`
     }
   }
 
@@ -288,21 +286,21 @@
 
   document.querySelector('head title').textContent = taxon.name + ' — Library of Identification Resources'
   document.getElementById('mainTitle').append(formatTaxonName(taxon.canonicalName, taxon.authorship, taxon.rank))
-  document.getElementById('date').textContent = taxon.rank
+  document.getElementById('date').textContent = LABELS.taxon_rank.get(taxon.rank)
   document.getElementById('date').setAttribute('style', 'color: grey;')
 
   if (taxon.taxonomicStatus) {
     const element = document.getElementById('status')
     const a = document.createElement('a')
     a.setAttribute('href', `http://rs.gbif.org/vocabulary/gbif/taxonomicStatus/${taxon.taxonomicStatus.replace(/_(.)/g, (_, l) => l.toUpperCase())}`)
-    a.textContent = taxon.taxonomicStatus.replace(/_/g, ' ')
+    a.textContent = LABELS.taxon_status.get(taxon.taxonomicStatus.replace(/_/g, ' '))
     element.appendChild(a)
     if (taxon.acceptedTaxon) {
       const { name, authorship } = parseTaxonName(taxon.acceptedTaxon)
       const a = document.createElement('a')
-      a.setAttribute('href', `/taxonomy/taxon/?gbif=${taxon.acceptedGbif}`)
+      a.setAttribute('href', `${URL_PREFIX}/taxonomy/taxon/?gbif=${taxon.acceptedGbif}`)
       a.append(formatTaxonName(name, authorship, taxon.rank))
-      element.append(' of ', a)
+      element.append(' ' + LABELS.synonym_of + ' ', a)
     }
   }
 
@@ -508,26 +506,26 @@
 
       const nameCell = document.createElement('td')
       const nameLink = document.createElement('a')
-      nameLink.setAttribute('href', `/catalog/resource/?id=${key.metadata.id}#${mention}`)
+      nameLink.setAttribute('href', `${URL_PREFIX}/catalog/resource/?id=${key.metadata.id}#${mention}`)
       nameLink.setAttribute('style', 'white-space: pre;')
       nameLink.append(formatTaxonName(name, authorship, taxon.taxonRank))
       nameCell.append(nameLink)
       row.append(nameCell)
 
       const status = document.createElement('td')
-      status.textContent = taxon.taxonomicStatus
+      status.textContent = LABELS.taxon_status.get(taxon.taxonomicStatus)
       row.append(status)
 
       const resourceCell = document.createElement('td')
       const resourceLink = document.createElement('a')
-      resourceLink.setAttribute('href', `/catalog/resource/?id=${key.metadata.id}`)
+      resourceLink.setAttribute('href', `${URL_PREFIX}/catalog/resource/?id=${key.metadata.id}`)
       resourceLink.textContent = key.metadata.id
       resourceCell.appendChild(resourceLink)
       row.appendChild(resourceCell)
 
       const titleCell = document.createElement('td')
       const titleLink = document.createElement('a')
-      titleLink.setAttribute('href', `/catalog/detail/?id=${work.id}`)
+      titleLink.setAttribute('href', `${URL_PREFIX}/catalog/detail/?id=${work.id}`)
       titleLink.textContent = work.title
       titleCell.appendChild(titleLink)
       row.appendChild(titleCell)
@@ -549,14 +547,14 @@
 
       const idCell = document.createElement('td')
       const idLink = document.createElement('a')
-      idLink.setAttribute('href', `/catalog/detail/?id=${id}`)
+      idLink.setAttribute('href', `${URL_PREFIX}/catalog/detail/?id=${id}`)
       idLink.textContent = id
       idCell.append(idLink)
       row.append(idCell)
 
       const titleCell = document.createElement('td')
       const titleLink = document.createElement('a')
-      titleLink.setAttribute('href', `/catalog/detail/?id=${id}`)
+      titleLink.setAttribute('href', `${URL_PREFIX}/catalog/detail/?id=${id}`)
       titleLink.textContent = work.title
       titleCell.append(titleLink)
       row.append(titleCell)
@@ -564,7 +562,7 @@
       const regionCell = document.createElement('td')
       regionCell.append(...formatLinkedList(
         work.region,
-        region => `/catalog/place/?name=${region}`
+        region => `${URL_PREFIX}/catalog/place/?name=${region}`
       ))
       row.appendChild(regionCell)
 

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title>Auteur — Library of Identification Resources</title>
+
+        <link rel="stylesheet" href="/assets/css/main.css">
+        <link rel="shortcut icon" href="/assets/img/logo_124.png">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <script data-goatcounter="https://loir.goatcounter.com/count" async src="//gc.zgo.at/count.v4.js" crossorigin="anonymous" integrity="sha384-nRw6qfbWyJha9LhsOtSb2YJDyZdKvvCFh0fJYlkquSFjUxp9FVNugbfy8q1jdxI+"></script>
+    </head>
+    <body>
+        <header class="small">
+            <a href="/nl/">
+                <img id="logo" src="/assets/img/logo_512.png" alt="Logo: moth with spread, speckled black and red wings">
+            </a>
+
+            <h1>Library of Identification Resources</h1>
+
+            <nav>
+                <ul>
+                    <li><a href="/nl/catalog">Catalogus</a></li>
+                    <li><a href="/nl/catalog/visualizations">Statistieken</a></li>
+                    <li><a href="/nl/users/settings">Instellingen</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <article>
+                <header>
+                    <h2 id="mainTitle"></h2>
+                </header>
+
+                <section>
+                    <div class="table">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <th>Namen</th>
+                                    <td id="title"></td>
+                                </tr>
+                                <tr>
+                                    <th>Permalink</th>
+                                    <td id="permalink"></td>
+                                </tr>
+                                <tr>
+                                    <th>Wikidata</th>
+                                    <td id="wikidata"></td>
+                                </tr>
+                                <tr>
+                                    <th>Scholia</th>
+                                    <td id="scholia"></td>
+                                </tr>
+                                <tr>
+                                    <th>Talen</th>
+                                    <td id="language"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Artikelen/boeken</h3>
+                    <p id="search"></p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Jaar</th>
+                                <th>Auteurs</th>
+                                <th>Titel</th>
+                            </tr>
+                        </thead>
+                        <tbody id="parts">
+                        </tbody>
+                    </table>
+                </section>
+            </article>
+        </main>
+
+        <script src="/assets/js/shared.js" charset="utf-8"></script>
+        <script src="/assets/js/author.js" charset="utf-8"></script>
+    </body>
+</html>

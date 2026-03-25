@@ -32,7 +32,7 @@
                 {
                     const a = document.createElement('a')
                     a.textContent = author.display_name
-                    a.setAttribute('href', `/catalog/author/?id=${author.id}`)
+                    a.setAttribute('href', `${URL_PREFIX}/catalog/author/?id=${author.id}`)
                     entry['Author'] = a
                 }
 
@@ -46,7 +46,7 @@
 
                 if (author.qid) {
                     const a = document.createElement('a')
-                    a.setAttribute('href', `http://www.wikidata.org/entity/${author.qid}`)
+                    a.setAttribute('href', `https://www.wikidata.org/entity/${author.qid}`)
                     a.innerHTML = octicons.external_url
                     a.prepend(author.qid, '\xA0')
                     entry['Wikidata'] = a
@@ -95,7 +95,7 @@
                     {
                         const a = document.createElement('a')
                         a.textContent = place.display_name
-                        a.setAttribute('href', `/catalog/place/?id=${place.id}`)
+                        a.setAttribute('href', `${URL_PREFIX}/catalog/place/?id=${place.id}`)
                         entry['Place'] = a
                     }
 
@@ -109,7 +109,7 @@
 
                     if (place.qid) {
                         const a = document.createElement('a')
-                        a.setAttribute('href', `http://www.wikidata.org/entity/${place.qid}`)
+                        a.setAttribute('href', `https://www.wikidata.org/entity/${place.qid}`)
                         a.innerHTML = octicons.external_url
                         a.prepend(place.qid, '\xA0')
                         entry['Wikidata'] = a
@@ -157,7 +157,7 @@
                     {
                         const a = document.createElement('a')
                         a.textContent = publisher.display_name
-                        a.setAttribute('href', `/catalog/publisher/?id=${publisher.id}`)
+                        a.setAttribute('href', `${URL_PREFIX}/catalog/publisher/?id=${publisher.id}`)
                         entry['Publisher'] = a
                     }
 
@@ -171,7 +171,7 @@
 
                     if (publisher.qid) {
                         const a = document.createElement('a')
-                        a.setAttribute('href', `http://www.wikidata.org/entity/${publisher.qid}`)
+                        a.setAttribute('href', `https://www.wikidata.org/entity/${publisher.qid}`)
                         a.innerHTML = octicons.external_url
                         a.prepend(publisher.qid, '\xA0')
                         entry['Wikidata'] = a
@@ -211,7 +211,7 @@
                     if (series.ISSN) {
                         const a = document.createElement('a')
                         a.textContent = series.name
-                        a.setAttribute('href', `/catalog/series/?issn=${series.ISSN}`)
+                        a.setAttribute('href', `${URL_PREFIX}/catalog/series/?issn=${series.ISSN}`)
                         entry['Series'] = a
                     } else {
                         entry['Series'] = series.name
@@ -224,7 +224,7 @@
                     {
                         const a = document.createElement('a')
                         a.textContent = series.works.length
-                        a.setAttribute('href', `/catalog/?field=series&query=${series.name}`)
+                        a.setAttribute('href', `${URL_PREFIX}/catalog/?field=series&query=${series.name}`)
                         a.setAttribute('style', 'text-align: right;')
                         entry['Works'] = a
                     }
@@ -276,7 +276,7 @@
     {
         for (const column of columns) {
             const th = document.createElement('th')
-            th.textContent = column
+            th.textContent = LABELS.browse_columns.get(column)
             tableHeaders.appendChild(th)
         }
     }

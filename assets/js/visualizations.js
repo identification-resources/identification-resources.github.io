@@ -41,7 +41,7 @@ async function main () {
             .selectAll('a')
             .data(decadeCounts)
             .join('a')
-                .attr('href', ([decade, _]) => `/catalog/?field=decade&query=${decade}`)
+                .attr('href', ([decade, _]) => `${URL_PREFIX}/catalog/?field=decade&query=${decade}`)
                 .attr('transform', ([decade, _]) => `translate(${y(decade)},0)`)
             .append('rect')
                 .attr('fill', '#989d89')
@@ -71,9 +71,9 @@ async function main () {
         const LEGEND_SIZE = 20
 
         const accessLevels = [
-            'Open license',
-            'Full text available, no license',
-            'No full text available'
+            LABELS.access_open_license,
+            LABELS.access_full_text,
+            LABELS.access_no_full_text
         ]
 
         const color = d3.scaleOrdinal()
@@ -98,7 +98,7 @@ async function main () {
             .selectAll('a')
             .data(pie(accessCounts))
             .join('a')
-                .attr('href', d => `/catalog/?field=access&query=${d.data[0]}`)
+                .attr('href', d => `${URL_PREFIX}/catalog/?field=access&query=${d.data[0]}`)
             .append('path')
                 .attr('d', d => arc(d))
                 .attr('fill', d => color(d.data[0]))
@@ -113,7 +113,7 @@ async function main () {
             .selectAll('g')
             .data(accessLevels)
             .join('a')
-            .attr('href', d => `/catalog/?field=access&query=${d}`)
+            .attr('href', d => `${URL_PREFIX}/catalog/?field=access&query=${d}`)
             .append('g')
             .attr('transform', (_, i) => `translate(0,${2 * i * LEGEND_SIZE})`)
 
@@ -161,7 +161,7 @@ async function main () {
             .selectAll('a')
             .data(data)
             .join('a')
-                .attr('href', ([key, _]) => `/catalog/?field=${key}&query=${queries[key]}`)
+                .attr('href', ([key, _]) => `${URL_PREFIX}/catalog/?field=${key}&query=${queries[key]}`)
                 .attr('transform', ([key, _]) => `translate(0,${y(key)})`)
 
         a.append('rect')
@@ -228,7 +228,7 @@ async function main () {
             .selectAll('a')
             .data(pie(counts))
             .join('a')
-                .attr('href', d => `/catalog/?field=taxa_data&query=${d.data[0]}`)
+                .attr('href', d => `${URL_PREFIX}/catalog/?field=taxa_data&query=${d.data[0]}`)
             .append('path')
                 .attr('d', d => arc(d))
                 .attr('fill', d => color(d.data[0]))
@@ -243,7 +243,7 @@ async function main () {
             .selectAll('g')
             .data(levels)
             .join('a')
-            .attr('href', d => `/catalog/?field=taxa_data&query=${d}`)
+            .attr('href', d => `${URL_PREFIX}/catalog/?field=taxa_data&query=${d}`)
             .append('g')
             .attr('transform', (_, i) => `translate(0,${2 * i * LEGEND_SIZE})`)
 
@@ -257,7 +257,7 @@ async function main () {
             .append('text')
             .attr('x', LEGEND_SIZE * 1.5)
             .attr('y', LEGEND_SIZE * 0.75)
-            .text(d => d === 'true' ? 'Extracted' : 'Not extracted')
+            .text(d => LABELS['extracted_' + d])
 
         const legendBBox = legend.node().getBBox()
         legend.attr('transform', `translate(${HEIGHT + GAP_SIZE},${(HEIGHT - legendBBox.height) / 2})`)
@@ -283,6 +283,20 @@ async function main () {
         const parse = {
             language: d => d.split('-')[0],
             license: d => d.endsWith('?>') ? 'unclear' : d,
+        }
+        const label = {
+            entry_type: d => LABELS.entry_type.get(d),
+            license: d => {
+                switch (d) {
+                    case '<public domain>': return LABELS.license_public_domain
+                    case 'unclear': return LABELS.license_unclear
+                    case '': return LABELS.license_na
+                    default: return d
+                }
+            },
+            key_type: d => LABELS.key_type.get(d),
+            target_taxa: d => LABELS.taxon_rank.get(d),
+            complete: d => d ? d === 'TRUE' ? LABELS.complete_true : LABELS.complete_false : LABELS.complete_na
         }
         const link = {
             license: d => d === 'unclear' ? '?>' : d,
@@ -330,7 +344,7 @@ async function main () {
             .selectAll('a')
             .data(pie(data))
             .join('a')
-                .attr('href', d => `/catalog/?field=${key}&query=${link[key] ? link[key](d.data[0]): d.data[0]}`)
+                .attr('href', d => `${URL_PREFIX}/catalog/?field=${key}&query=${link[key] ? link[key](d.data[0]): d.data[0]}`)
             .append('path')
                 .attr('d', d => arc(d))
                 .attr('fill', d => color(d.data[0]))
@@ -345,7 +359,7 @@ async function main () {
             .selectAll('g')
             .data(levels)
             .join('a')
-            .attr('href', d => `/catalog/?field=${key}&query=${link[key] ? link[key](d) : d}`)
+            .attr('href', d => `${URL_PREFIX}/catalog/?field=${key}&query=${link[key] ? link[key](d) : d}`)
             .append('g')
             .attr('transform', (_, i) => `translate(${
                 LEGEND_COLUMN * Math.floor(i / LEGEND_ITEMS)
@@ -363,7 +377,7 @@ async function main () {
             .append('text')
             .attr('x', LEGEND_SIZE * 1.5)
             .attr('y', LEGEND_SIZE * 0.75)
-            .text(d => d)
+            .text(d => label[key] ? label[key](d) : d)
 
         const legendBBox = legend.node().getBBox()
         legend.attr('transform', `translate(${HEIGHT + GAP_SIZE},${(HEIGHT - legendBBox.height) / 2})`)

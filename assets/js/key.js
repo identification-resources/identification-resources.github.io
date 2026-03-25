@@ -27,7 +27,7 @@
             if (octicons[type]) {
                 p.innerHTML = octicons[type]
             }
-            p.append(' ' + type)
+            p.append(' ' + LABELS.key_type.get(type))
             element.appendChild(p)
         }
     }
@@ -35,7 +35,7 @@
     document.getElementById('scope').textContent = data.scope && data.scope.join(', ')
     document.getElementById('region').append(...formatLinkedList(
         data.region,
-        place => `/catalog/place/?name=${place}`
+        place => `${URL_PREFIX}/catalog/place/?name=${place}`
     ))
     document.getElementById('taxon_count').textContent = key.metadata.taxonCount
 
@@ -62,7 +62,7 @@
 
     {
         const a = document.createElement('a')
-        a.setAttribute('href', `/catalog/detail/?id=${catalogId}`)
+        a.setAttribute('href', `${URL_PREFIX}/catalog/detail/?id=${catalogId}`)
         a.textContent = `${catalog[catalogId].title} (${catalogId})`
         document.getElementById('part_of').append(a)
     }
@@ -134,13 +134,13 @@
 
                 const span = document.createElement('span')
                 span.setAttribute('style', 'color: grey;')
-                span.textContent = taxon.taxonRank
+                span.textContent = LABELS.taxon_rank.get(taxon.taxonRank)
                 fragment.append(span)
             }
 
             {
                 const a = document.createElement('a')
-                a.setAttribute('href', `/catalog/resource/?id=${id}#${taxon.scientificNameID}`)
+                a.setAttribute('href', `${URL_PREFIX}/catalog/resource/?id=${id}#${taxon.scientificNameID}`)
                 a.setAttribute('name', taxon.scientificNameID)
                 a.innerHTML = octicons.persistent_url
                 fragment.append(' ')
@@ -150,7 +150,7 @@
             // Taxon info page
             if (taxon.gbifTaxonID) {
                 const a = document.createElement('a')
-                a.setAttribute('href', `/taxonomy/taxon/?gbif=${taxon.gbifTaxonID}`)
+                a.setAttribute('href', `${URL_PREFIX}/taxonomy/taxon/?gbif=${taxon.gbifTaxonID}`)
                 a.innerHTML = octicons.info
                 fragment.append(' ')
                 fragment.appendChild(a)
@@ -214,7 +214,7 @@
             const a = document.createElement('a')
             a.setAttribute('download', '')
             a.setAttribute('href', `/assets/data/resources/dwc/${id.split(':').join('-')}.csv`)
-            a.textContent =  'Download as Darwin Core'
+            a.textContent =  LABELS.url_dwc
             p.appendChild(a)
             section.appendChild(p)
         }

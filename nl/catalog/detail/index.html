@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title>Detail — Library of Identification Resources</title>
+
+        <link rel="stylesheet" href="/assets/css/main.css">
+        <link rel="shortcut icon" href="/assets/img/logo_124.png">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <script data-goatcounter="https://loir.goatcounter.com/count" async src="//gc.zgo.at/count.v4.js" crossorigin="anonymous" integrity="sha384-nRw6qfbWyJha9LhsOtSb2YJDyZdKvvCFh0fJYlkquSFjUxp9FVNugbfy8q1jdxI+"></script>
+    </head>
+    <body>
+        <header class="small">
+            <a href="/nl/">
+                <img id="logo" src="/assets/img/logo_512.png" alt="Logo: moth with spread, speckled black and red wings">
+            </a>
+
+            <h1>Library of Identification Resources</h1>
+
+            <nav>
+                <ul>
+                    <li><a href="/nl/catalog">Catalogus</a></li>
+                    <li><a href="/nl/catalog/visualizations">Statistieken</a></li>
+                    <li><a href="/nl/users/settings">Instellingen</a></li>
+                </ul>
+            </nav>
+        </header>
+        <script>
+            if ((new URLSearchParams(window.location.search)).has('embed')) {
+                document.querySelector('body > header').remove()
+            }
+            document.currentScript.remove()
+        </script>
+
+        <main>
+            <article>
+                <header>
+                    <h2 id="title"></h2>
+                    <p id="date"></p>
+                </header>
+
+                <section>
+                    <div class="table">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <th>Type hulpmiddel</th>
+                                    <td id="resource_type"></td>
+                                </tr>
+                                <tr>
+                                    <th>Voor het determineren van</th>
+                                    <td id="taxon_scope"></td>
+                                </tr>
+                                <tr>
+                                    <th>Tot op</th>
+                                    <td id="target_taxa"></td>
+                                </tr>
+                                <tr>
+                                    <th>Voor het gebied</th>
+                                    <td id="region"></td>
+                                </tr>
+                                <tr>
+                                    <th>Volledig</th>
+                                    <td id="complete"></td>
+                                </tr>
+                                <tr>
+                                    <th>Andere info</th>
+                                    <td id="key_characteristics"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section id="resources_section">
+                    <h3>Inhoud</h3>
+
+                    <div class="table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Type</th>
+                                    <th>Taxa</th>
+                                    <th>Aspect</th>
+                                    <th>Pagina's</th>
+                                </tr>
+                            </thead>
+                            <tbody id="resources">
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Bibliographische info</h3>
+
+                    <div class="table">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <th>Type publicatie</th>
+                                    <td id="entry_type"></td>
+                                </tr>
+                                <tr>
+                                    <th>Auteurs</th>
+                                    <td id="author"></td>
+                                </tr>
+                                <tr>
+                                    <th>Uitgever</th>
+                                    <td id="publisher"></td>
+                                </tr>
+                                <tr>
+                                    <th>Serie</th>
+                                    <td id="series"></td>
+                                </tr>
+                                <tr>
+                                    <th>Volume</th>
+                                    <td id="volume"></td>
+                                </tr>
+                                <tr>
+                                    <th>Nummer</th>
+                                    <td id="issue"></td>
+                                </tr>
+                                <tr>
+                                    <th>Pagina's</th>
+                                    <td id="pages"></td>
+                                </tr>
+                                <tr>
+                                    <th>Editie</th>
+                                    <td id="edition"></td>
+                                </tr>
+                                <tr>
+                                    <th>ISBN</th>
+                                    <td id="isbn"></td>
+                                </tr>
+                                <tr>
+                                    <th>DOI</th>
+                                    <td id="doi"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Toegang</h3>
+
+                    <div class="table">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <th>Info</th>
+                                    <td id="info_url"></td>
+                                </tr>
+                                <tr>
+                                    <th>Inhoud</th>
+                                    <td id="fulltext_url"></td>
+                                </tr>
+                                <tr>
+                                    <th>Bibliotheken</th>
+                                    <td id="libraries"></td>
+                                </tr>
+                                <tr>
+                                    <th>Taal</th>
+                                    <td id="language"></td>
+                                </tr>
+                                <tr>
+                                    <th>Licentie</th>
+                                    <td id="license"></td>
+                                </tr>
+                                <tr>
+                                    <th>Wikidata</th>
+                                    <td id="wikidata"></td>
+                                </tr>
+                                <tr>
+                                    <th>Permalink</th>
+                                    <td id="permalink"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Citatie</h3>
+
+                    <div id="citation"></div>
+                </section>
+
+                <section id="listed_in_section">
+                    <h3>Wordt benoemd of naar gerefereerd in</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Titel</th>
+                            </tr>
+                        </thead>
+                        <tbody id="listed_in">
+                        </tbody>
+                    </table>
+                </section>
+
+                <section id="references_section">
+                    <h3>Benoemt of refereert naar</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Titel</th>
+                            </tr>
+                        </thead>
+                        <tbody id="references">
+                        </tbody>
+                    </table>
+                </section>
+
+                <section id="part_of_section">
+                    <h3>Deel van</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Titel</th>
+                            </tr>
+                        </thead>
+                        <tbody id="part_of">
+                        </tbody>
+                    </table>
+                </section>
+
+                <section id="parts_section">
+                    <h3>Heeft delen</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Titel</th>
+                            </tr>
+                        </thead>
+                        <tbody id="parts">
+                        </tbody>
+                    </table>
+                </section>
+
+                <section id="versions_section">
+                    <h3>Heeft versies</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Titel</th>
+                                <th>Auteurs</th>
+                                <th>Datum</th>
+                                <th>Editie</th>
+                                <th>Taal</th>
+                            </tr>
+                        </thead>
+                        <tbody id="versions">
+                        </tbody>
+                    </table>
+                </section>
+            </article>
+        </main>
+
+        <script src="https://cdn.jsdelivr.net/npm/citation-js@0.7.19/build/citation.min.js" charset="utf-8"></script>
+        <script src="/assets/js/shared.js" charset="utf-8"></script>
+        <script src="/assets/js/detail.js" charset="utf-8"></script>
+    </body>
+</html>

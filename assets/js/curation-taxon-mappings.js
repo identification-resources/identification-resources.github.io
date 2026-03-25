@@ -31,7 +31,7 @@
 
   async function openDialog (id) {
     const $a = document.getElementById('curation_resource_link')
-    $a.setAttribute('href', `/catalog/resource/?id=${id}`)
+    $a.setAttribute('href', `${URL_PREFIX}/catalog/resource/?id=${id}`)
     $a.textContent = id
 
     const $table = document.getElementById('curation_resource_taxa')
@@ -77,7 +77,7 @@
 
       {
         const $td = document.createElement('td')
-        $td.textContent = taxon.taxonRank
+        $td.textContent = LABELS.taxon_rank.get(taxon.taxonRank)
         $tr.appendChild($td)
       }
 
@@ -85,7 +85,7 @@
         const $td = document.createElement('td')
         const $a = document.createElement('a')
         $a.setAttribute('href', `https://www.gbif.org/species/search?q=${encodeURIComponent(name)}`)
-        $a.textContent = 'Search'
+        $a.textContent = LABELS.pagination_search
         $td.appendChild($a)
         $tr.appendChild($td)
       }
@@ -97,7 +97,7 @@
       const $tr = document.createElement('tr')
       const $td = document.createElement('td')
       $td.setAttribute('colspan', '4')
-      $td.textContent = 'None'
+      $td.textContent = LABELS.pagination_none
       $tr.appendChild($td)
       $table.appendChild($tr)
     }
@@ -112,7 +112,7 @@
     {
       const $td = document.createElement('td')
       const $a = document.createElement('a')
-      $a.setAttribute('href', `/catalog/resource/?id=${problem.checklist_id}`)
+      $a.setAttribute('href', `${URL_PREFIX}/catalog/resource/?id=${problem.checklist_id}`)
       $a.textContent = problem.checklist_id
       $td.appendChild($a)
       $tr.appendChild($td)
@@ -128,7 +128,7 @@
       const $td = document.createElement('td')
       const $a = document.createElement('a')
       $a.setAttribute('href', '#')
-      $a.textContent = 'View'
+      $a.textContent = LABELS.pagination_view
       $a.addEventListener('click', function (event) {
         event.preventDefault()
         openDialog(problem.checklist_id)

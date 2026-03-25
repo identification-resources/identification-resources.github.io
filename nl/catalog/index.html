@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title>Catalogus — Library of Identification Resources</title>
+
+        <link rel="stylesheet" href="/assets/css/main.css">
+        <link rel="shortcut icon" href="/assets/img/logo_124.png">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <script data-goatcounter="https://loir.goatcounter.com/count" async src="//gc.zgo.at/count.v4.js" crossorigin="anonymous" integrity="sha384-nRw6qfbWyJha9LhsOtSb2YJDyZdKvvCFh0fJYlkquSFjUxp9FVNugbfy8q1jdxI+"></script>
+    </head>
+    <body>
+        <header class="small">
+            <a href="..">
+                <img id="logo" src="/assets/img/logo_512.png" alt="Logo: moth with spread, speckled black and red wings">
+            </a>
+
+            <h1>Library of Identification Resources</h1>
+
+            <nav role="navigation" aria-label="Site Navigation">
+                <ul>
+                    <li><a href="/nl/catalog">Catalogus</a></li>
+                    <li><a href="/nl/catalog/visualizations">Statistieken</a></li>
+                    <li><a href="/nl/users/settings">Instellingen</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <form>
+                <label for="catalog_select" class="sr-only">Zoekveld</label>
+                <select id="catalog_select" name="field"><option value="*">Alle velden</option></select>
+                <label for="catalog_search" class="sr-only">Zoekopdracht</label>
+                <input id="catalog_search" type="text" name="query">
+                <button type="submit">Zoek</button>
+            </form>
+
+            <hr>
+
+            <p id="catalog_results"></p>
+
+            <div class="table">
+                <table>
+                    <thead>
+                        <tr id="catalog_headers"></tr>
+                    </thead>
+                    <tbody id="catalog_data"></tbody>
+                </table>
+            </div>
+
+            <nav role="navigation" aria-label="Pagination Navigation">
+                <ul id="catalog_pagination"></ul>
+            </nav>
+        </main>
+
+        <script src="/assets/js/shared.js" charset="utf-8"></script>
+        <script src="/assets/js/table.js" charset="utf-8"></script>
+    </body>
+</html>

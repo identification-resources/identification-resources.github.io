@@ -1,3 +1,10 @@
+const PAGE_LANG = (() => {
+    const prefix = window.location.pathname.slice(1).split('/')[0]
+    return prefix === 'nl' ? prefix : 'en'
+})()
+const URL_PREFIX = PAGE_LANG === 'en' ? '' : `/${PAGE_LANG}`
+const LANGUAGE_NAMES = new Intl.DisplayNames([PAGE_LANG], { type: 'language' })
+
 // primer/octicons is licensed under the MIT License
 // https://github.com/primer/octicons/blob/main/LICENSE
 const octicons = {
@@ -72,6 +79,275 @@ const flagLabels = {
     MISSING_AUTHORSHIP: 'Not all taxa named in the resource have their reported authorship yet in this list'
 }
 
+const LABELS = {
+    access_open_license: 'Open license',
+    access_full_text: 'Full text available, no license',
+    access_no_full_text: 'No full text available',
+
+    error_database: 'Error loading database',
+    error_unknown: 'Unknown error',
+
+    pagination_previous: 'Previous page',
+    pagination_next: 'Next page',
+    pagination_view_all: 'View all',
+    pagination_view: 'View',
+    pagination_search: 'Search',
+    pagination_none: 'None',
+
+    button_add: 'Add',
+    button_remove: 'Remove',
+    button_edit: 'Edit',
+
+    url_archived: 'Archived',
+    url_dwc: 'Download as Darwin Core',
+
+    breakdown_total: 'Total',
+    breakdown_other_arthropods: 'Other Arthropods',
+    breadkown_other_animals: 'Other Animals',
+    breakdown_other_chordata: 'Other Chordata',
+    breakdown_other: 'Other',
+
+    extracted_true: 'Extracted',
+    extracted_false: 'Not extracted',
+    complete_true: 'Complete',
+    complete_false: 'Incomplete',
+    complete_na: 'N/A',
+    license_public_domain: 'Public domain',
+    license_unclear: 'Unclear',
+    license_na: 'Not specified',
+
+    gbif_license: 'Above data from the <a href="https://www.gbif.org/dataset/d7dddbf4-2cf0-4f39-9b2a-bb099caae36c">GBIF Backbone Taxonomy</a>, licensed under <a href="http://creativecommons.org/licenses/by/4.0/legalcode">CC BY 4.0</a>.',
+    holding_in_library: 'in',
+    synonym_of: 'of',
+
+    find_resources_error_select: 'Please select a result',
+    find_resources_error_note: 'Note',
+    find_resources_error_incomplete: 'These search results may be incomplete, and additional suitable identification resources may exist. Missing a specific resource?',
+    find_resources_error_suggest: 'Suggest it for addition to the catalogue.',
+    find_resources_input_taxon: 'Taxon',
+    find_resources_input_location: 'Location',
+    find_resources_input_gbif_dataset: 'GBIF dataset',
+    find_resources_input_resource: 'Resource',
+    find_resources_input_coordinates: 'coordinates',
+    find_resources_loading: 'Loading...',
+    find_resources_loading_location: 'Loading location info...',
+    find_resources_loading_checklist: 'Loading checklist...',
+    find_resources_sort_total_score: 'Total score',
+    find_resources_sort_species: 'Species',
+    find_resources_sort_applicability: 'Applicability',
+    find_resources_sort_usability: 'Usability',
+    find_resources_sort_recency: 'Recency',
+
+    functions: {
+        resources: n => n === 1 ? '1 resource' : `${n} resources`,
+        taxa: n => n === 1 ? '1 taxon' : `${n} taxa`,
+        results: n => n === 1 ? '1 result' : `${n} results`,
+
+        search_result_count: (n, total) => `Displaying ${LABELS.functions.results(n)} of ${total} total.`,
+        unknown_holding: title => 'Unknown holding' + (title ? `: ${title}` : ''),
+        find_resources_loading_checklist: n => `Loading checklist (${n} taxa)...`,
+        find_resources_view_editions_versions: n => `View all ${n} editions/versions`
+    },
+
+    // Only different when translated
+    entry_type: { get (key) { return this[key] || key } },
+    key_type: { get (key) { return this[key] || key } },
+    taxon_rank: { get (key) { return this[key] || key } },
+    taxon_status: { get (key) { return this[key] || key } },
+    browse_columns: { get (key) { return this[key] || key } },
+    continents: { get (key) { return this[key] || key } }
+}
+
+if (PAGE_LANG === 'nl') {
+    Object.assign(fieldLabels, {
+        id: 'ID',
+        title: 'Titel',
+        author: 'Auteurs',
+        url: 'URL',
+        fulltext_url: 'Tekst-URL',
+        archive_url: 'Archief-URL',
+        entry_type: 'Type publicatie',
+        date: 'Jaar/datum',
+        publisher: 'Uitgever',
+        series: 'Serie/tijdschrift',
+        ISSN: 'ISSN',
+        ISBN: 'ISBN',
+        DOI: 'DOI',
+        QID: 'Wikidata ID',
+        volume: 'Volume',
+        issue: 'Nummer',
+        pages: 'Pagina\'s',
+        edition: 'Editie',
+        language: 'Taal',
+        license: 'Licentie',
+        key_type: 'Type hulpmiddel',
+        taxon: 'Taxon',
+        taxon_scope: 'Taxon. bereik',
+        scope: 'Bereik',
+        region: 'Gebied',
+        complete: 'Volledigheid',
+        key_characteristics: 'Info sleutel',
+        target_taxa: 'Taxon. niveau',
+        listed_in: 'Gerefereerd in',
+        part_of: 'Onderdeel van',
+        version_of: 'Versie van',
+        duplicate_of: 'Duplicaat van',
+        year: 'Jaar',
+        decade: 'Decennium',
+        access: 'Toegang',
+        taxa_data: 'Soortenlijst beschikbaar'
+    })
+
+    Object.assign(flagLabels, {
+        MISSING_TAXA: 'Niet alle taxa uit de bron zijn al toegevoegd',
+        MISSING_PARENT_TAXA: 'Niet alle classificatie-informatie uit de bron is al toegevoegd',
+        MISSING_SYNONYMS: 'Niet alle synoniemen uit de bron zijn al toegevoegd',
+        MISSING_AUTHORSHIP: 'Niet alle auteurscitaties uit de bron zijn al toegevoegd'
+    })
+
+    Object.assign(LABELS, {
+        access_open_license: 'Open licentie',
+        access_full_text: 'Inhoud beschikbaar, geen licentie',
+        access_no_full_text: 'Inhoud niet beschikbaar',
+        error_database: 'Foutmelding bij inladen van database',
+        error_unknown: 'Onbekende foutmelding',
+        pagination_previous: 'Vorige pagina',
+        pagination_next: 'Volgende pagina',
+        pagination_view_all: 'Toon alle resultaten',
+        pagination_view: 'Bekijk',
+        pagination_search: 'Zoek',
+        pagination_none: 'Geen',
+        button_add: 'Voeg to',
+        button_remove: 'Verwijder',
+        button_edit: 'Bewerk',
+        url_archived: 'Gearchiveerd',
+        url_dwc: 'Download als Darwin Core',
+        breakdown_total: 'Totaal',
+        breakdown_other_arthropods: 'Andere Geleedpotigen',
+        breakdown_other_animals: 'Andere Dieren',
+        breakdown_other_chordata: 'Andere Gewervelden',
+        breakdown_other: 'Anders',
+        extracted_true: 'Met soortenlijst',
+        extracted_false: 'Zonder soortenlijst',
+        complete_true: 'Volledig',
+        complete_false: 'Niet volledig',
+        complete_na: 'N. v. t.',
+        license_public_domain: 'Publiek domein',
+        license_unclear: 'Onduidelijk',
+        license_na: 'Niet gespecificeerd',
+        gbif_license: 'Bovenstaande data van de <a href="https://www.gbif.org/dataset/d7dddbf4-2cf0-4f39-9b2a-bb099caae36c">GBIF Backbone Taxonomy</a>, beschikbaar onder de licentie <a href="http://creativecommons.org/licenses/by/4.0/legalcode">CC BY 4.0</a>.',
+        holding_in_library: 'in',
+        synonym_of: 'van',
+        find_resources_error_select: 'Selecteer een resultaat',
+        find_resources_error_note: 'Opmerking',
+        find_resources_error_incomplete: 'Deze zoekresultaten kunnen incompleet zijn, en zou kunnen dat elders meer relevante hulpmiddelen voor het determineren van deze waarneming te vinden zijn. Ontbreekt er iets specifieks?',
+        find_resources_error_suggest: 'Stel het voor als toevoeging in de catalogus.',
+        find_resources_input_taxon: 'Taxon',
+        find_resources_input_location: 'Locatie',
+        find_resources_input_gbif_dataset: 'GBIF-dataset',
+        find_resources_input_resource: 'Sleutel',
+        find_resources_input_coordinates: 'coördinaten',
+        find_resources_loading: 'Laden...',
+        find_resources_loading_location: 'Laden van locatie-info...',
+        find_resources_loading_checklist: 'Laden van de soortenlijst...',
+        find_resources_sort_total_score: 'Totale score',
+        find_resources_sort_species: 'Soorten',
+        find_resources_sort_applicability: 'Toepasselijkheid',
+        find_resources_sort_usability: 'Bruikbaarheid',
+        find_resources_sort_recency: 'Actueelheid',
+    })
+
+    Object.assign(LABELS.functions, {
+        resources: n => n === 1 ? '1 publicatie' : `${n} publicaties`,
+        taxa: n => n === 1 ? '1 taxon' : `${n} taxa`,
+        results: n => n === 1 ? '1 resultaat' : `${n} resultaten`,
+
+        search_result_count: (n, total) => `${n} van de ${LABELS.functions.results(total)}`,
+        unknown_holding: title => 'Onbekend exemplaar' + (title ? `: ${title}` : ''),
+        find_resources_loading_checklist: n => `Laden van de soortenlijst (${n} taxa)...`,
+        find_resources_view_editions_versions: n => `Bekijk alle ${n} edities/versies`
+    })
+
+    Object.assign(LABELS.entry_type, {
+        print: 'gedrukt',
+        online: 'digitaal',
+        cd: 'cd'
+    })
+
+    Object.assign(LABELS.key_type, {
+        key: 'sleutel',
+        reference: 'soortbeschrijvingen',
+        matrix: 'matrix',
+        collection: 'verzameling',
+        checklist: 'soortenlijst',
+        algorithm: 'algoritme',
+        gallery: 'afbeeldingen',
+        supplement: 'addenda/errata'
+    })
+
+    Object.assign(LABELS.taxon_rank, {
+        stirps: 'stirps',
+        race: 'ras',
+        aberration: 'aberratie',
+        form: 'form',
+        variety: 'variëteit',
+        subspecies: 'ondersoort',
+        species: 'soort',
+        complex: 'complex',
+        aggregate: 'aggregaat',
+        group: 'groep',
+        subgroup: 'subgroep',
+        series: 'serie',
+        subsection: 'subsectie',
+        section: 'sectie',
+        subgenus: 'ondergeslacht',
+        genus: 'geslacht',
+        subtribe: 'subtribus',
+        tribe: 'tribus',
+        subfamily: 'onderfamilie',
+        family: 'familie',
+        superfamily: 'superfamilie',
+        infraorder: 'infraorde',
+        suborder: 'onderorde',
+        order: 'orde',
+        superorder: 'superorde',
+        infraclass: 'infraklasse',
+        subclass: 'onderklasse',
+        class: 'klasse',
+        subphylum: 'onderphylum',
+        phylum: 'phylum'
+    })
+
+    Object.assign(LABELS.taxon_status, {
+        accepted: 'geaccepteerd',
+        doubtful: 'nomen dubium',
+        synonym: 'synoniem',
+        'heterotypic synonym': 'heterotypisch synoniem',
+        'homotypic synonym': 'homotypisch synoniem',
+        'proparte synonym': 'pro parte synoniem',
+        misapplied: 'onterecht gebruikt'
+    })
+
+    Object.assign(LABELS.browse_columns, {
+        Author: 'Auteur',
+        Place: 'Gebied',
+        Publisher: 'Uitgever',
+        Series: 'Serie',
+        'Located in': 'Gelegen in',
+        'Other names': 'Andere namen',
+        Works: 'Publicaties'
+    })
+
+    Object.assign(LABELS.continents, {
+        Africa: 'Afrika',
+        Asia: 'Azië',
+        Europe: 'Europa',
+        'North America': 'Noord-Amerika',
+        Oceania: 'Oceanië',
+        'South America': 'Zuid-Amerika'
+    })
+}
+
 async function loadCsv (url) {
     const request = await fetch(url)
     const file = await request.text()
@@ -111,10 +387,10 @@ async function extendCatalog (rows) {
     const fulltextUrl = row[i.fulltext_url]
     const archiveUrl = row[i.archive_url]
     const access = license && !license.endsWith('?>')
-        ? 'Open license'
+        ? LABELS.access_open_license
         : fulltextUrl || (archiveUrl && (!url || !archiveUrl.endsWith(url) || url === fulltextUrl))
-            ? 'Full text available, no license'
-            : 'No full text available'
+            ? LABELS.access_full_text
+            : LABELS.access_no_full_text
     const taxaData = keys.hasOwnProperty(row[0] + ':1').toString()
 
     return row.concat(year.toString(), decade.toString(), access, taxaData)
@@ -165,7 +441,7 @@ async function loadKey (id) {
 async function loadSettings () {
     return new Promise(function (resolve, reject) {
         const DBOpenRequest = window.indexedDB.open('settings', 1)
-        DBOpenRequest.onerror = () => reject(new Error('Error loading database'))
+        DBOpenRequest.onerror = () => reject(new Error(LABELS.error_database))
         DBOpenRequest.onsuccess = () => resolve(DBOpenRequest.result)
         DBOpenRequest.onupgradeneeded = (event) => {
             const db = event.target.result
@@ -186,13 +462,13 @@ async function getLibraryHoldings (db, id) {
     const store = db.transaction(['libraries'], 'readonly').objectStore('libraries')
     return new Promise(function (resolve, reject) {
         const request = store.index('catalogId').getAll(id)
-        request.onsuccess = () => reject('Unknown error')
+        request.onsuccess = () => reject(LABELS.error_unknown)
         request.onsuccess = (event) => resolve(event.target.result)
     })
 }
 
 function formatAuthors (value) {
-    return formatLinkedList(value, author => `/catalog/author/?name=${author}`)
+    return formatLinkedList(value, author => `${URL_PREFIX}/catalog/author/?name=${author}`)
 }
 
 function formatLinkedList (list, makeUrl) {
@@ -289,7 +565,7 @@ function formatPagination (pagination, search, data) {
     }
 
     if (searchPage > 1) {
-        makePaginationLink(searchPage - 1, searchLimit, '<', 'Previous page')
+        makePaginationLink(searchPage - 1, searchLimit, '<', LABELS.pagination_previous)
     }
     if (searchPage > 1 + paginationContext) {
         makePaginationLink(1, searchLimit)
@@ -311,7 +587,7 @@ function formatPagination (pagination, search, data) {
         makePaginationLink(searchPages, searchLimit)
     }
     if (searchPage < searchPages) {
-        makePaginationLink(searchPage + 1, searchLimit, '>', 'Next page')
+        makePaginationLink(searchPage + 1, searchLimit, '>', LABELS.pagination_next)
     }
 
     return { searchPage, searchLimit }

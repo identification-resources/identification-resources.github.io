@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title>Library of Identification Resources</title>
+
+        <link rel="stylesheet" href="/assets/css/main.css">
+        <link rel="shortcut icon" href="/assets/img/logo_124.png">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="google-site-verification" content="1ktyNeIn6BksL6wX78qL7hFjpzgx1VzRGnMu0NSl78s" />
+
+        <script data-goatcounter="https://loir.goatcounter.com/count" async src="//gc.zgo.at/count.v4.js" crossorigin="anonymous" integrity="sha384-nRw6qfbWyJha9LhsOtSb2YJDyZdKvvCFh0fJYlkquSFjUxp9FVNugbfy8q1jdxI+"></script>
+    </head>
+    <body>
+        <header>
+            <img id="logo" src="/assets/img/logo_512.png" alt="Logo: moth with spread, speckled black and red wings">
+            <h1>Library of Identification Resources</h1>
+
+            <nav>
+                <ul>
+                    <li><a href="/nl/catalog">Catalogus</a></li>
+                    <li><a href="/nl/catalog/visualizations">Statistieken</a></li>
+                    <li><a href="/nl/users/settings">Instellingen</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <p>
+                De <strong>Library of Identification Resources</strong> (<strong>LoIR</strong>) is gemaakt om te helpen met het
+                determineren van soorten dieren, planten, en schimmels. Het voornaamste product is een catalogus van bronnen
+                die determinatiesleutels, fotogidsen, matrix-sleutels, diagnostische beschrijvingen, of simpelweg soortenlijsten
+                bevatten.
+            </p>
+
+            <form action="/catalog">
+                <p>
+                    <a href="/nl/catalog">Doorzoek de catalogus</a>, of zoek op metadata:
+                </p>
+
+                <label for="catalog_select" class="sr-only">Zoekveld</label>
+                <select id="catalog_select" name="field"><option value="*">Alle velden</option></select>
+                <label for="catalog_search" class="sr-only">Zoekopdracht</label>
+                <input id="catalog_search" type="text" name="query">
+                <button type="submit">Zoek</button>
+            </form>
+
+            <article>
+                <h2>
+                    <a id="header-explore" class="anchor" aria-hidden="true" href="#header-explore">
+                        <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path>
+                        </svg>
+                    </a>
+                    Verkennen
+                </h2>
+
+                <div id="gallery">
+                    <div>
+                        <a href="/nl/find-resources">
+                            <h3 style="text-align: center;">
+                                Vind de meest relevante determinatiesleutels
+                            </h3>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="gallery">
+                    <div>
+                        <a href="/nl/catalog/visualizations/map">
+                            <h3>Verken op plaats</h3>
+                            <img src="/assets/img/screenshot_map.png">
+                        </a>
+                    </div>
+                    <div>
+                        <a href="/nl/catalog/visualizations#by_year">
+                            <h3>Verken op datum</h3>
+                            <img src="/assets/img/screenshot_decade.png">
+                        </a>
+                    </div>
+                    <div>
+                        <a href="/nl/catalog/visualizations#by_column">
+                            <h3>Verken met andere info</h3>
+                            <img src="/assets/img/screenshot_other.png">
+                        </a>
+                    </div>
+                </div>
+
+                <div id="gallery">
+                    <div>
+                        <h3 style="text-align: center;">
+                            Bekijk per:
+
+                            <a href="/nl/catalog/browse/?category=authors">Auteur</a>
+                            &bullet;
+                            <a href="/nl/catalog/browse/?category=places">Plaats</a>
+                            &bullet;
+                            <a href="/nl/catalog/browse/?category=publishers">Uitgever</a>
+                            &bullet;
+                            <a href="/nl/catalog/browse/?category=series">Serie</a>
+                            &bullet;
+                            <a href="/nl/taxonomy/taxon/?name=Biota">Taxonomie</a>
+                        </h3>
+                    </div>
+                </div>
+            </article>
+
+            <article>
+                <h2>
+                    <a id="header-about" class="anchor" aria-hidden="true" href="#header-about">
+                        <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path>
+                        </svg>
+                    </a>
+                    Over
+                </h2>
+                <p>
+                    De catalogus van LoIR bevat zowel bibliographische metadata
+                    en informatie over hoe men de werken kan verkrijgen, en daarnaast informatie over de onderwerp van de bron,
+                    zoals het taxon of de taxa die het onderscheidt, de geografische regio waar het werk voor bedoeld is,
+                    en of het bedoeld is volledig te zijn. Auteurs, uitgevers en de regio's van werken, en de werken zelf,
+                    zijn gekoppeld aan de database van <a href="https://wikidata.org/">Wikidata</a>.
+                </p>
+                <p>
+                    Naast de werken zelf, kunnen de individuele sleutels en gidsen in de werken ook worden opgenomen,
+                    met extra bibliographische data (bv. paginanummers), het specifieke bereik van de bron (bv. sleutels
+                    alleen voor vrouwtjes, alleen voor larven, of alleen voor terrestrische soorten), en een lijst van
+                    de soorten (of geslachten, families, etc.) die kunnen worden onderscheden met de bron, eventueel met
+                    hun taxonomische classificatie. Deze taxa zijn, wanneer mogelijk, gekoppeld aan
+                    <a href="https://www.catalogueoflife.org/">Catalogue of Life</a> en <a href="https://www.gbif.org/">GBIF</a>.
+                </p>
+                <p>
+                    Bijvoorbeeld, <a href="https://purl.org//identification-resources/catalog/B1378"><i>Liheyidy</i> (Puchkov, 1969)</a>
+                    een belangrijk werk over de bodemwantsen (Heteroptera: Lygaeidae) van Oekraïene is opgenomen met bibliographische
+                    metadata en een link naar het <a href="https://en.wikipedia.org/wiki/DjVu">DjVu</a>-bestand met een scan van
+                    het boek. Het boek bevat een sleutel voor de families van de superfamilie Lygaeoidea
+                    (<a href="https://purl.org//identification-resources/resource/B1378:1">B1378:1</a>),
+                    en drie sleutels tot op soort: één voor adults (<a href="https://purl.org//identification-resources/resource/B1378:2">B1378:2</a>),
+                    één voor nimfen (<a href="https://purl.org//identification-resources/resource/B1378:3">B1378:3</a>),
+                    en één voor eitjes (<a href="https://purl.org//identification-resources/resource/B1378:4">B1378:4</a>).
+                    Omdat de lijst van soorten die zijn opgenomen verschilt tusssen de drie sleutels (voor sommige soorten is de nimf
+                    bv. niet beschreven), worden de sleutels afzonderlijk opgenomen, om beter het taxonomische bereik van de
+                    sleutels te weergeven.
+                </p>
+                <p>
+                    <blockquote>
+                        Dit project ontving in 2023 <a href="https://www.gbif.org/news/EQgUzZ4YA75BSeLs1naI9/#lir">een gedeelde derde plek</a>
+                        in de <a href="https://www.gbif.org/ebbe">GBIF Ebbe Nielsen Challenge</a> van de Global
+                        Biodiversity Information Facility (GBIF).
+                    </blockquote>
+                </p>
+                <h2>
+                    <a id="header-data" class="anchor" aria-hidden="true" href="#header-data">
+                        <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path>
+                        </svg>
+                    </a>
+                    Bijdragen
+                </h2>
+                <p>
+                    Deze catalogus is niet, en wordt waarschijnlijk nooit, een complete lijst van determinatiesleutels. Niet-insecten
+                    en soorten buiten Europa zijn vooral <a href="/nl/catalog/visualizations/breakdown/">erg onvertegenwoordigd</a>.
+                    Bijdragen om de catalogus vollediger te maken zijn daarom meer dan welkom.
+                </p>
+                <p>
+                    <blockquote style="text-align: center; font-size: 1.17em; font-weight: bold;">
+                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSc775-ZeLVAdwt_kEh42z4rOEemCWNdV8cYhwwgeHZOQMf_XQ/viewform?usp=dialog" target="_blank" rel="nofollow">
+                            Stuur een determinatiesleutel in
+                        </a>
+                    </blockquote>
+                </p>
+                <h3>
+                    Andere manieren om bij te dragen
+                </h3>
+                <p>
+                    Je kan ook bijdragen op andere manieren, waaronder door
+                </p>
+                <ol>
+                    <li>
+                        <a href="https://github.com/identification-resources/catalog/issues/new?assignees=&amp;labels=untriaged%2C+untriaged%3A+addition&amp;template=addition-to-the-catalog.md&amp;title=" target="_blank" rel="nofollow">
+                            Nieuwe sleutels of andere publicaties voor te stellen om toe te voegen aan de catalogus.
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/identification-resources/catalog/issues/new?assignees=&amp;labels=untriaged%2C+untriaged%3A+error&amp;template=catalog-error.md&amp;title=" target="_blank" rel="nofollow">
+                            Fouten in de catalogus te melden.
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/identification-resources/catalog/blob/main/CONTRIBUTING.md#adding-works" target="_blank" rel="nofollow">
+                            Zelf (nieuwe) publicaties in te voeren door de database te bewerken en de veranderingen in te sturen.
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/identification-resources/catalog/blob/main/CONTRIBUTING.md#adding-resources-within-works" target="_blank" rel="nofollow">
+                            Soortenlijsten in te voeren.
+                        </a>
+                    </li>
+                </ol>
+                <p>
+                    Zie ook de curatie-pagina's voor mogelijk taken:
+                </p>
+                <ul>
+                    <li>
+                        <a href="/nl/curation/taxon-mappings/">
+                            Wetenschappelijke namen die niet aan een database gekoppeld zijn
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/nl/curation/resource-flags/">
+                            Incomplete soortenlijsten
+                        </a>
+                    </li>
+                </ul>
+                <h2>
+                    <a id="header-use" class="anchor" aria-hidden="true" href="#header-use">
+                        <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path>
+                        </svg>
+                    </a>
+                    Gebruik van de website
+                </h2>
+                <ul>
+                    <li>
+                        Om sleutels te ordenen op relevantie voor een waarneming van een gegeven soortgroep op een gegeven locatie, is er
+                        een hulpmiddel ontwikkeld die hier beschikbaar is::<br>
+                        <a href="https://identification-resources.github.io/find-resources/nl">https://identification-resources.github.io/find-resources/nl</a>
+                    </li>
+                    <li>
+                        De volledige catalogus kan hier worden doorgezocht:<br>
+                        <a href="https://identification-resources.github.io/catalog">https://identification-resources.github.io/nl/catalog</a>
+                    </li>
+                    <li>
+                        Vanaf daar kan je individuele publicaties in meer detail bekijken, bijvoorbeeld hier:<br>
+                        <a href="https://identification-resources.github.io/nl/catalog/detail/?id=B501">https://identification-resources.github.io/nl/catalog/detail/?id=B501</a>
+                    </li>
+                    <li>
+                        Vanaf daar kan je individuele onderdelen van de publicatie verkennen, bijvoorbeeld hier:<br>
+                        <a href="https://identification-resources.github.io/nl/catalog/resource/?id=B501:1">https://identification-resources.github.io/nl/catalog/resource/?id=B501:1</a>
+                    </li>
+                    <li>
+                        Een set dynamische, interactieve visualisaties van de catalogus kan hier worden bekeken:<br>
+                        <a href="https://identification-resources.github.io/nl/catalog/visualizations">https://identification-resources.github.io/nl/catalog/visualizations</a>
+                    </li>
+                </ul>
+                <p>
+                    Een videotutorial die sommige van deze functies (vooral het eerste hulpmiddel) laat zien is beschikbaar op YouTube:
+                    <a href="https://youtu.be/QbYiM0qU1O4">https://youtu.be/QbYiM0qU1O4</a>.
+                </p>
+                <h2>
+                    <a id="header-news" class="anchor" aria-hidden="true" href="#header-news">
+                        <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path>
+                        </svg>
+                    </a>
+                    Nieuws
+                </h2>
+                <ul>
+                    <li style="margin-bottom: 0.5em;">
+                        2026-03-20: <a href="https://larsgw.blogspot.com/2026/03/integrating-inventaireio-with-library.html">Integrating inventaire.io with the Library of Identification Resources</a>
+                    </li>
+                    <li style="margin-bottom: 0.5em;">
+                        2025-10-21: <a href="https://larsgw.blogspot.com/2025/10/updates-to-taxonomic-coverage-and.html">Updates to taxonomic coverage and search result scoring</a>
+                    </li>
+                    <li style="margin-bottom: 0.5em;">
+                        2025-09-01: <a href="https://larsgw.blogspot.com/2025/09/new-paper-library-of-identification.html">New paper: "Library of Identification Resources: a FAIR overview of taxonomic keys"</a>
+                    </li>
+                    <li style="margin-bottom: 0.5em;">
+                        2023-02-01: <a href="https://larsgw.blogspot.com/2023/02/on-modelling-of-content-of.html">On the modelling of the content of identification keys</a>
+                    </li>
+                    <li style="margin-bottom: 0.5em;">
+                        2022-12-23: <a href="https://larsgw.blogspot.com/2022/12/explore-identification-keys-on-world-map.html">
+                            Explore identification keys on the world map
+                        </a>
+                    </li>
+                    <li style="margin-bottom: 0.5em;">
+                        2022-11-09: <a href="https://larsgw.blogspot.com/2022/11/on-modelling-and-application-of.html">On the modelling and application of the taxonomic coverage of identification keys</a>
+                    </li>
+                    <li style="margin-bottom: 0.5em;">
+                        2022-08-06: <a href="https://larsgw.blogspot.com/2022/08/library-of-identification-resources.html">Library of Identification Resources</a>
+                    </li>
+                </ul>
+                <h2>
+                    <a id="header-data" class="anchor" aria-hidden="true" href="#header-data">
+                        <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path>
+                        </svg>
+                    </a>
+                    Data
+                </h2>
+                <p>
+                    De data in de catalogus en in de individuele sleutels wordt gepubliceerd onder de
+                    <a href="https://github.com/identification-resources/catalog/blob/main/LICENSE">CC0 Public Domain Dedication</a>
+                    en is beschikbaar op GitHub op <a href="https://github.com/identification-resources/catalog">https://github.com/
+                    identification-resources/catalog</a>. Van tijd en tijd wordt de data geupload naar Zenodo: <a href="https://doi.org/
+                    10.5281/zenodo.15552611">doi:10.5281/zenodo.15552611</a>
+                </p>
+                <p>
+                    De code achter deze website is ook beschikbaar op GitHub op <a href="https://github.com/identification-resources">
+                    https://github.com/identification-resources</a>.
+                </p>
+                <h2>
+                    <a id="header-cite" class="anchor" aria-hidden="true" href="#header-cite">
+                        <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path>
+                        </svg>
+                    </a>
+                    Citatie
+                </h2>
+                <p>
+                    <blockquote>
+                        Willighagen L. G., Jongejans E. (2025) Library of Identification Resources: a FAIR overview of taxonomic keys.
+                        <i>Biodiversity Data Journal</i> 13: e161726. <a href="https://doi.org/10.3897/BDJ.13.e161726">https://doi.org/10.3897/BDJ.13.e161726</a>
+                    </blockquote>
+                </p>
+                <h2>
+                    <a id="header-contact" class="anchor" aria-hidden="true" href="#header-contact">
+                        <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path>
+                        </svg>
+                    </a>
+                    Contact
+                </h2>
+                <p>
+                    Feedback is welkom op GitHub op <a href="https://github.com/identification-resources/catalog/issues">https://github.com/identification-resources/catalog/issues</a>. Daarnaast kan je de ontwikkelaar bereiken op <a href="#" onclick="event.preventDefault(),this.setAttribute('href','mailto:'+(this.textContent=atob('bGFycy53aWxsaWdoYWdlbkBnbWFpbC5jb20')))">[klik om te laten zien]</a>.
+                </p>
+            </article>
+        </main>
+
+        <script src="/assets/js/shared.js" charset="utf-8"></script>
+        <script src="/assets/js/search.js" charset="utf-8"></script>
+    </body>
+</html>

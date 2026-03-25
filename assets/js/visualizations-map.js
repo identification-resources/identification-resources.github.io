@@ -19,9 +19,8 @@ async function getPlaces (places) {
 }
 
 function makePopup (place) {
-    return `<a href="/catalog/place/?id=${place.id}">${place.display_name
- || place.name}</a><br>
-${place.count} resource${place.count !== 1 ? 's' : ''}`
+    return `<a href="${URL_PREFIX}/catalog/place/?id=${place.id}">${place.display_name || place.name}</a><br>
+            ${LABELS.functions.resources(place.count)}`
 }
 
 async function getShapes (places) {
@@ -106,7 +105,7 @@ async function main () {
 
     // Count without any
     const placesWithoutMapData = rows.filter(row => row[placeColumn].split('; ').every(place => !places[place].geojson))
-    document.getElementById('rest_count').textContent = ` (${placesWithoutMapData.length} resources)`
+    document.getElementById('rest_count').textContent = ` (${LABELS.functions.resources(placesWithoutMapData.length)})`
 
     // Visualizations
     const colorScale = d3.scaleLinear([0, maxCount], [d3.interpolateRgb('#f2efe9', '#c4202a')(0.1), '#c4202a']).unknown('#ffffff')

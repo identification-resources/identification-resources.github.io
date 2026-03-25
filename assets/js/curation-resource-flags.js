@@ -20,7 +20,7 @@
     {
       const $td = document.createElement('td')
       const $a = document.createElement('a')
-      $a.setAttribute('href', `/catalog/resource/?id=${problem.id}`)
+      $a.setAttribute('href', `${URL_PREFIX}/catalog/resource/?id=${problem.id}`)
       $a.textContent = problem.id
       $td.appendChild($a)
       $tr.appendChild($td)

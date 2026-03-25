@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title>Instellingen — Library of Identification Resources</title>
+
+        <link rel="stylesheet" href="/assets/css/main.css">
+        <link rel="shortcut icon" href="/assets/img/logo_124.png">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <script data-goatcounter="https://loir.goatcounter.com/count" async src="//gc.zgo.at/count.v4.js" crossorigin="anonymous" integrity="sha384-nRw6qfbWyJha9LhsOtSb2YJDyZdKvvCFh0fJYlkquSFjUxp9FVNugbfy8q1jdxI+"></script>
+    </head>
+    <body>
+        <header class="small">
+            <a href="/nl/">
+                <img id="logo" src="/assets/img/logo_512.png" alt="Logo: moth with spread, speckled black and red wings">
+            </a>
+
+            <h1>Library of Identification Resources</h1>
+
+            <nav>
+                <ul>
+                    <li><a href="/nl/catalog">Catalogus</a></li>
+                    <li><a href="/nl/catalog/visualizations">Statistieken</a></li>
+                    <li><a href="/nl/users/settings">Instellingen</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <header>
+                <h2>Instellingen</h2>
+            </header>
+
+            <h3>Libraries</h3>
+
+            <div style="margin-bottom: 1em;">
+                <button id="inventaire_add">Voeg inventaire.io-plank toe</button>
+            </div>
+
+            <div class="table">
+                <table style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th colspan="2">Titel</th>
+                            <th>Locatie</th>
+                            <th>Bibliotheek</th>
+                            <th>Opmerking</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="resources">
+                    </tbody>
+                </table>
+            </div>
+        </main>
+
+        <dialog id="inventaire">
+            <h3>Voeg <a href="https://inventaire.io/">inventaire.io</a>-plank toe</h3>
+
+            <form id="inventaire_search">
+                <label for="inventaire_search_user">Gebruikersnaam</label>
+                <input id="inventaire_search_user" />
+                <button>Zoek</button>
+            </form>
+
+            <form id="inventaire_shelves">
+                <table style="min-width: 100%; margin: 1em 0;">
+                    <thead>
+                        <tr>
+                            <th>Plank</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </form>
+
+            <form method="dialog">
+                <button>Terug</button>
+            </form>
+        </dialog>
+
+        <dialog id="mapping">
+            <h3>Koppel exemplaar aan catalogus</h3>
+
+            <form id="mapping_link">
+                <input type="hidden" name="library_id" />
+                <input type="hidden" name="item_id" />
+                <label for="mapping_catalog_id">Catalogus-ID (bv. "B123")</label>
+                <input id="mapping_catalog_id" name="catalog_id" />
+
+                <button>Koppel</button>
+            </form>
+
+            <hr>
+
+            <form method="dialog">
+                <button>Terug</button>
+            </form>
+        </dialog>
+
+        <script src="/assets/js/shared.js" charset="utf-8"></script>
+        <script src="/assets/js/users-settings.js" charset="utf-8"></script>
+    </body>
+</html>

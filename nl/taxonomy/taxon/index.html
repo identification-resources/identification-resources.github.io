@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title>Taxon — Library of Identification Resources</title>
+
+        <link rel="stylesheet" href="/assets/css/main.css">
+        <link rel="shortcut icon" href="/assets/img/logo_124.png">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <script data-goatcounter="https://loir.goatcounter.com/count" async src="//gc.zgo.at/count.v4.js" crossorigin="anonymous" integrity="sha384-nRw6qfbWyJha9LhsOtSb2YJDyZdKvvCFh0fJYlkquSFjUxp9FVNugbfy8q1jdxI+"></script>
+    </head>
+    <body>
+        <header class="small">
+            <a href="/nl/">
+                <img id="logo" src="/assets/img/logo_512.png" alt="Logo: moth with spread, speckled black and red wings">
+            </a>
+
+            <h1>Library of Identification Resources</h1>
+
+            <nav>
+                <ul>
+                    <li><a href="/nl/catalog">Catalogus</a></li>
+                    <li><a href="/nl/catalog/visualizations">Statistieken</a></li>
+                    <li><a href="/nl/users/settings">Instellingen</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <article>
+                <header>
+                    <h2 id="mainTitle"></h2>
+                    <p id="date"></p>
+                </header>
+
+                <section>
+                    <div class="table">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <th>Status</th>
+                                    <td id="status"></td>
+                                </tr>
+                                <tr>
+                                    <th>Permalink</th>
+                                    <td id="permalink"></td>
+                                </tr>
+                                <tr>
+                                    <th>GBIF</th>
+                                    <td id="gbif"></td>
+                                </tr>
+                                <tr>
+                                    <th>Externe links</th>
+                                    <td>
+                                        <a id="wikidata"></a>,
+                                        <a id="scholia"></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Classificatie</th>
+                                    <td id="classification"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <p id="data-source" style="color: #989d89;"></p>
+                </section>
+
+                <section>
+                    <h3>Lagere taxa</h3>
+
+                    <div id="children-graph" class="table" style="margin: 2em 0;"></div>
+
+                    <details>
+                        <summary>Alle lagere taxa</summary>
+
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Naam</th>
+                                    <th>Rang</th>
+                                    <th>Aantal publicaties</th>
+                                </tr>
+                            </thead>
+                            <tbody id="children">
+                            </tbody>
+                        </table>
+                    </detials>
+                </section>
+
+                <section>
+                    <h3>Vermeldingen</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Naam</th>
+                                <th>Status</th>
+                                <th>Hulpmiddel</th>
+                                <th>Publicatie</th>
+                            </tr>
+                        </thead>
+                        <tbody id="refs">
+                        </tbody>
+                    </table>
+                </section>
+
+                <section>
+                    <h3>Hulpmiddelen voor dit taxon</h3>
+                    <p>Dit neemt niet de hulpmiddelen mee die zijn geassociëerd met hogere taxonomische groepen die, in theorie, dit taxon zouden kunnen behandelen (zie daarvoor <a href="#refs">Vermeldingen</a> hierboven), noch hulpmiddelen voor specifieke lagere taxa.</p>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Publicatie</th>
+                                <th>Gebied</th>
+                            </tr>
+                        </thead>
+                        <tbody id="resources">
+                        </tbody>
+                    </table>
+                </section>
+            </article>
+        </main>
+
+        <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+        <script src="/assets/js/shared.js" charset="utf-8"></script>
+        <script src="/assets/js/taxon.js" charset="utf-8"></script>
+
+        <script type="application/ld+json" id="schemas-org"></script>
+    </body>
+</html>

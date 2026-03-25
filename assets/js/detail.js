@@ -39,7 +39,7 @@
     const versions = allVersions[data.version_of]
 
     if (data.duplicate_of) {
-        window.location.href = '/catalog/detail/?id=' + data.duplicate_of
+        window.location.href = URL_PREFIX + '/catalog/detail/?id=' + data.duplicate_of
     }
 
     document.querySelector('head title').textContent = data.title + ' — Library of Identification Resources'
@@ -53,14 +53,14 @@
             if (octicons[type]) {
                 p.innerHTML = octicons[type]
             }
-            p.append(' ' + type)
+            p.append(' ' + LABELS.key_type.get(type))
             element.appendChild(p)
         }
     }
 
     document.getElementById('taxon_scope').append(...formatLinkedList(
         data.taxon,
-        taxon => `/taxonomy/taxon/?name=${taxon}`
+        taxon => `${URL_PREFIX}/taxonomy/taxon/?name=${taxon}`
     ))
     if (data.taxon_scope || data.scope) {
         const scope = [data.taxon_scope, data.scope.split('; ').join(', ')].filter(Boolean).join('; ')
@@ -68,9 +68,12 @@
     }
 
     document.getElementById('target_taxa').textContent = data.target_taxa
+        .split('; ')
+        .map(rank => LABELS.taxon_rank.get(rank))
+        .join('; ')
     document.getElementById('region').append(...formatLinkedList(
         data.region,
-        author => `/catalog/place/?name=${author}`
+        author => `${URL_PREFIX}/catalog/place/?name=${author}`
     ))
     document.getElementById('complete').textContent = data.complete ? data.complete === 'TRUE' ? 'Yes' : 'No' : ''
     document.getElementById('key_characteristics').textContent = data.key_characteristics
@@ -80,18 +83,18 @@
         if (octicons[data.entry_type]) {
             document.getElementById('entry_type').innerHTML = octicons[data.entry_type]
         }
-        document.getElementById('entry_type').append(' ' + data.entry_type)
+        document.getElementById('entry_type').append(' ' + LABELS.entry_type.get(data.entry_type))
     }
 
     document.getElementById('author').append(...formatAuthors(data.author))
     document.getElementById('publisher').append(...formatLinkedList(
         data.publisher,
-        publisher => `/catalog/publisher/?name=${publisher}`
+        publisher => `${URL_PREFIX}/catalog/publisher/?name=${publisher}`
     ))
 
     if (data.ISSN) {
         const series = document.createElement('a')
-        series.setAttribute('href', `/catalog/series/?issn=${data.ISSN}`)
+        series.setAttribute('href', `${URL_PREFIX}/catalog/series/?issn=${data.ISSN}`)
         series.textContent = data.series
 
         const issn = document.createElement('a')
@@ -172,7 +175,7 @@
                 const a = document.createElement('a')
                 a.setAttribute('href', data.archive_url)
                 a.innerHTML = octicons.external_url
-                a.prepend('Archived ')
+                a.prepend(LABELS.url_archived + ' ')
                 document.getElementById(id).append(' (', a, ')')
             }
         }
@@ -205,7 +208,7 @@
                 p.append(holding.item.label)
             }
 
-            p.append(' in ')
+            p.append(' ' + LABELS.holding_in_library + ' ')
 
             if (holding.library.url) {
                 const a = document.createElement('a')
@@ -227,7 +230,7 @@
             const a = document.createElement('a')
             a.setAttribute('href', `https://hub.toolforge.org/P218:${language.split('-')[0]}?site=wikidata`)
             a.innerHTML = octicons.external_url
-            a.prepend(language + ' ')
+            a.prepend(LANGUAGE_NAMES.of(language) + ' (' + language + ') ')
 
             p.appendChild(a)
             document.getElementById('language').appendChild(p)
@@ -275,14 +278,14 @@
 
             const idCell = document.createElement('td')
             const idLink = document.createElement('a')
-            idLink.setAttribute('href', `/catalog/detail/?id=${id}`)
+            idLink.setAttribute('href', `${URL_PREFIX}/catalog/detail/?id=${id}`)
             idLink.textContent = id
             idCell.appendChild(idLink)
             row.appendChild(idCell)
 
             const titleCell = document.createElement('td')
             const titleLink = document.createElement('a')
-            titleLink.setAttribute('href', `/catalog/detail/?id=${id}`)
+            titleLink.setAttribute('href', `${URL_PREFIX}/catalog/detail/?id=${id}`)
             titleLink.textContent = all[id].title
             titleCell.appendChild(titleLink)
             row.appendChild(titleCell)
@@ -323,14 +326,14 @@
 
             const idCell = document.createElement('td')
             const idLink = document.createElement('a')
-            idLink.setAttribute('href', `/catalog/detail/?id=${data.id}`)
+            idLink.setAttribute('href', `${URL_PREFIX}/catalog/detail/?id=${data.id}`)
             idLink.textContent = data.id
             idCell.appendChild(idLink)
             row.appendChild(idCell)
 
             const titleCell = document.createElement('td')
             const titleLink = document.createElement('a')
-            titleLink.setAttribute('href', `/catalog/detail/?id=${data.id}`)
+            titleLink.setAttribute('href', `${URL_PREFIX}/catalog/detail/?id=${data.id}`)
             titleLink.textContent = data.title
             titleCell.appendChild(titleLink)
             row.appendChild(titleCell)
@@ -348,8 +351,10 @@
             row.appendChild(editionCell)
 
             const languageCell = document.createElement('td')
-            languageCell.setAttribute('href', `/catalog/detail/?id=${data.id}`)
             languageCell.textContent = data.language
+                .split('; ')
+                .map(language => LANGUAGE_NAMES.of(language))
+                .join('; ')
             row.appendChild(languageCell)
 
             table.appendChild(row)
@@ -470,7 +475,7 @@
             {
                 const td = document.createElement('td')
                 const a = document.createElement('a')
-                a.setAttribute('href', `/catalog/resource/?id=${key.id}`)
+                a.setAttribute('href', `${URL_PREFIX}/catalog/resource/?id=${key.id}`)
                 a.textContent = key.id
                 td.append(a)
                 tr.append(td)
@@ -484,7 +489,7 @@
                     if (octicons[type]) {
                         p.innerHTML = octicons[type]
                     }
-                    p.append(' ' + type)
+                    p.append(' ' + LABELS.key_type.get(type))
                     td.appendChild(p)
                 }
                 tr.append(td)
@@ -492,7 +497,7 @@
 
             {
                 const td = document.createElement('td')
-                td.textContent = `${key.taxonCount} taxa`
+                td.textContent = LABELS.functions.taxa(key.taxonCount)
                 tr.append(td)
             }
 
