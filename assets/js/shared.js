@@ -100,6 +100,7 @@ const LABELS = {
 
     url_archived: 'Archived',
     url_dwc: 'Download as Darwin Core',
+    url_statistics: 'Statistics of these results',
 
     breakdown_total: 'Total',
     breakdown_other_arthropods: 'Other Arthropods',
@@ -222,6 +223,7 @@ if (PAGE_LANG === 'nl') {
         button_edit: 'Bewerk',
         url_archived: 'Gearchiveerd',
         url_dwc: 'Download als Darwin Core',
+        url_statistics: 'Statistieken van deze resultaten',
         breakdown_total: 'Totaal',
         breakdown_other_arthropods: 'Andere Geleedpotigen',
         breakdown_other_animals: 'Andere Dieren',
@@ -262,7 +264,7 @@ if (PAGE_LANG === 'nl') {
         taxa: n => n === 1 ? '1 taxon' : `${n} taxa`,
         results: n => n === 1 ? '1 resultaat' : `${n} resultaten`,
 
-        search_result_count: (n, total) => `${n} van de ${LABELS.functions.results(total)}`,
+        search_result_count: (n, total) => `${n} van de ${LABELS.functions.results(total)}.`,
         unknown_holding: title => 'Onbekend exemplaar' + (title ? `: ${title}` : ''),
         find_resources_loading_checklist: n => `Laden van de soortenlijst (${n} taxa)...`,
         find_resources_view_editions_versions: n => `Bekijk alle ${n} edities/versies`

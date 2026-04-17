@@ -1,7 +1,16 @@
 async function main () {
-    const [headers, ...rows] = await loadCatalog()
+    const [headers, ...allRows] = await loadCatalog()
     const id = headers.indexOf('id')
     const all = {}
+
+    const search = new URLSearchParams(window.location.search)
+    const searchField = search.get('field')
+    const searchQuery = search.get('query')
+    const searchFieldIndex = headers.indexOf(searchField)
+    const rows = !searchQuery ? allRows : allRows.filter(function (row) {
+        const field = searchField && searchField !== '*' ? row[searchFieldIndex] : row.join('\u001D')
+        return field.toLowerCase().includes(searchQuery.toLowerCase())
+    })
 
     for (const row of rows) {
         const data = all[row[id]] = {}

@@ -90,4 +90,11 @@
 
     resultCount.textContent = LABELS.functions.search_result_count(data.length, searchRows.length)
 
+    if (searchField && searchQuery) {
+        const a = document.createElement('a')
+        a.setAttribute('href', `${URL_PREFIX}/catalog/visualizations/?field=${searchField}&query=${searchQuery}`)
+        a.textContent = LABELS.url_statistics
+        resultCount.append(' ', a, '.')
+    }
+
 })().catch(console.error)
