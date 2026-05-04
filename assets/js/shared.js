@@ -1,9 +1,30 @@
+const LANGUAGES = ['en', 'nl']
 const PAGE_LANG = (() => {
     const prefix = window.location.pathname.slice(1).split('/')[0]
-    return prefix === 'nl' ? prefix : 'en'
+    return LANGUAGES.includes(prefix) ? prefix : 'en'
 })()
 const URL_PREFIX = PAGE_LANG === 'en' ? '' : `/${PAGE_LANG}`
 const LANGUAGE_NAMES = new Intl.DisplayNames([PAGE_LANG], { type: 'language' })
+
+function switchLanguage (language) {
+    const path = window.location.pathname
+    const barePath = PAGE_LANG === 'en' ? path : path.replace(/^\/[^/]+/, '')
+    window.location = language === 'en' ? barePath : `/${language}${barePath}`
+}
+
+loadSettings()
+    .then(db => new Promise(function (resolve) {
+        const store = db.transaction(['settings'], 'readwrite').objectStore('settings')
+        const request = store.get('language')
+        request.onsuccess = (event) => resolve(event.target.result)
+        request.onerror = () => resolve(null)
+    })).then(function (languageSettings) {
+        const preferredLanguage = languageSettings ? languageSettings.value : navigator.languages.find(language => LANGUAGES.includes(language)) || 'en'
+
+        if (preferredLanguage !== PAGE_LANG) {
+            switchLanguage(preferredLanguage)
+        }
+    })
 
 // primer/octicons is licensed under the MIT License
 // https://github.com/primer/octicons/blob/main/LICENSE
