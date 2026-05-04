@@ -7,7 +7,7 @@ body {
     margin: 0;
 }
 
-header, th, #gallery > div {
+header, footer, th, #gallery > div {
     background-color: #ede5d2;
 }
 
@@ -33,19 +33,23 @@ body > header > h1 {
     text-align: center;
 }
 
-body > header > nav a {
+body > header > nav a,
+body > footer > nav a {
     text-decoration: none;
 }
 
-body > header > nav ul {
+body > header > nav ul,
+body > footer > nav ul {
     padding: 0;
 }
 
-body > header > nav li {
+body > header > nav li,
+body > footer > nav li {
     display: inline;
 }
 
-body > header > nav li:nth-child(n + 2)::before {
+body > header > nav li:nth-child(n + 2)::before,
+body > footer > nav li:nth-child(n + 2)::before {
     content: '· ';
 }
 
@@ -88,6 +92,16 @@ body > main header h2 {
 body > main header #date {
     margin: 0;
     white-space: nowrap;
+}
+
+body > footer {
+    align-items: center;
+    border-top: 1px solid #989d89;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+    justify-content: space-evenly;
+    padding: 0 1em;
 }
 
 a {

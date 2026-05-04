@@ -26,6 +26,19 @@ loadSettings()
         }
     })
 
+{
+    const languageSwitcher = document.getElementById('footer-language')
+    if (languageSwitcher) {
+        languageSwitcher.addEventListener('change', async function (event) {
+            const language = event.target.value
+            const db = await loadSettings()
+            const settings = db.transaction(['settings'], 'readwrite').objectStore('settings')
+            const request = settings.put({ key: 'language', value: language })
+            request.onsuccess = () => { switchLanguage(language) }
+        })
+    }
+}
+
 // primer/octicons is licensed under the MIT License
 // https://github.com/primer/octicons/blob/main/LICENSE
 const octicons = {
