@@ -194,7 +194,7 @@
     }
 
     const settings = await loadSettings()
-    const libraryHoldings = await getLibraryHoldings(settings, id)
+    const libraryHoldings = await getLibraryHoldings(settings, id).catch(() => [])
     if (libraryHoldings.length) {
         for (const holding of libraryHoldings) {
             const p = document.createElement('p')

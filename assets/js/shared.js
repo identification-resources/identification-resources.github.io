@@ -485,7 +485,7 @@ async function getLibraryHoldings (db, id) {
     const store = db.transaction(['libraries'], 'readonly').objectStore('libraries')
     return new Promise(function (resolve, reject) {
         const request = store.index('catalogId').getAll(id)
-        request.onsuccess = () => reject(LABELS.error_unknown)
+        request.onerror = () => reject(LABELS.error_unknown)
         request.onsuccess = (event) => resolve(event.target.result)
     })
 }
