@@ -4,13 +4,7 @@ async function main () {
     const all = {}
 
     const search = new URLSearchParams(window.location.search)
-    const searchField = search.get('field')
-    const searchQuery = search.get('query')
-    const searchFieldIndex = headers.indexOf(searchField)
-    const rows = !searchQuery ? allRows : allRows.filter(function (row) {
-        const field = searchField && searchField !== '*' ? row[searchFieldIndex] : row.join('\u001D')
-        return field.toLowerCase().includes(searchQuery.toLowerCase())
-    })
+    const rows = filterCatalog(headers, allRows, search.get('field'), search.get('query'))
 
     for (const row of rows) {
         const data = all[row[id]] = {}

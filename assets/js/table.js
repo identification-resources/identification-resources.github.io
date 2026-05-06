@@ -41,15 +41,11 @@
     const search = new URLSearchParams(window.location.search)
     const searchField = search.get('field')
     const searchQuery = search.get('query')
-    const searchFieldIndex = headers.indexOf(searchField)
 
     inputField.value = searchField
     inputQuery.value = searchQuery
 
-    let searchRows = !searchQuery ? rows : rows.filter(function (row) {
-        const field = searchField && searchField !== '*' ? row[searchFieldIndex] : row.join('\u001D')
-        return field.toLowerCase().includes(searchQuery.toLowerCase())
-    })
+    const searchRows = filterCatalog(headers, rows, searchField, searchQuery)
 
     const { searchPage, searchLimit } = formatPagination(pagination, search, searchRows)
 
@@ -90,9 +86,9 @@
 
     resultCount.textContent = LABELS.functions.search_result_count(data.length, searchRows.length)
 
-    if (searchField && searchQuery) {
+    if (searchQuery) {
         const a = document.createElement('a')
-        a.setAttribute('href', `${URL_PREFIX}/catalog/visualizations/?field=${searchField}&query=${searchQuery}`)
+        a.setAttribute('href', `${URL_PREFIX}/catalog/visualizations/?field=${searchField ?? '*'}&query=${searchQuery}`)
         a.textContent = LABELS.url_statistics
         resultCount.append(' ', a, '.')
     }

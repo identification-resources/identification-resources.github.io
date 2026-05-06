@@ -453,6 +453,30 @@ async function loadCatalog () {
     return extendCatalog(await loadCsv('/assets/data/catalog.csv'))
 }
 
+function filterCatalog (headers, rows, searchField, searchQuery) {
+    if (!searchQuery) {
+        return rows
+    }
+
+    const searchFieldIndex = headers.indexOf(searchField)
+    const searchFieldSingle = searchField && searchField !== '*'
+
+    const searchQueryNormalized = searchQuery.toLowerCase()
+    const searchQueryMultiple = !searchFieldSingle && searchQueryNormalized.includes(' ')
+    const searchQueryParts = searchQueryNormalized.split(' ')
+
+    return rows.filter(function (row) {
+        const field = searchFieldSingle ? row[searchFieldIndex] : row.join('\u001D')
+        const fieldNormalized = field.toLowerCase()
+
+        if (searchQueryMultiple) {
+            return searchQueryParts.every(part => fieldNormalized.includes(part))
+        }
+
+        return fieldNormalized.includes(searchQueryNormalized)
+    })
+}
+
 const loadKeys = (function () {
     const url = '/assets/data/resources/index.json'
     let resources
