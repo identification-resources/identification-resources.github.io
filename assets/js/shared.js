@@ -7,7 +7,7 @@ const URL_PREFIX = PAGE_LANG === 'en' ? '' : `/${PAGE_LANG}`
 const LANGUAGE_NAMES = new Intl.DisplayNames([PAGE_LANG], { type: 'language' })
 
 function switchLanguage (language) {
-    const path = window.location.pathname
+    const path = window.location.pathname + window.location.search + window.location.hash
     const barePath = PAGE_LANG === 'en' ? path : path.replace(/^\/[^/]+/, '')
     window.location = language === 'en' ? barePath : `/${language}${barePath}`
 }
