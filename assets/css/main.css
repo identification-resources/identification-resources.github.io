@@ -222,6 +222,16 @@ main > nav a[href][aria-current], main > nav a[href]:hover {
     outline: 2px solid black;
 }
 
+fieldset.catalog_search {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+fieldset.catalog_search:first-of-type {
+    display: inline;
+}
+
 .sr-only {
     clip: rect(0 0 0 0);
     clip-path: inset(50%);

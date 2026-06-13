@@ -30,10 +30,12 @@
 
         <main>
             <form>
-                <label for="catalog_select" class="sr-only">Search field</label>
-                <select id="catalog_select" name="field"><option value="*">All fields</option></select>
-                <label for="catalog_search" class="sr-only">Search query</label>
-                <input id="catalog_search" type="text" name="query">
+                <fieldset class="catalog_search">
+                    <label for="catalog_search_field" class="sr-only">Search field</label>
+                    <select id="catalog_search_field" name="field"><option value="*">All fields</option></select>
+                    <label for="catalog_search_query" class="sr-only">Search query</label>
+                    <input id="catalog_search_query" type="text" name="query">
+                </fieldset>
                 <button type="submit">Search</button>
             </form>
 

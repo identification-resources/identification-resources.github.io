@@ -132,6 +132,7 @@ const LABELS = {
     button_add: 'Add',
     button_remove: 'Remove',
     button_edit: 'Edit',
+    button_add_field: 'Add field',
 
     url_archived: 'Archived',
     url_dwc: 'Download as Darwin Core',
@@ -257,6 +258,7 @@ if (PAGE_LANG === 'nl') {
         button_add: 'Voeg to',
         button_remove: 'Verwijder',
         button_edit: 'Bewerk',
+        button_add_field: 'Voeg veld to',
         url_archived: 'Gearchiveerd',
         url_dwc: 'Download als Darwin Core',
         url_statistics: 'Statistieken van deze resultaten',

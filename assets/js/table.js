@@ -1,8 +1,8 @@
 (async function () {
     const tableHeaders = document.getElementById('catalog_headers')
     const tableRows = document.getElementById('catalog_data')
-    const inputField = document.getElementById('catalog_select')
-    const inputQuery = document.getElementById('catalog_search')
+    const inputField = document.getElementById('catalog_search_field')
+    const inputQuery = document.getElementById('catalog_search_query')
     const resultCount = document.getElementById('catalog_results')
     const pagination = document.getElementById('catalog_pagination')
 
@@ -39,13 +39,58 @@
     }
 
     const search = new URLSearchParams(window.location.search)
-    const searchField = search.get('field')
-    const searchQuery = search.get('query')
+    const searchFields = search.getAll('field')
+    const searchQueries = search.getAll('query')
 
-    inputField.value = searchField
-    inputQuery.value = searchQuery
+    inputField.value = searchFields[0]
+    inputQuery.value = searchQueries[0]
 
-    const searchRows = filterCatalog(headers, rows, searchField, searchQuery)
+    {
+        const fieldsetTemplate = document.querySelector('.catalog_search')
+
+        {
+            const button = document.createElement('button')
+            button.setAttribute('type', 'button')
+            button.textContent = LABELS.button_add_field
+            button.addEventListener('click', addFieldset)
+            fieldsetTemplate.parentElement.append(button)
+        }
+
+        let fieldsetCount = 1
+
+        function addFieldset (field = '*', query = '') {
+            const fieldset = fieldsetTemplate.cloneNode(true)
+            const fieldInput = fieldset.querySelector('select')
+            const queryInput = fieldset.querySelector('input')
+            const [fieldLabel, queryLabel] = fieldset.querySelectorAll('label')
+
+            const button = document.createElement('button')
+            button.setAttribute('type', 'button')
+            button.textContent = '×'
+            button.addEventListener('click', function () { this.parentNode.remove() })
+            fieldset.append(button)
+
+            const idSuffix = '_' + fieldsetCount++
+
+            fieldLabel.setAttribute('for', fieldInput.id + idSuffix)
+            fieldInput.id = fieldInput.id + idSuffix
+            fieldInput.value = field
+
+            queryLabel.setAttribute('for', queryInput.id + idSuffix)
+            queryInput.id = queryInput.id + idSuffix
+            queryInput.value = query
+
+            fieldsetTemplate.parentElement.append(fieldset)
+
+            return fieldset
+        }
+
+        for (let i = 1; i < searchFields.length; i++) {
+            addFieldset(searchFields[i], searchQueries[i])
+        }
+    }
+
+    const searchRows = searchFields.reduce((rows, field, i) => filterCatalog(headers, rows, field, searchQueries[i] || ''), rows)
 
     const { searchPage, searchLimit } = formatPagination(pagination, search, searchRows)
 
@@ -86,9 +131,10 @@
 
     resultCount.textContent = LABELS.functions.search_result_count(data.length, searchRows.length)
 
-    if (searchQuery) {
+    if (searchQueries.join('')) {
+        const params = new URLSearchParams(search.entries().filter(([key]) => key === 'field' || key === 'query'))
         const a = document.createElement('a')
-        a.setAttribute('href', `${URL_PREFIX}/catalog/visualizations/?field=${searchField ?? '*'}&query=${searchQuery}`)
+        a.setAttribute('href', `${URL_PREFIX}/catalog/visualizations/?${params}`)
         a.textContent = LABELS.url_statistics
         resultCount.append(' ', a, '.')
     }

@@ -4,13 +4,23 @@ async function main () {
     const all = {}
 
     const search = new URLSearchParams(window.location.search)
-    const rows = filterCatalog(headers, allRows, search.get('field'), search.get('query'))
+    const rows = search.getAll('field').reduce(
+        (rows, field, index) => filterCatalog(headers, rows, field, search.getAll('query')[index] || ''),
+        allRows
+    )
 
     for (const row of rows) {
         const data = all[row[id]] = {}
         for (const [index, value] of Object.entries(row)) {
             data[headers[index]] = value
         }
+    }
+
+    function getUpdatedQuery (field, query) {
+        const params = new URLSearchParams(search.entries())
+        params.append('field', field)
+        params.append('query', query)
+        return params
     }
 
     // DECADES
@@ -44,7 +54,7 @@ async function main () {
             .selectAll('a')
             .data(decadeCounts)
             .join('a')
-                .attr('href', ([decade, _]) => `${URL_PREFIX}/catalog/?field=decade&query=${decade}`)
+                .attr('href', ([decade, _]) => `${URL_PREFIX}/catalog/?${getUpdatedQuery('decade', decade)}`)
                 .attr('transform', ([decade, _]) => `translate(${y(decade)},0)`)
             .append('rect')
                 .attr('fill', '#989d89')
@@ -102,7 +112,7 @@ async function main () {
             .selectAll('a')
             .data(pie(accessCounts))
             .join('a')
-                .attr('href', d => `${URL_PREFIX}/catalog/?field=access&query=${d.data[0]}`)
+                .attr('href', d => `${URL_PREFIX}/catalog/?${getUpdatedQuery('access', d.data[0])}`)
             .append('path')
                 .attr('d', d => arc(d))
                 .attr('fill', d => color(d.data[0]))
@@ -117,7 +127,7 @@ async function main () {
             .selectAll('g')
             .data(accessLevels)
             .join('a')
-            .attr('href', d => `${URL_PREFIX}/catalog/?field=access&query=${d}`)
+            .attr('href', d => `${URL_PREFIX}/catalog/?${getUpdatedQuery('access', d)}`)
             .append('g')
             .attr('transform', (_, i) => `translate(0,${2 * i * LEGEND_SIZE})`)
 
@@ -165,7 +175,7 @@ async function main () {
             .selectAll('a')
             .data(data)
             .join('a')
-                .attr('href', ([key, _]) => `${URL_PREFIX}/catalog/?field=${key}&query=${queries[key]}`)
+                .attr('href', ([key, _]) => `${URL_PREFIX}/catalog/?${getUpdatedQuery(key, queries[key])}`)
                 .attr('transform', ([key, _]) => `translate(0,${y(key)})`)
 
         a.append('rect')
@@ -232,7 +242,7 @@ async function main () {
             .selectAll('a')
             .data(pie(counts))
             .join('a')
-                .attr('href', d => `${URL_PREFIX}/catalog/?field=taxa_data&query=${d.data[0]}`)
+                .attr('href', d => `${URL_PREFIX}/catalog/?${getUpdatedQuery('taxa_data', d.data[0])}`)
             .append('path')
                 .attr('d', d => arc(d))
                 .attr('fill', d => color(d.data[0]))
@@ -247,7 +257,7 @@ async function main () {
             .selectAll('g')
             .data(levels)
             .join('a')
-            .attr('href', d => `${URL_PREFIX}/catalog/?field=taxa_data&query=${d}`)
+            .attr('href', d => `${URL_PREFIX}/catalog/?${getUpdatedQuery('taxa_data', d)}`)
             .append('g')
             .attr('transform', (_, i) => `translate(0,${2 * i * LEGEND_SIZE})`)
 
@@ -348,7 +358,7 @@ async function main () {
             .selectAll('a')
             .data(pie(data))
             .join('a')
-                .attr('href', d => `${URL_PREFIX}/catalog/?field=${key}&query=${link[key] ? link[key](d.data[0]): d.data[0]}`)
+                .attr('href', d => `${URL_PREFIX}/catalog/?${getUpdatedQuery(key, link[key] ? link[key](d.data[0]): d.data[0])}`)
             .append('path')
                 .attr('d', d => arc(d))
                 .attr('fill', d => color(d.data[0]))
@@ -363,7 +373,7 @@ async function main () {
             .selectAll('g')
             .data(levels)
             .join('a')
-            .attr('href', d => `${URL_PREFIX}/catalog/?field=${key}&query=${link[key] ? link[key](d) : d}`)
+            .attr('href', d => `${URL_PREFIX}/catalog/?${getUpdatedQuery(key, link[key] ? link[key](d): d)}`)
             .append('g')
             .attr('transform', (_, i) => `translate(${
                 LEGEND_COLUMN * Math.floor(i / LEGEND_ITEMS)
