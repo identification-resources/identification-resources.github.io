@@ -74,6 +74,7 @@ async function main () {
         const LEGEND_SIZE = 20
 
         const accessLevels = [
+            LABELS.access_public_domain,
             LABELS.access_open_license,
             LABELS.access_full_text,
             LABELS.access_no_full_text
@@ -81,7 +82,7 @@ async function main () {
 
         const color = d3.scaleOrdinal()
               .domain(accessLevels)
-              .range(["#000000", "#c4202a", "#989d89"])
+              .range(["#000000", "#c4202a", "#989d89", "#ede5d2"])
 
         const pie = d3.pie().value(([_, count]) => count)
         const arc = d3.arc()

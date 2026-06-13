@@ -114,6 +114,7 @@ const flagLabels = {
 }
 
 const LABELS = {
+    access_public_domain: 'Public domain',
     access_open_license: 'Open license',
     access_full_text: 'Full text available, no license',
     access_no_full_text: 'No full text available',
@@ -241,6 +242,7 @@ if (PAGE_LANG === 'nl') {
     })
 
     Object.assign(LABELS, {
+        access_public_domain: 'Publiek domein',
         access_open_license: 'Open licentie',
         access_full_text: 'Inhoud beschikbaar, geen licentie',
         access_no_full_text: 'Inhoud niet beschikbaar',
@@ -422,11 +424,13 @@ async function extendCatalog (rows) {
     const url = row[i.url]
     const fulltextUrl = row[i.fulltext_url]
     const archiveUrl = row[i.archive_url]
-    const access = license && !license.endsWith('?>')
-        ? LABELS.access_open_license
-        : fulltextUrl || (archiveUrl && (!url || !archiveUrl.endsWith(url) || url === fulltextUrl))
-            ? LABELS.access_full_text
-            : LABELS.access_no_full_text
+    const access = license === '<public domain>'
+        ? LABELS.access_public_domain
+        : license && !license.endsWith('?>')
+            ? LABELS.access_open_license
+            : fulltextUrl || (archiveUrl && (!url || !archiveUrl.endsWith(url) || url === fulltextUrl))
+                ? LABELS.access_full_text
+                : LABELS.access_no_full_text
     const taxaData = keys.hasOwnProperty(row[0] + ':1').toString()
 
     return row.concat(year.toString(), decade.toString(), access, taxaData)
