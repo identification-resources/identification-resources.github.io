@@ -281,7 +281,7 @@ async function main () {
     // BY COLUMN
     {
         const _select = document.querySelector('#by_column select')
-        const options = ['language', 'license', 'key_type', 'entry_type', 'scope', 'key_characteristics', 'target_taxa', 'complete']
+        const options = ['language', 'license', 'key_type', 'entry_type', 'scope', 'key_characteristics', 'target_taxa', 'complete', 'series']
         for (const key of options) {
             const _option = document.createElement('option')
             _option.setAttribute('value', key)
@@ -321,6 +321,12 @@ async function main () {
             v => v.length,
             parse[key] || (d => d)
         ))
+
+        if (['series'].includes(key)) {
+            data.sort(([, a], [, b]) => d3.descending(a, b))
+            const rest = data.splice(9)
+            data.push([LABELS.breakdown_other, rest.reduce((sum, [, count]) => sum + count, 0)])
+        }
 
         const HEIGHT = 420
         const GAP_SIZE = 50
@@ -391,7 +397,7 @@ async function main () {
             .append('text')
             .attr('x', LEGEND_SIZE * 1.5)
             .attr('y', LEGEND_SIZE * 0.75)
-            .text(d => label[key] ? label[key](d) : d)
+            .text(d => label[key] ? label[key](d) : (d || LABELS.complete_na))
 
         const legendBBox = legend.node().getBBox()
         legend.attr('transform', `translate(${HEIGHT + GAP_SIZE},${(HEIGHT - legendBBox.height) / 2})`)
