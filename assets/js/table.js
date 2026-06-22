@@ -42,8 +42,8 @@
     const searchFields = search.getAll('field')
     const searchQueries = search.getAll('query')
 
-    inputField.value = searchFields[0]
-    inputQuery.value = searchQueries[0]
+    if (searchFields.length) { inputField.value = searchFields[0] }
+    if (searchQueries.length) { inputQuery.value = searchQueries[0] }
 
     {
         const fieldsetTemplate = document.querySelector('.catalog_search')
