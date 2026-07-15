@@ -11,12 +11,12 @@
     return response.json()
   }
 
-  async function fetchTaxon (id) {
-    if (typeof id !== 'number' && (typeof id !== 'string' || !id.match(/^[1-9]\d*$/))) {
-      throw new Error(`Invalid GBIF id "${id}"`)
-    }
-
+  async function fetchGbif (id) {
     return fetchJson(`https://api.gbif.org/v1/species/${id}`)
+  }
+
+  async function fetchCol (id) {
+    return fetchJson(`https://api.checklistbank.org/dataset/3LXR/nameusage/${id}`)
   }
 
   const gbifRanks = {
@@ -53,21 +53,24 @@
     variety: true
   }
 
+  const ANCESTOR = getTaxonBaseFromLoir('T141')
+
   function getAncestors (data) {
-    const ancestors = [{ name: 'Biota' }]
+    const ancestors = [ANCESTOR]
 
     for (const rank in gbifRanks) {
+      if (data.rank && rank === data.rank.toLowerCase()) {
+        break
+      }
+
       if (gbifRanks[rank] && data[rank]) {
         ancestors.push({
           source: 'gbif',
           gbif: data[rank + 'Key'],
           name: data[rank],
+          canonicalName: data[rank],
           rank
         })
-      }
-
-      if (data.rank && rank === data.rank.toLowerCase()) {
-        break
       }
     }
 
@@ -75,11 +78,18 @@
   }
 
   async function getTaxonFromGbif (id) {
-    const data = await fetchTaxon(id)
+    if (typeof id !== 'number' && (typeof id !== 'string' || !id.match(/^[1-9]\d*$/))) {
+      throw new Error(`Invalid GBIF id "${id}"`)
+    }
+
+    const data = await fetchGbif(id)
+    const colMatch = await fetchJson(`https://api.gbif.org/v2/species/match?checklistKey=xcol&taxonID=gbif:${id}`)
+    const col = colMatch.usage ? colMatch.usage.key : undefined
 
     return {
       source: 'gbif',
       id: null,
+      col: col,
       gbif: data.key.toString(),
       qid: `P846:${data.key}`,
       name: data.scientificName,
@@ -88,13 +98,49 @@
       rank: data.rank.toLowerCase(),
       taxonomicStatus: data.taxonomicStatus.toLowerCase(),
       acceptedGbif: data.acceptedKey ? data.acceptedKey.toString() : undefined,
+      acceptedCol: col,
       acceptedTaxon: data.accepted,
       ancestors: getAncestors(data),
       children: []
     }
   }
 
-  async function getTaxonFromLoir (id) {
+  async function getTaxonFromCol (id) {
+    if (typeof id !== 'number' && (typeof id !== 'string' || !id.match(/^[1-9A-Z][0-9A-Z]*$/))) {
+      throw new Error(`Invalid CoL id "${id}"`)
+    }
+
+    const data = await fetchCol(id)
+    const taxonId = data.accepted ? data.accepted.id : id
+    const classification = await fetchJson(`https://api.checklistbank.org/dataset/3LXR/taxon/${taxonId}/classification`)
+
+    return {
+      source: 'col',
+      id: null,
+      col: id,
+      gbif: null,
+      qid: `P10585:${id}`,
+      name: data.label,
+      canonicalName: data.name.scientificName,
+      authorship: data.name.authorship,
+      rank: data.name.rank.toLowerCase(),
+      taxonomicStatus: data.status.toLowerCase(),
+      // acceptedGbif: no
+      acceptedCol: data.accepted ? data.accepted.id : undefined,
+      acceptedTaxon: data.accepted ? data.accepted.label : undefined,
+      ancestors: [ANCESTOR].concat(classification.map(ancestor => ({
+        source: 'col',
+        col: ancestor.id,
+        name: ancestor.authorship ? ancestor.name + ' ' + ancestor.authorship : ancestor.name,
+        canonicalName: ancestor.name,
+        authorship: ancestor.authorship,
+        rank: ancestor.rank
+      }))),
+      children: []
+    }
+  }
+
+  function getTaxonBaseFromLoir (id) {
     const data = taxa[id]
 
     if (!data) {
@@ -105,32 +151,23 @@
     const taxon = {
       source: 'loir',
       id: data.id,
+      col: data.col,
       gbif: data.gbif,
       qid: data.qid,
       name: data.name,
       canonicalName: name,
       authorship: authorship,
-      rank: data.rank
+      rank: data.rank,
       // taxonomicStatus: no
       // acceptedGbif: no
+      acceptedCol: data.accepted_col || undefined,
       // acceptedTaxon: no
       // ancestors: see below
       // children: see below
     }
 
-    if (data.gbif) {
-      const gbifData = await fetchTaxon(data.gbif)
-      taxon.ancestors = getAncestors(gbifData)
-    } else if (data.ancestors_gbif) {
-      const parent = data.ancestors_gbif.split('; ').pop()
-      const gbifData = await fetchTaxon(parent)
-      taxon.ancestors = getAncestors(gbifData)
-    } else {
-      taxon.ancestors = getAncestors({})
-    }
-
-    if (data.children_gbif) {
-      taxon.children = data.children_gbif.split('; ')
+    if (data.children_col) {
+      taxon.children = data.children_col.split('; ')
     } else {
       taxon.children = []
     }
@@ -138,15 +175,33 @@
     return taxon
   }
 
-  function redirectToTaxon (id) {
+  async function getTaxonFromLoir (id) {
+    const data = taxa[id]
+    const taxon = getTaxonBaseFromLoir(id)
+
+    if (data.ancestors_col) {
+      const parentId = data.ancestors_col.split('; ').pop()
+      const parent = await getTaxonFromCol(parentId)
+      taxon.ancestors = parent.ancestors.concat(parent)
+      delete parent.ancestors
+    } else if (id !== ANCESTOR.id) {
+      taxon.ancestors = getAncestors({})
+    } else {
+      taxon.ancestors = []
+    }
+
+    return taxon
+  }
+
+  function redirectToTaxon (id, field = 'id') {
     const search = new URLSearchParams(window.location.search)
-    if (search.has('gbif')) {
-      search.delete('gbif')
+    for (const param of ['col', 'gbif', 'name', 'id']) {
+      if (param === field) {
+        search.set(param, id)
+      } else if (search.has(param)) {
+        search.delete(param)
+      }
     }
-    if (search.has('name')) {
-      search.delete('name')
-    }
-    search.set('id', id)
     window.location.replace(window.location.pathname + '?' + search.toString() + window.location.hash)
   }
 
@@ -169,6 +224,19 @@
       } else {
         taxon = await getTaxonFromGbif(gbif)
         document.getElementById('data-source').innerHTML = LABELS.gbif_license
+
+        if (taxon.col) {
+          redirectToTaxon(taxon.col, 'col')
+        }
+      }
+    } else if (search.has('col')) {
+      const col = search.get('col')
+      const localTaxon = Object.values(taxa).find(taxon => taxon.col === col)
+      if (localTaxon) {
+        redirectToTaxon(localTaxon.id)
+      } else {
+        taxon = await getTaxonFromCol(col)
+        document.getElementById('data-source').innerHTML = LABELS.col_license
       }
     } else {
       taxon = await getTaxonFromLoir(search.get('id'))
@@ -199,56 +267,61 @@
 
   async function getTopChildren (parentTaxon) {
     const children = {}
-    const gbifIndexCatalog = {}
-    const gbifChildren = new Set()
+    const colIndexCatalog = {}
+    const colChildren = new Set()
 
+    // Create index of works and collect direct children
     for (const id in taxa) {
       const taxon = taxa[id]
-      const ancestors = taxon.ancestors_gbif ? taxon.ancestors_gbif.split('; ') : []
+      const col = taxon.accepted_col || taxon.col
+      const ancestors = taxon.ancestors_col ? taxon.ancestors_col.split('; ') : []
 
-      const parentIndex = ancestors.indexOf(parentTaxon.gbif)
-      if ((ancestors.length && parentIndex === ancestors.length - 1) || parentTaxon.children.includes(taxon.gbif)) {
-        const key = taxon.gbif || taxon.name
+      const parentIndex = ancestors.indexOf(parentTaxon.accepted_col || parentTaxon.col)
+      if ((ancestors.length && parentIndex === ancestors.length - 1) || parentTaxon.children.includes(col)) {
+        const key = col || taxon.name
         if (!children[key]) {
-          children[key] = taxon
+          children[key] = getTaxonBaseFromLoir(id)
         }
       } else if (parentIndex > -1) {
-        gbifChildren.add(ancestors[parentIndex + 1])
+        colChildren.add(ancestors[parentIndex + 1])
       }
 
-      if (taxon.gbif) {
-        ancestors.push(taxon.gbif)
+      if (col) {
+        ancestors.push(col)
       }
 
+      const works = taxonIndexCatalog[taxon.name] ?? []
       for (const ancestor of ancestors) {
-        const works = taxonIndexCatalog[taxon.name] ?? []
-        addToIndex(gbifIndexCatalog, ancestor, ...works)
+        addToIndex(colIndexCatalog, ancestor, ...works)
       }
     }
 
-    for (const data of await Promise.all(Array.from(gbifChildren).map(fetchTaxon))) {
-      children[data.key] = {
-        source: 'gbif',
-        name: data.scientificName,
-        rank: data.rank.toLowerCase(),
-        gbif: data.key
+    const colChildrenIds = Array.from(colChildren).filter(id => !(id in children))
+    for (const data of await Promise.all(colChildrenIds.map(fetchCol))) {
+      children[data.id] = {
+        source: 'col',
+        name: data.label,
+        canonicalName: data.name.scientificName,
+        rank: data.name.rank,
+        col: data.id
       }
     }
 
     for (const child in children) {
       const taxon = children[child]
+      const col = taxon.acceptedCol || taxon.col
       const works = new Set()
 
-      if (taxon.children_gbif) {
-        for (const descendant of taxon.children_gbif.split('; ')) {
-          for (const work of gbifIndexCatalog[descendant] ?? []) {
+      if (taxon.children) {
+        for (const descendant of taxon.children) {
+          for (const work of colIndexCatalog[descendant] ?? []) {
             works.add(work)
           }
         }
       }
 
-      if (taxon.gbif) {
-        for (const work of gbifIndexCatalog[taxon.gbif]) {
+      if (col) {
+        for (const work of colIndexCatalog[col]) {
           works.add(work)
         }
       }
@@ -266,7 +339,10 @@
   }
 
   function getResources (taxon) {
-    if (taxon.source === 'gbif') {
+    if (taxon.source === 'col') {
+      const names = Object.values(taxa).filter(localTaxon => localTaxon.col === taxon.col || localTaxon.accepted_col === taxon.col)
+      return names.flatMap(taxon => taxonIndexCatalog[taxon.name] ?? [])
+    } else if (taxon.source === 'gbif') {
       const names = Object.values(taxa).filter(localTaxon => localTaxon.gbif === taxon.gbif)
       return names.flatMap(taxon => taxonIndexCatalog[taxon.name] ?? [])
     } else {
@@ -275,7 +351,9 @@
   }
 
   function makeTaxonLink (taxon) {
-    if (taxon.source === 'gbif') {
+    if (taxon.source === 'col') {
+      return `${URL_PREFIX}/taxonomy/taxon/?col=${taxon.col}`
+    } else if (taxon.source === 'gbif') {
       return `${URL_PREFIX}/taxonomy/taxon/?gbif=${taxon.gbif}`
     } else {
       return `${URL_PREFIX}/taxonomy/taxon/?id=${taxon.id}`
@@ -291,14 +369,24 @@
 
   if (taxon.taxonomicStatus) {
     const element = document.getElementById('status')
-    const a = document.createElement('a')
-    a.setAttribute('href', `http://rs.gbif.org/vocabulary/gbif/taxonomicStatus/${taxon.taxonomicStatus.replace(/_(.)/g, (_, l) => l.toUpperCase())}`)
-    a.textContent = LABELS.taxon_status.get(taxon.taxonomicStatus.replace(/_/g, ' '))
-    element.appendChild(a)
+
+    if (taxon.source === 'gbif') {
+      const a = document.createElement('a')
+      a.setAttribute('href', `http://rs.gbif.org/vocabulary/gbif/taxonomicStatus/${taxon.taxonomicStatus.replace(/_(.)/g, (_, l) => l.toUpperCase())}`)
+      a.textContent = LABELS.taxon_status.get(taxon.taxonomicStatus.replace(/_/g, ' '))
+      element.appendChild(a)
+    } else {
+      element.append(LABELS.taxon_status.get(taxon.taxonomicStatus.replace(/_/g, ' ')))
+    }
+
     if (taxon.acceptedTaxon) {
       const { name, authorship } = parseTaxonName(taxon.acceptedTaxon)
       const a = document.createElement('a')
-      a.setAttribute('href', `${URL_PREFIX}/taxonomy/taxon/?gbif=${taxon.acceptedGbif}`)
+      if (taxon.acceptedCol) {
+        a.setAttribute('href', `${URL_PREFIX}/taxonomy/taxon/?col=${taxon.acceptedCol}`)
+      } else {
+        a.setAttribute('href', `${URL_PREFIX}/taxonomy/taxon/?gbif=${taxon.acceptedGbif}`)
+      }
       a.append(formatTaxonName(name, authorship, taxon.rank))
       element.append(' ' + LABELS.synonym_of + ' ', a)
     }
@@ -311,6 +399,15 @@
     permalink.innerHTML = octicons.persistent_url
     permalink.append(' ' + purl)
     document.getElementById('permalink').append(permalink)
+  }
+
+  if (taxon.col) {
+    const a = document.createElement('a')
+    a.setAttribute('href', `https://www.catalogueoflife.org/data/taxon/${taxon.col}`)
+    a.setAttribute('target', '_blank')
+    a.innerHTML = octicons.external_url
+    a.prepend(taxon.col + ' ')
+    document.getElementById('col').append(a)
   }
 
   if (taxon.gbif) {
@@ -342,19 +439,18 @@
     const element = document.getElementById('classification')
 
     for (const ancestor of taxon.ancestors) {
-      if (ancestor !== taxon.ancestors[0]) {
-        element.append(' > ')
-      }
-
       const a = document.createElement('a')
       a.setAttribute('href', makeTaxonLink(ancestor))
-      a.append(formatTaxonName(ancestor.name, '', ancestor.rank))
+      a.append(formatTaxonName(ancestor.canonicalName, '', ancestor.rank))
       element.append(a)
+
+      element.append(' > ')
     }
   }
 
-  const [catalog, gbifIndex] = await Promise.all([
+  const [catalog, colIndex, gbifIndex] = await Promise.all([
     fetchIndexedCatalog(),
+    fetchJson('/assets/data/resources/col.index.json'),
     fetchJson('/assets/data/resources/gbif.index.json'),
   ])
 
@@ -378,7 +474,7 @@
       const nameLink = document.createElement('a')
       nameLink.setAttribute('href', makeTaxonLink(taxon))
       nameLink.setAttribute('style', 'white-space: pre;')
-      nameLink.append(taxon.name)
+      nameLink.append(taxon.canonicalName)
       nameCell.append(nameLink)
       row.append(nameCell)
 
@@ -394,20 +490,20 @@
     }
 
     // Pie chart
-    const strictChildren = topChildren.filter(child => gbifRanks[child.rank])
+    const strictChildren = topChildren.filter(child => child.source === 'col' || !taxa[child.id].children_col)
     if (strictChildren.length) {
       const sliceCount = 11
 
       const chartData = strictChildren.slice(0, sliceCount)
 
       const color = d3.scaleOrdinal()
-        .domain(chartData.map(d => d.name))
+        .domain(chartData.map(d => d.canonicalName))
         .range(d3.schemePaired)
         .unknown('#aaaaaa')
 
       if (topChildren.length > sliceCount) {
         chartData.push({
-          name: 'Other',
+          canonicalName: 'Other',
           works: topChildren.slice(5).flatMap(taxon => taxon.works).filter((v, i, a) => a.indexOf(v) === i)
         })
       }
@@ -415,7 +511,7 @@
       const HEIGHT = 220
       const GAP_SIZE = 50
       const LEGEND_SIZE = 20
-      const LEGEND_COLUMN = 60 + 10 * Math.max(...chartData.map(d => d.name.length))
+      const LEGEND_COLUMN = 60 + 10 * Math.max(...chartData.map(d => d.canonicalName.length))
       const LEGEND_ITEMS = 6
 
       const pie = d3.pie().value(d => d.works.length).sort(() => 0)
@@ -439,10 +535,10 @@
         .selectAll()
         .data(pie(chartData))
         .join('a')
-          .attr('href', d => d.data.name === 'Other' ? null : makeTaxonLink(d.data))
+          .attr('href', d => d.data.canonicalName === 'Other' ? null : makeTaxonLink(d.data))
         .append('path')
           .attr('d', d => arc(d))
-          .attr('fill', d => color(d.data.name))
+          .attr('fill', d => color(d.data.canonicalName))
         .append('title')
           .text(d => d.data.works.length)
 
@@ -454,7 +550,7 @@
         .selectAll('g')
         .data(chartData)
         .join('a')
-          .attr('href', d => d.name === 'Other' ? null : makeTaxonLink(d))
+          .attr('href', d => d.canonicalName === 'Other' ? null : makeTaxonLink(d))
         .append('g')
           .attr('transform', (_, i) => `translate(${
               LEGEND_COLUMN * Math.floor(i / LEGEND_ITEMS)
@@ -466,13 +562,13 @@
         .append('rect')
           .attr('width', LEGEND_SIZE)
           .attr('height', LEGEND_SIZE)
-          .attr('fill', d => color(d.name))
+          .attr('fill', d => color(d.canonicalName))
 
       labels
         .append('text')
           .attr('x', LEGEND_SIZE * 1.5)
           .attr('y', LEGEND_SIZE * 0.75)
-          .text(d => d.name)
+          .text(d => d.canonicalName)
 
       const legendBBox = legend.node().getBBox()
       legend.attr('transform', `translate(${HEIGHT + GAP_SIZE},${(HEIGHT - legendBBox.height) / 2})`)
@@ -486,18 +582,19 @@
   }
 
   // References
-  if (gbifIndex[taxon.acceptedGbif || taxon.gbif]) {
-    const mentions = gbifIndex[taxon.acceptedGbif || taxon.gbif]
-    const keyIds = mentions.map(mention => mention.replace(/:\d+$/, ''))
+  const mentions = new Set([...(colIndex[taxon.acceptedCol || taxon.col] || []), ...(gbifIndex[taxon.gbif])])
+  if (mentions.size) {
+    const ids = Array.from(mentions)
+    const keyIds = ids.map(mention => mention.replace(/:\d+$/, ''))
     const keys = (await Promise.all(
       keyIds.filter((v, i, a) => a.indexOf(v) === i).map(id => loadKey(id))
     )).reduce((index, key) => (index[key.metadata.id] = key, index), {})
 
     const table = document.getElementById('refs')
-    for (let i = 0; i < mentions.length; i++) {
+    for (let i = 0; i < ids.length; i++) {
       const row = document.createElement('tr')
 
-      const mention = mentions[i]
+      const mention = ids[i]
       const key = keys[keyIds[i]]
       const taxon = key.taxa[mention]
       const work = catalog[mention.split(':')[0]]
@@ -584,6 +681,9 @@
   }
   if (taxon.id) {
     schemasData.identifier.push({ '@id': `https://purl.org/identification-resources/taxon/${taxon.id}` })
+  }
+  if (taxon.col) {
+    schemasData.identifier.push({ '@id': `https://www.catalogueoflife.org/data/taxon/${taxon.col}` })
   }
   if (taxon.gbif) {
     schemasData.identifier.push({ '@id': `https://www.gbif.org/species/${taxon.gbif}` })

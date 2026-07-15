@@ -154,6 +154,7 @@ const LABELS = {
     license_na: 'Not specified',
 
     gbif_license: 'Above data from the <a href="https://www.gbif.org/dataset/d7dddbf4-2cf0-4f39-9b2a-bb099caae36c">GBIF Backbone Taxonomy</a>, licensed under <a href="http://creativecommons.org/licenses/by/4.0/legalcode">CC BY 4.0</a>.',
+    col_license: 'Above data from <a href="https://www.catalogueoflife.org/">Catalogue of Life XR</a>, licensed under <a href="http://creativecommons.org/licenses/by/4.0/legalcode">CC BY 4.0</a>.',
     holding_in_library: 'in',
     synonym_of: 'of',
 
