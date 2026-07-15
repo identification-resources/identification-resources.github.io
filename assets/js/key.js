@@ -148,10 +148,23 @@
             }
 
             // Taxon info page
-            if (taxon.gbifTaxonID) {
+            if (taxon.colTaxonID) {
                 const a = document.createElement('a')
-                a.setAttribute('href', `${URL_PREFIX}/taxonomy/taxon/?gbif=${taxon.gbifTaxonID}`)
+                a.setAttribute('href', `${URL_PREFIX}/taxonomy/taxon/?col=${taxon.colTaxonID}`)
                 a.innerHTML = octicons.info
+                fragment.append(' ')
+                fragment.appendChild(a)
+            }
+
+            // CoL link
+            if (taxon.colTaxonID) {
+                const a = document.createElement('a')
+                a.setAttribute('href', `https://www.catalogueoflife.org/data/taxon/${taxon.colTaxonID}`)
+                const img = document.createElement('img')
+                img.setAttribute('src', '/assets/img/col-logo.png')
+                img.setAttribute('width', 12)
+                img.setAttribute('style', 'vertical-align: middle;')
+                a.appendChild(img)
                 fragment.append(' ')
                 fragment.appendChild(a)
             }
