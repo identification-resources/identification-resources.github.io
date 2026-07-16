@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title>Taxonomy — Library of Identification Resources</title>
+
+        <link rel="stylesheet" href="/assets/css/main.css?v=20260404">
+        <link rel="shortcut icon" href="/assets/img/logo_124.png">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <script data-goatcounter="https://loir.goatcounter.com/count" async src="//gc.zgo.at/count.v4.js" crossorigin="anonymous" integrity="sha384-nRw6qfbWyJha9LhsOtSb2YJDyZdKvvCFh0fJYlkquSFjUxp9FVNugbfy8q1jdxI+"></script>
+    </head>
+    <body>
+        <header class="small">
+            <a href="..">
+                <img id="logo" src="/assets/img/logo_512.png" alt="Logo: moth with spread, speckled black and red wings">
+            </a>
+
+            <h1>Library of Identification Resources</h1>
+
+            <nav role="navigation" aria-label="Site Navigation">
+                <ul>
+                    <li><a href="/catalog">Catalog</a></li>
+                    <li><a href="/catalog/visualizations">Statistics</a></li>
+                    <li><a href="/users/settings">Settings</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <form>
+                <label for="catalog_search_query" class="sr-only">Search query</label>
+                <input id="catalog_search_query" type="text" name="query">
+                <button type="submit">Search</button>
+            </form>
+
+            <hr>
+
+            <p>
+                <span id="catalog_results"></span>
+                <span id="data-source" style="color: grey;"></span>
+            </p>
+
+            <div class="table">
+                <table style="min-width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Taxon</th>
+                            <th>Rank</th>
+                            <th>Status</th>
+                            <th>Classification</th>
+                            <th>Works</th>
+                        </tr>
+                    </thead>
+                    <tbody id="catalog_data"></tbody>
+                </table>
+            </div>
+
+            <nav role="navigation" aria-label="Pagination Navigation">
+                <ul id="catalog_pagination"></ul>
+            </nav>
+        </main>
+
+        <footer>
+            <nav>
+                <ul>
+                    <li><a href="/#header-contribute">Contributing</a></li>
+                    <li><a href="/#header-data">Data</a></li>
+                    <li><a href="/#header-contact">Contact</a></li>
+                </ul>
+            </nav>
+
+            <div>
+                <label for="footer-language">Language</label>:
+                <select id="footer-language">
+                    <option value="nl">Dutch</option>
+                    <option value="en" selected>English</option>
+                </select>
+            </div>
+        </footer>
+
+        <script src="/assets/js/shared.js?v=20260404" charset="utf-8"></script>
+        <script src="/assets/js/taxonomy.js?v=20260404" charset="utf-8"></script>
+    </body>
+</html>
