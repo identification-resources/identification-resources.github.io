@@ -582,7 +582,7 @@
   }
 
   // References
-  const mentions = new Set([...(colIndex[taxon.acceptedCol || taxon.col] || []), ...(gbifIndex[taxon.gbif])])
+  const mentions = new Set([...(colIndex[taxon.acceptedCol || taxon.col] || []), ...(gbifIndex[taxon.gbif] || [])])
   if (mentions.size) {
     const ids = Array.from(mentions)
     const keyIds = ids.map(mention => mention.replace(/:\d+$/, ''))
