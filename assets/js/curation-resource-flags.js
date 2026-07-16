@@ -12,7 +12,8 @@
   }
 
   const params = new URLSearchParams(window.location.search)
-  const { searchPage: page, searchLimit: limit } = formatPagination(pagination, params, problems)
+  const { searchPage: page, searchLimit: limit } = getPaginationState(params)
+  formatPagination(pagination, page, limit, problems.length)
 
   for (const problem of problems.slice((page - 1) * limit, page * limit)) {
     const $tr = document.createElement('tr')

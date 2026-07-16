@@ -25,7 +25,8 @@
   const problemRows = Object.keys(problems).sort(naturalSort).map(key => problems[key])
 
   const params = new URLSearchParams(window.location.search)
-  const { searchPage: page, searchLimit: limit } = formatPagination(pagination, params, problemRows)
+  const { searchPage: page, searchLimit: limit } = getPaginationState(params)
+  formatPagination(pagination, page, limit, problemRows.length)
 
   const linneanRanks = ['kingdom', 'phylum', 'class', 'order', 'family', 'genus', 'species', 'subspecies', 'variety', 'form']
 

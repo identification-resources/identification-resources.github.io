@@ -92,7 +92,8 @@
 
     const searchRows = searchFields.reduce((rows, field, i) => filterCatalog(headers, rows, field, searchQueries[i] || ''), rows)
 
-    const { searchPage, searchLimit } = formatPagination(pagination, search, searchRows)
+    const { searchPage, searchLimit } = getPaginationState(search)
+    formatPagination(pagination, searchPage, searchLimit, searchRows.length)
 
     const data = []
 

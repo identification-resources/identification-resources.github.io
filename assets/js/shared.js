@@ -608,10 +608,15 @@ function formatTaxonName (name, authorship, rank) {
     return fragment
 }
 
-function formatPagination (pagination, search, data) {
+function getPaginationState (search, defaultLimit = 50) {
     const searchPage = parseInt(search.get('page') || 1)
-    const searchLimit = parseInt(search.get('limit') || 50)
-    const searchPages = Math.ceil(data.length / searchLimit)
+    const searchLimit = parseInt(search.get('limit') || defaultLimit)
+
+    return { searchPage, searchLimit }
+}
+
+function formatPagination (pagination, searchPage, searchLimit, totalCount) {
+    const searchPages = Math.ceil(totalCount / searchLimit)
     const paginationContext = 2
 
     function makePaginationLink (page, limit, text, label) {
@@ -657,6 +662,4 @@ function formatPagination (pagination, search, data) {
     if (searchPage < searchPages) {
         makePaginationLink(searchPage + 1, searchLimit, '>', LABELS.pagination_next)
     }
-
-    return { searchPage, searchLimit }
 }
