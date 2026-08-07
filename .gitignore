@@ -1,0 +1,8 @@
+# On GitHub Pages, these are deployed
+# from separate repositories. Locally,
+# during development, they are symlinked.
+/find-resources
+/tools
+
+# Not deployed yet
+/library
