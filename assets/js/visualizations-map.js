@@ -45,13 +45,6 @@ async function main () {
     const [headers, ...rows] = await loadCatalog()
     const catalogPlaces = await indexCsv('/assets/data/places.csv', 'name')
     const places = {
-        'South America': {
-            name: 'South America',
-            id: 'TMP-1',
-            qid: 'Q18',
-            display_name: 'South America',
-            count: 0
-        },
         'Oceania': {
             name: 'Oceania',
             id: 'TMP-2',
@@ -100,7 +93,6 @@ async function main () {
         maxCount = Math.max(maxCount, inatMap[id].totalCount)
     }
 
-    places['South America'].totalCount = NaN
     places['Oceania'].totalCount = NaN
 
     // Count without any
