@@ -144,7 +144,7 @@ async function main () {
     {
         const BIN_WIDTH = 50
         const BIN_HEIGHT = 20
-        const BIN_SIZE = 50
+        const BIN_SIZE = 100
 
         const n = Math.ceil(maxCount / BIN_SIZE)
         const bins = Array(n).fill().map((_, i) => [i, Math.min(i * BIN_SIZE, maxCount)])
