@@ -33,7 +33,7 @@ async function main () {
 
         const HEIGHT = 420
         const AXIS_SIZE = 20
-        const BAR_SIZE = 55
+        const BAR_SIZE = 45
 
         const x = d3.scaleLinear()
             .domain([0, d3.max(decadeCounts, ([_, count]) => count)])
