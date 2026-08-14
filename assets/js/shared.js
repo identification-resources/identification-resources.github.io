@@ -103,7 +103,8 @@ const fieldLabels = {
     year: 'Year',
     decade: 'Decade',
     access: 'Access',
-    taxa_data: 'Tax. data extr.'
+    taxa_data: 'Tax. data extr.',
+    fulltext_domain: 'Full-text host'
 }
 
 const flagLabels = {
@@ -235,7 +236,8 @@ if (PAGE_LANG === 'nl') {
         year: 'Jaar',
         decade: 'Decennium',
         access: 'Toegang',
-        taxa_data: 'Soortenlijst beschikbaar'
+        taxa_data: 'Soortenlijst beschikbaar',
+        fulltext_domain: 'Aanbieder tekst'
     })
 
     Object.assign(flagLabels, {
@@ -413,7 +415,7 @@ async function loadCsv (url) {
 }
 
 async function extendCatalog (rows) {
-  const headers = rows[0].concat('year', 'decade', 'access', 'taxa_data')
+  const headers = rows[0].concat('year', 'decade', 'access', 'taxa_data', 'fulltext_domain')
   const i = {
     date: headers.indexOf('date'),
     license: headers.indexOf('license'),
@@ -440,8 +442,9 @@ async function extendCatalog (rows) {
                 ? LABELS.access_full_text
                 : LABELS.access_no_full_text
     const taxaData = keys.hasOwnProperty(row[0] + ':1').toString()
+    const fulltextDomain = row[i.fulltext_url] ? (new URL(row[i.fulltext_url])).hostname.replace(/^www\./, '') : ''
 
-    return row.concat(year.toString(), decade.toString(), access, taxaData)
+    return row.concat(year.toString(), decade.toString(), access, taxaData, fulltextDomain)
   })
 
   return [headers, ...rest]

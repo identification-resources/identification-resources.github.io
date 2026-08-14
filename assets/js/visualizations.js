@@ -281,7 +281,7 @@ async function main () {
     // BY COLUMN
     {
         const _select = document.querySelector('#by_column select')
-        const options = ['language', 'license', 'key_type', 'entry_type', 'scope', 'key_characteristics', 'target_taxa', 'complete', 'series']
+        const options = ['language', 'license', 'key_type', 'entry_type', 'scope', 'key_characteristics', 'target_taxa', 'complete', 'series', 'fulltext_domain']
         for (const key of options) {
             const _option = document.createElement('option')
             _option.setAttribute('value', key)
@@ -322,7 +322,7 @@ async function main () {
             parse[key] || (d => d)
         ))
 
-        if (['series'].includes(key)) {
+        if (['series', 'fulltext_domain'].includes(key)) {
             data.sort(([, a], [, b]) => d3.descending(a, b))
             const rest = data.splice(9)
             data.push([LABELS.breakdown_other, rest.reduce((sum, [, count]) => sum + count, 0)])
