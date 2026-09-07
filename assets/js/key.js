@@ -1,8 +1,13 @@
 (async function () {
     const search = new URLSearchParams(window.location.search)
     const id = search.get('id')
+    const [catalogId, resourceId] = id.split(':')
+
+    if (resourceId === '0') {
+        window.location.replace(`${URL_PREFIX}/catalog/detail/?id=${catalogId}`)
+    }
+
     const key = await loadKey(id)
-    const catalogId = id.split(':')[0]
     const catalog = await indexCsv('/assets/data/catalog.csv', 'id')
 
     const data = Object.assign(
