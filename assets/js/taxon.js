@@ -585,7 +585,7 @@
   const mentions = new Set([...(colIndex[taxon.acceptedCol || taxon.col] || []), ...(gbifIndex[taxon.gbif] || [])])
   if (mentions.size) {
     const ids = Array.from(mentions)
-    const keyIds = ids.map(mention => mention.replace(/:\d+$/, ''))
+    const keyIds = ids.map(mention => mention.match(/^B\d+:\d+/)[0])
     const keys = (await Promise.all(
       keyIds.filter((v, i, a) => a.indexOf(v) === i).map(id => loadKey(id))
     )).reduce((index, key) => (index[key.metadata.id] = key, index), {})
