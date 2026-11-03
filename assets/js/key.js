@@ -193,8 +193,9 @@
         function renderTaxon (taxon) {
             const li = document.createElement('li')
             const fragment = renderName(taxon)
+            const continuances = (taxon.dynamicProperties && JSON.parse(taxon.dynamicProperties).continuesIn) ?? []
 
-            if (taxon.synonyms || taxon.children) {
+            if (taxon.synonyms || continuances || taxon.children) {
                 const details = document.createElement('details')
                 const summary = document.createElement('summary')
                 summary.appendChild(fragment)
@@ -209,6 +210,26 @@
                         li.appendChild(fragment)
                         ul.appendChild(li)
                     })
+                    details.appendChild(ul)
+                }
+                if (continuances) {
+                    details.setAttribute('open', '')
+                    const ul = document.createElement('ul')
+                    for (const nextId of continuances) {
+                        const li = document.createElement('li')
+
+                        const span = document.createElement('span')
+                        span.setAttribute('style', 'color: grey;')
+                        span.textContent = LABELS.resource_continues_in + ' '
+                        li.appendChild(span)
+
+                        const a = document.createElement('a')
+                        a.setAttribute('href', `${URL_PREFIX}/catalog/resource/?id=${nextId}`)
+                        a.textContent = nextId
+
+                        li.appendChild(a)
+                        ul.appendChild(li)
+                    }
                     details.appendChild(ul)
                 }
                 if (taxon.children) {

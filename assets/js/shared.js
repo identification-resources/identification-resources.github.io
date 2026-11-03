@@ -154,6 +154,8 @@ const LABELS = {
     license_unclear: 'Unclear',
     license_na: 'Not specified',
 
+    resource_continues_in: 'Continues in',
+
     gbif_license: 'Above data from the <a href="https://www.gbif.org/dataset/d7dddbf4-2cf0-4f39-9b2a-bb099caae36c">GBIF Backbone Taxonomy</a>, licensed under <a href="http://creativecommons.org/licenses/by/4.0/legalcode">CC BY 4.0</a>.',
     col_license: 'Above data from <a href="https://www.catalogueoflife.org/">Catalogue of Life XR</a>, licensed under <a href="http://creativecommons.org/licenses/by/4.0/legalcode">CC BY 4.0</a>.',
     col_license2: 'Data from <a href="https://www.catalogueoflife.org/">Catalogue of Life XR</a>, licensed under <a href="http://creativecommons.org/licenses/by/4.0/legalcode">CC BY 4.0</a>.',
@@ -280,6 +282,7 @@ if (PAGE_LANG === 'nl') {
         license_public_domain: 'Publiek domein',
         license_unclear: 'Onduidelijk',
         license_na: 'Niet gespecificeerd',
+        resource_continues_in: 'Vervolgd in',
         gbif_license: 'Bovenstaande data van de <a href="https://www.gbif.org/dataset/d7dddbf4-2cf0-4f39-9b2a-bb099caae36c">GBIF Backbone Taxonomy</a>, beschikbaar onder de licentie <a href="http://creativecommons.org/licenses/by/4.0/legalcode">CC BY 4.0</a>.',
         col_license: 'Bovenstaande data van de <a href="https://www.catalogueoflife.org/">Catalogue of Life XR</a>, beschikbaar onder de licentie <a href="http://creativecommons.org/licenses/by/4.0/legalcode">CC BY 4.0</a>.',
         col_license2: 'Data van de <a href="https://www.catalogueoflife.org/">Catalogue of Life XR</a>, beschikbaar onder de licentie <a href="http://creativecommons.org/licenses/by/4.0/legalcode">CC BY 4.0</a>.',
