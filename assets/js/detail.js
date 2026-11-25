@@ -522,4 +522,6 @@
     } else {
         document.getElementById('resources_section').remove()
     }
+
+    document.getElementById('revisions').setAttribute('href', `${URL_PREFIX}/catalog/revisions/?type=catalog&id=${id}`)
 })().catch(console.error)

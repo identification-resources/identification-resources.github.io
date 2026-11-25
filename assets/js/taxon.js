@@ -667,6 +667,10 @@
     }
   }
 
+  if (taxon.id) {
+    document.getElementById('revisions').setAttribute('href', `${URL_PREFIX}/catalog/revisions/?type=taxa&id=${taxon.id}`)
+  }
+
   const schemas = document.getElementById('schemas-org')
   const schemasData = {
     '@context': 'https://schema.org',

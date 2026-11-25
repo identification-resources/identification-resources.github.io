@@ -112,4 +112,6 @@
             table.appendChild(row)
         }
     }
+
+    document.getElementById('revisions').setAttribute('href', `${URL_PREFIX}/catalog/revisions/?type=publishers&id=${id}`)
 })().catch(console.error)
