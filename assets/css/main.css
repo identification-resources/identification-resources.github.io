@@ -204,6 +204,18 @@ table td p:first-child {
     margin-top: 0;
 }
 
+ins {
+    background-color: rgba(0, 255, 0, 0.1);
+    color: rgb(0, 94, 0);
+    text-decoration: none;
+}
+
+del {
+    background-color: rgba(255, 0, 0, 0.1);
+    color: rgb(125, 0, 0);
+    text-decoration: none;
+}
+
 main > nav ul {
     padding: 0;
     text-align: center;

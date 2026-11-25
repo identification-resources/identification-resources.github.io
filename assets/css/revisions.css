@@ -1,0 +1,43 @@
+thead th {
+    text-align: start;
+}
+
+#revisions > tr > td:first-child {
+    position: relative;
+}
+
+#revisions > tr > td:first-child {
+    text-align: center;
+}
+
+#revisions > tr > td:first-child svg {
+    background-color: white;
+}
+
+#revisions > tr:not(:first-child) > td:first-child::before {
+    background-color: black;
+    content: '';
+    display: block;
+    left: calc(50% - 1.5px);
+    position: absolute;
+    height: 1em;
+    top: 0;
+    width: 3px;
+    z-index: -1;
+}
+
+#revisions > tr:not(:last-child) > td:first-child::after {
+    background-color: black;
+    content: '';
+    display: block;
+    left: calc(50% - 1.5px);
+    position: absolute;
+    height: calc(100% - 1em);
+    top: 1em;
+    width: 3px;
+    z-index: -1;
+}
+
+#revisions table {
+    margin: 1em 0;
+}
